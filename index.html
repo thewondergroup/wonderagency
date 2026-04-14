@@ -28,7 +28,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 48px 80px}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
-.phones-wrap{position:relative;z-index:2;margin-bottom:72px;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%)}
+.phones-wrap{position:relative;z-index:2;margin-bottom:72px;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);padding:20px 0}
 .phones{position:relative;width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
 .phones.dragging{cursor:grabbing}
 
@@ -162,8 +162,8 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 .footer-socials a:hover{color:var(--accent)}
 
 @media(max-width:1024px){.service-grid{grid-template-columns:repeat(2,1fr)}.work-grid,.work-row-2{grid-template-columns:1fr}.about{grid-template-columns:1fr;gap:80px}.approach-inner{grid-template-columns:1fr;gap:60px}.approach h2{position:static}.footer-inner{grid-template-columns:1fr 1fr}.clients-grid{grid-template-columns:repeat(3,1fr)}:root{--phone-w:180px;--phone-h:360px;--phone-r:26px}}
-@media(max-width:768px){nav{padding:20px 24px}.nav-links{display:none}.menu-toggle{display:block}.hero{padding:100px 24px 80px}:root{--phone-w:130px;--phone-h:260px;--phone-r:20px}.phone::before{width:48px;height:16px;top:8px;border-radius:10px}.about,.services,.work,.clients,.approach,.cta{padding-left:24px;padding-right:24px}.service-grid{grid-template-columns:1fr}.clients-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr;gap:40px}.footer-bottom{flex-direction:column;gap:14px;text-align:center}.cta{padding:120px 24px}}
-@media(max-width:480px){:root{--phone-w:100px;--phone-h:200px;--phone-r:16px}.phone::before{width:36px;height:12px;top:6px;border-radius:8px}}
+@media(max-width:768px){nav{padding:20px 24px}.nav-links{display:none}.menu-toggle{display:block}.hero{padding:100px 24px 80px}:root{--phone-w:180px;--phone-h:360px;--phone-r:26px}.phone::before{width:56px;height:18px;top:9px;border-radius:12px}.about,.services,.work,.clients,.approach,.cta{padding-left:24px;padding-right:24px}.service-grid{grid-template-columns:1fr}.clients-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr;gap:40px}.footer-bottom{flex-direction:column;gap:14px;text-align:center}.cta{padding:120px 24px}}
+@media(max-width:480px){:root{--phone-w:150px;--phone-h:300px;--phone-r:22px}.phone::before{width:48px;height:16px;top:8px;border-radius:10px}}
 </style>
 </head>
 <body>
@@ -374,7 +374,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   function render() {
     d = getDims();
     const wc = wrap.offsetWidth / 2;
-    const trackH = d.h * 1.15 + 20;
+    const trackH = d.h * 1.25;
     track.style.height = trackH + 'px';
 
     phones.forEach((phone, i) => {
