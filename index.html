@@ -91,19 +91,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero h1 .word-wonders{display:block;font-size:clamp(3rem,8vw,7rem);letter-spacing:.12em;line-height:1;margin-top:8px;position:relative}
 .hero h1 .word-wonders .letter.resolved{color:var(--accent);text-shadow:0 0 30px rgba(201,169,110,.3)}
 .hero h1 .word-wonders .letter.settled{text-shadow:none}
-.hero h1 .word-wonders::after{content:'';position:absolute;top:0;left:-10%;width:0;height:100%;background:linear-gradient(90deg,transparent,rgba(201,169,110,.15),rgba(255,255,255,.08),rgba(201,169,110,.15),transparent);pointer-events:none;opacity:0}
-.hero h1 .word-wonders.shimmer::after{animation:wonderShimmer 1s var(--ease) forwards;width:120%;opacity:1}
-@keyframes wonderShimmer{0%{left:-20%;opacity:0}20%{opacity:1}100%{left:100%;opacity:0}}
 .hero-sub{font-size:.95rem;color:var(--muted);max-width:480px;margin:0 auto 40px;line-height:1.7;font-weight:300;opacity:0;animation:fadeUp .8s var(--ease) 2.6s forwards}
 .hero-cta{display:inline-flex;align-items:center;gap:14px;font-family:var(--display);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;border:1px solid var(--accent-dim);padding:18px 40px;transition:all .5s var(--ease);cursor:pointer;opacity:0;animation:fadeUp .8s var(--ease) 2.8s forwards}
 .hero-cta:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .hero-cta svg{width:18px;height:18px;transition:transform .4s var(--ease)}
 .hero-cta:hover svg{transform:translateX(5px)}
 
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp 1s var(--ease) 3.2s forwards}
-.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollPulse 2s ease-in-out infinite}
-@keyframes scrollPulse{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.3;transform:scaleY(.6)}}
-.hero-scroll span{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-family:var(--display)}
+
 
 .marquee{padding:18px 0;border-top:1px solid rgba(201,169,110,.12);border-bottom:1px solid rgba(201,169,110,.12);overflow:hidden;white-space:nowrap}
 .marquee-inner{display:inline-flex;animation:marquee 28s linear infinite}
@@ -240,12 +234,11 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
     </div>
   </div>
   <div class="hero-text">
-    <div class="hero-eyebrow">Full-service digital marketing &mdash; London</div>
+    <div class="hero-eyebrow">Award-winning digital marketing</div>
     <h1 id="hero-headline"></h1>
     <p class="hero-sub">Strategy, content, performance, and design &mdash; crafted for hospitality and lifestyle brands that refuse to blend in.</p>
     <a href="#contact" class="hero-cta">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
-  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
 <div class="marquee"><div class="marquee-inner">
@@ -257,7 +250,7 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
   <div class="about-left reveal">
     <div class="section-tag">Who we are</div>
     <h2>Creativity meets <em>commercial precision</em></h2>
-    <p class="about-text">We're a London-based agency specialising in hospitality and lifestyle brands. We combine data-driven strategy with exceptional creative &mdash; from the first Instagram post to the final conversion. We don't just make things look good. We make them perform.</p>
+    <p class="about-text">We're a full-service agency specialising in hospitality and lifestyle brands. We combine data-driven strategy with exceptional creative &mdash; from the first Instagram post to the final conversion. We don't just make things look good. We make them perform.</p>
   </div>
   <div class="about-right reveal">
     <div class="stat-group">
@@ -297,7 +290,7 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 
 <section class="clients reveal">
   <div class="section-tag" style="justify-content:center">Our clients</div>
-  <h2>Trusted by London's finest <em>hospitality brands</em></h2>
+  <h2>Trusted by the finest <em>hospitality brands</em></h2>
   <p class="clients-sub">Restaurants, bars, hotels, and lifestyle brands across the UK</p>
   <div class="clients-grid">
     <div class="client-cell">Bistro Freddie</div><div class="client-cell">Bar Crispin</div><div class="client-cell">The Connaught</div><div class="client-cell">Muse</div><div class="client-cell">Tom Aikens</div>
@@ -326,9 +319,9 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 
 <footer>
   <div class="footer-inner">
-    <div><div class="footer-brand">The Wonder <span>Agency</span></div><p class="footer-tagline">Full-service digital marketing for hospitality and lifestyle brands. London-based, globally minded.</p></div>
+    <div><div class="footer-brand">The Wonder <span>Agency</span></div><p class="footer-tagline">Full-service digital marketing for hospitality and lifestyle brands.</p></div>
     <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Social Media</a></li><li><a href="#">Content Creation</a></li><li><a href="#">SEO &amp; Search</a></li><li><a href="#">Paid Advertising</a></li><li><a href="#">Web Design</a></li><li><a href="#">AI Visibility</a></li></ul></div>
-    <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:hello@thewonderagency.co">hello@thewonderagency.co</a></li><li><a href="https://www.instagram.com/the.wonder.list/">Instagram</a></li><li><a href="#">London, UK</a></li></ul></div>
+    <div class="footer-col"><h4>Contact</h4><ul><li><a href="mailto:hello@thewonderagency.co">hello@thewonderagency.co</a></li><li><a href="https://www.instagram.com/the.wonder.list/">Instagram</a></li></ul></div>
   </div>
   <div class="footer-bottom"><span>&copy; 2026 The Wonder Agency. All rights reserved.</span><div class="footer-socials"><a href="https://www.instagram.com/the.wonder.list/">Instagram</a><a href="#">LinkedIn</a></div></div>
 </footer>
@@ -389,16 +382,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       setTimeout(() => {
         const el = letterEls[idx];
         el.classList.add('resolved');
-        // Remove the glow after landing
         setTimeout(() => el.classList.add('settled'), 500);
-
-        // After last letter resolves, trigger shimmer on WONDERS
-        if (i === totalLetters - 1) {
-          setTimeout(() => {
-            const wonders = document.querySelector('.word-wonders');
-            if (wonders) wonders.classList.add('shimmer');
-          }, 400);
-        }
       }, i * 50);
     });
   }, 1800);
