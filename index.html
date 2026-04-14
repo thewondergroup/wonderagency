@@ -364,69 +364,78 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let introProgress = 0; // 0 = all stacked, 1 = fully spread
   let introRunning = true;
 
+  let introOpacityProgress = 0; // separate fade-in for the phones
+
   function render() {
     const wc = wrap.offsetWidth / 2;
     phones.forEach((phone, i) => {
       let x = ((i * step + pos) % totalW + totalW) % totalW;
       if (x > totalW / 2) x -= totalW;
 
-      // During intro, lerp from centre (0) to final position
-      const finalX = x;
-      const currentX = introRunning ? finalX * introProgress : finalX;
-
-      const screenX = currentX - phoneW / 2 + wc;
+      const screenX = x - phoneW / 2 + wc;
       phone.style.left = screenX + 'px';
 
-      // Distance-based scaling: centre = 1.12, near = 0.92, far = 0.78
-      const dist = Math.abs(introRunning ? finalX * introProgress : finalX);
+      // Distance-based scaling: centre = 1.12, far = 0.78
+      const dist = Math.abs(x);
       const normDist = Math.min(dist / (step * 2.5), 1);
       const scale = 1.12 - normDist * 0.34;
       const opacity = Math.max(0.15, 1 - normDist * 0.85);
 
-      // During intro, scale from 0.5 to target
-      const introScale = introRunning ? 0.5 + (scale - 0.5) * introProgress : scale;
-      const introOpacity = introRunning ? opacity * introProgress : opacity;
+      // During intro, fade everything in
+      const finalOpacity = introRunning ? opacity * introOpacityProgress : opacity;
 
-      phone.style.transform = `scale(${introScale})`;
-      phone.style.opacity = introOpacity;
-
-      // Active/near classes for box-shadow transitions
-      phone.classList.toggle('active', dist < step * 0.35 && (!introRunning || introProgress > 0.8));
+      phone.style.transform = `scale(${scale})`;
+      phone.style.opacity = finalOpacity;
+      phone.classList.toggle('active', dist < step * 0.35);
       phone.classList.toggle('near', dist >= step * 0.35 && dist < step * 1.2);
-
-      // Z-index: centre on top
       phone.style.zIndex = Math.round((1 - normDist) * 10);
     });
   }
 
-  // Cinematic entrance animation
+  // Slot-machine spin entrance: starts fast, decelerates, lands on centre
   function animateIntro() {
     wrap.classList.add('entering');
     const startTime = performance.now();
-    const duration = 1400;
-    const delay = 300;
+    const fadeInDuration = 400;  // phones fade in over first 400ms
+    const spinDuration = 2800;   // total spin time
+    // Total distance to travel — several full loops plus landing on centre
+    const totalSpin = step * (n * 3 + Math.floor(n / 2)); // ~3 full rotations
 
     function tick(now) {
-      const elapsed = now - startTime - delay;
-      if (elapsed < 0) {
-        animFrame = requestAnimationFrame(tick);
+      const elapsed = now - startTime;
+
+      // Fade phones in quickly at the start
+      introOpacityProgress = Math.min(elapsed / fadeInDuration, 1);
+
+      if (elapsed >= spinDuration) {
+        // Done — land exactly on centre
+        introRunning = false;
+        introOpacityProgress = 1;
+        wrap.classList.remove('entering');
+        // Snap to nearest to be clean
+        const remainder = ((pos % step) + step) % step;
+        pos = remainder < step / 2 ? pos - remainder : pos + (step - remainder);
+        render();
         return;
       }
-      // Elastic ease-out
-      const t = Math.min(elapsed / duration, 1);
-      const ease = t < 1 ? 1 - Math.pow(1 - t, 3) + Math.sin(t * Math.PI) * 0.08 * (1 - t) : 1;
-      introProgress = ease;
-      render();
 
-      if (t < 1) {
-        animFrame = requestAnimationFrame(tick);
-      } else {
-        introProgress = 1;
-        introRunning = false;
-        wrap.classList.remove('entering');
-        render();
-      }
+      // Deceleration curve — starts fast, slows to stop
+      // Using 1 - (1 - t)^3 for smooth deceleration
+      const t = elapsed / spinDuration;
+      const eased = 1 - Math.pow(1 - t, 3);
+      
+      // Position based on eased progress through total spin distance
+      const startPos = -Math.floor(n / 2) * step - totalSpin;
+      const endPos = -Math.floor(n / 2) * step;
+      pos = startPos + (endPos - startPos) * eased;
+
+      render();
+      animFrame = requestAnimationFrame(tick);
     }
+    
+    // Set initial position far back (will spin forward to centre)
+    pos = -Math.floor(n / 2) * step - totalSpin;
+    render();
     animFrame = requestAnimationFrame(tick);
   }
 
@@ -490,8 +499,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   }, { passive: true });
   track.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; coast(); });
 
-  // Init — centre the middle phone
-  pos = -Math.floor(n / 2) * step;
+  // Init
   phones.forEach(p => { p.style.position = 'absolute'; p.style.top = '30px'; });
   animateIntro();
   window.addEventListener('resize', () => { render(); if (!introRunning) snapToNearest(); });
