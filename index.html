@@ -28,57 +28,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 48px 80px}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
-.phones{display:flex;align-items:center;justify-content:center;position:relative;z-index:2;margin-bottom:72px;perspective:1800px;gap:28px}
+.phones-wrap{position:relative;z-index:2;margin-bottom:72px;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 15%,#000 85%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 15%,#000 85%,transparent 100%)}
+.phones{position:relative;height:var(--phone-h);width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
+.phones.dragging{cursor:grabbing}
 
-/* flash burst when side phones emerge */
-.phones-flash{position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.25),rgba(201,169,110,.08),transparent 70%);transform:translate(-50%,-50%);z-index:1;pointer-events:none;opacity:0;animation:flashBurst .8s ease-out 1.4s forwards}
-@keyframes flashBurst{0%{width:0;height:0;opacity:.7}30%{width:500px;height:500px;opacity:.25}100%{width:900px;height:900px;opacity:0}}
-
-/* shine sweep */
-.phone-shine{position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:var(--phone-r);overflow:hidden}
-.phone-shine::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);animation:shineSwipe .6s var(--ease) 2.6s forwards;opacity:0}
-@keyframes shineSwipe{0%{left:-100%;opacity:1}100%{left:150%;opacity:0}}
-
-.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12);transform-style:preserve-3d;will-change:transform,opacity;transition:none}
-
-/* LEFT PHONE — starts hidden behind centre, slides out left */
-.phone:nth-child(2){opacity:0;transform:translateX(calc(var(--phone-w)/2 + 14px)) scale(.9);animation:phoneSlideL 1s cubic-bezier(.34,1.56,.64,1) 1.4s forwards}
-
-/* CENTRE PHONE — fades in first, solo hero moment */
-.phone:nth-child(3){width:calc(var(--phone-w) + 16px);height:calc(var(--phone-h) + 32px);z-index:3;opacity:0;transform:scale(.85);animation:phoneCentreIn .8s var(--ease) .3s forwards}
-
-/* RIGHT PHONE — starts hidden behind centre, slides out right */
-.phone:nth-child(4){opacity:0;transform:translateX(calc(var(--phone-w)/-2 - 14px)) scale(.9);animation:phoneSlideR 1s cubic-bezier(.34,1.56,.64,1) 1.4s forwards}
-
-/* Centre fades in with a scale-up */
-@keyframes phoneCentreIn{
-  0%{opacity:0;transform:scale(.85)}
-  100%{opacity:1;transform:scale(1)}
-}
-
-/* Left slides out from behind centre */
-@keyframes phoneSlideL{
-  0%{opacity:0;transform:translateX(calc(var(--phone-w)/2 + 14px)) scale(.9)}
-  20%{opacity:1}
-  100%{opacity:1;transform:translateX(0) scale(1)}
-}
-
-/* Right slides out from behind centre */
-@keyframes phoneSlideR{
-  0%{opacity:0;transform:translateX(calc(var(--phone-w)/-2 - 14px)) scale(.9)}
-  20%{opacity:1}
-  100%{opacity:1;transform:translateX(0) scale(1)}
-}
+.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7);transform-style:preserve-3d;will-change:transform,opacity;transition:transform .4s var(--ease),opacity .4s var(--ease);opacity:.35;transform:scale(.85)}
+.phone.active{opacity:1;transform:scale(1);box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12)}
+.phone.near{opacity:.6;transform:scale(.92)}
 
 .phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:72px;height:24px;background:#0a0a0a;border-radius:14px;z-index:10}
 .phone::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,transparent 40%,transparent 60%,rgba(255,255,255,.02) 100%);z-index:5;pointer-events:none;border-radius:var(--phone-r)}
 
-.phone video,.phone .phone-placeholder{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--phone-r)}
-.phone-placeholder{background:var(--surface-light);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;position:absolute;inset:0}
-.phone-placeholder-icon{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--accent-dim);display:flex;align-items:center;justify-content:center;animation:playPulse 2.5s ease-in-out infinite}
-@keyframes playPulse{0%,100%{box-shadow:0 0 0 0 rgba(201,169,110,.3)}50%{box-shadow:0 0 0 10px rgba(201,169,110,0)}}
-.phone-placeholder-icon svg{width:16px;height:16px;fill:var(--accent);margin-left:2px}
-.phone-placeholder span{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-family:var(--display)}
+.phone video{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--phone-r)}
+
+/* entrance animation */
+.phones-wrap{opacity:0;transform:translateY(40px);animation:carouselIn .8s var(--ease) .3s forwards}
+@keyframes carouselIn{to{opacity:1;transform:translateY(0)}}
+
+.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:72px;height:24px;background:#0a0a0a;border-radius:14px;z-index:10}
+.phone::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,transparent 40%,transparent 60%,rgba(255,255,255,.02) 100%);z-index:5;pointer-events:none;border-radius:var(--phone-r)}
+
+.phone video{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--phone-r)}
 
 .hero-text{text-align:center;position:relative;z-index:2}
 .hero-eyebrow{font-family:var(--sans);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:24px;opacity:0;animation:fadeUp .8s var(--ease) 2.4s forwards}
@@ -215,22 +185,15 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="phones">
-    <div class="phones-flash"></div>
-    <div class="phone">
-      <video src="assets/reel-1.mp4" autoplay muted loop playsinline></video>
-      <div class="phone-placeholder"><div class="phone-placeholder-icon"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div><span>Reel 01</span></div>
-      <div class="phone-shine"></div>
-    </div>
-    <div class="phone">
-      <video src="assets/reel-2.mp4" autoplay muted loop playsinline></video>
-      <div class="phone-placeholder"><div class="phone-placeholder-icon"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div><span>Reel 02</span></div>
-      <div class="phone-shine"></div>
-    </div>
-    <div class="phone">
-      <video src="assets/reel-3.mp4" autoplay muted loop playsinline></video>
-      <div class="phone-placeholder"><div class="phone-placeholder-icon"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div><span>Reel 03</span></div>
-      <div class="phone-shine"></div>
+  <div class="phones-wrap">
+    <div class="phones" id="phone-carousel">
+      <div class="phone"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video></div>
+      <div class="phone"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video></div>
+      <div class="phone"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video></div>
+      <div class="phone active"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video></div>
+      <div class="phone"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video></div>
+      <div class="phone"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video></div>
+      <div class="phone"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video></div>
     </div>
   </div>
   <div class="hero-text">
@@ -348,8 +311,10 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   words.forEach((word, wi) => {
     const wordSpan = document.createElement('span');
     wordSpan.className = wi === words.length - 1 ? 'word-wonders' : 'word';
-    wordSpan.style.display = 'inline-block';
-    wordSpan.style.whiteSpace = 'nowrap';
+    if (wi < words.length - 1) {
+      wordSpan.style.display = 'inline-block';
+      wordSpan.style.whiteSpace = 'nowrap';
+    }
 
     for (let i = 0; i < word.length; i++) {
       const span = document.createElement('span');
@@ -387,66 +352,133 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     });
   }, 1800);
 })();
+// Phone carousel — infinite loop, drag/swipe, snap to centre
 ;(function(){
-  const hero = document.querySelector('.hero');
-  const phones = document.querySelectorAll('.phone');
-  if (!hero || phones.length < 3) return;
+  const wrap = document.querySelector('.phones-wrap');
+  const track = document.getElementById('phone-carousel');
+  if (!track || !wrap) return;
+  const phones = Array.from(track.querySelectorAll('.phone'));
+  const n = phones.length;
+  if (n === 0) return;
 
-  let ticking = false;
-  let introsDone = false;
+  const phoneW = 220, gap = 24, step = phoneW + gap;
+  const totalW = n * step;
 
-  // After entrance animations finish, strip them so JS can control transforms
-  setTimeout(() => {
-    phones.forEach(p => {
-      p.style.animation = 'none';
-      p.style.opacity = '1';
-      p.style.transform = 'none';
+  // Virtual position — can go infinitely in either direction
+  let pos = 0;
+  let isDragging = false, startX = 0, dragStartPos = 0;
+  let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
+
+  function render() {
+    const wc = wrap.offsetWidth / 2;
+
+    phones.forEach((phone, i) => {
+      // Calculate where this phone should be, wrapping around
+      let x = ((i * step + pos) % totalW + totalW) % totalW;
+      // Centre the range so phones wrap around the middle
+      if (x > totalW / 2) x -= totalW;
+      // Position relative to screen centre
+      const screenX = x - phoneW / 2 + wc;
+      phone.style.transform = `translateX(${screenX}px)`;
+      phone.style.position = 'absolute';
+      phone.style.left = '0';
+
+      // Distance from centre of screen
+      const dist = Math.abs(x);
+      phone.classList.toggle('active', dist < step * 0.35);
+      phone.classList.toggle('near', dist >= step * 0.35 && dist < step * 1.2);
+
+      // Fade out phones further from centre
+      const maxDist = step * 3;
+      const opacity = dist > maxDist ? 0.15 : dist < step * 0.35 ? 1 : 0.6 - (dist / maxDist) * 0.3;
+      if (!phone.classList.contains('active') && !phone.classList.contains('near')) {
+        phone.style.opacity = Math.max(0.15, 0.5 - (dist / maxDist) * 0.35);
+      } else {
+        phone.style.opacity = '';
+      }
     });
-    // Small delay to let the browser apply the cleared state
-    requestAnimationFrame(() => {
-      introsDone = true;
-      updatePhones(); // run once to set initial state
-    });
-  }, 3500);
+  }
 
-  const tuckDistance = 248;
+  function snapToNearest() {
+    // Find the pos that would put the nearest phone dead centre (pos=0 means phone 0 centred)
+    // We want pos % step to be 0
+    const remainder = ((pos % step) + step) % step;
+    let target;
+    if (remainder < step / 2) {
+      target = pos - remainder;
+    } else {
+      target = pos + (step - remainder);
+    }
 
-  function onScroll() {
-    if (!ticking) {
-      requestAnimationFrame(updatePhones);
-      ticking = true;
+    function tick() {
+      const diff = target - pos;
+      if (Math.abs(diff) < 0.5) {
+        pos = target;
+        render();
+        return;
+      }
+      pos += diff * 0.12;
+      render();
+      animFrame = requestAnimationFrame(tick);
+    }
+    tick();
+  }
+
+  function coast() {
+    if (Math.abs(velocity) > 0.5) {
+      pos += velocity;
+      velocity *= 0.93;
+      render();
+      animFrame = requestAnimationFrame(coast);
+    } else {
+      snapToNearest();
     }
   }
 
-  function updatePhones() {
-    ticking = false;
-    if (!introsDone) return;
+  // Mouse
+  track.addEventListener('mousedown', e => {
+    isDragging = true; startX = e.clientX; dragStartPos = pos;
+    lastX = e.clientX; lastTime = Date.now(); velocity = 0;
+    track.classList.add('dragging');
+    if (animFrame) cancelAnimationFrame(animFrame);
+    e.preventDefault();
+  });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const now = Date.now(), dx = e.clientX - lastX;
+    if (now - lastTime > 0) velocity = dx * 0.6;
+    lastX = e.clientX; lastTime = now;
+    pos = dragStartPos + (e.clientX - startX);
+    render();
+  });
+  window.addEventListener('mouseup', () => {
+    if (!isDragging) return;
+    isDragging = false; track.classList.remove('dragging'); coast();
+  });
 
-    const rect = hero.getBoundingClientRect();
-    const heroH = hero.offsetHeight;
-    const scrolled = Math.max(0, -rect.top);
-    const progress = Math.min(scrolled / (heroH * 0.4), 1);
+  // Touch
+  track.addEventListener('touchstart', e => {
+    isDragging = true; startX = e.touches[0].clientX; dragStartPos = pos;
+    lastX = startX; lastTime = Date.now(); velocity = 0;
+    if (animFrame) cancelAnimationFrame(animFrame);
+  }, { passive: true });
+  track.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    const now = Date.now(), t = e.touches[0].clientX, dx = t - lastX;
+    if (now - lastTime > 0) velocity = dx * 0.6;
+    lastX = t; lastTime = now;
+    pos = dragStartPos + (t - startX);
+    render();
+  }, { passive: true });
+  track.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; coast(); });
 
-    // Smooth ease-in-out
-    const ease = progress < 0.5
-      ? 2 * progress * progress
-      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-
-    // Left phone: slides right (back behind centre)
-    phones[0].style.transform = `translateX(${ease * tuckDistance}px) scale(${1 - ease * 0.08})`;
-    phones[0].style.opacity = 1 - ease * 0.7;
-    phones[0].style.zIndex = ease > 0.5 ? '1' : '2';
-
-    // Centre phone: stays put, subtle scale up
-    phones[1].style.transform = `scale(${1 + ease * 0.03})`;
-
-    // Right phone: slides left (back behind centre)
-    phones[2].style.transform = `translateX(${-ease * tuckDistance}px) scale(${1 - ease * 0.08})`;
-    phones[2].style.opacity = 1 - ease * 0.7;
-    phones[2].style.zIndex = ease > 0.5 ? '1' : '2';
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
+  // Init — phone 0 starts centred (pos = 0)
+  // Offset so middle phone in the array starts centred
+  pos = -Math.floor(n / 2) * step;
+  render();
+  // Snap cleanly after entrance animation
+  setTimeout(() => snapToNearest(), 100);
+  window.addEventListener('resize', () => { render(); snapToNearest(); });
 })();
 </script>
 </body>
