@@ -474,20 +474,54 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     isDragging = false; track.classList.remove('dragging'); coast();
   });
 
+  let startY = 0, directionLocked = false, isHorizontal = false;
+
   track.addEventListener('touchstart', e => {
     if (introRunning) return;
-    isDragging = true; startX = e.touches[0].clientX; dragStartPos = pos;
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    dragStartPos = pos;
     lastX = startX; lastTime = Date.now(); velocity = 0;
+    directionLocked = false; isHorizontal = false;
     if (animFrame) cancelAnimationFrame(animFrame);
   }, { passive: true });
+
   track.addEventListener('touchmove', e => {
     if (!isDragging) return;
-    const now = Date.now(), t = e.touches[0].clientX, dx = t - lastX;
-    if (now - lastTime > 0) velocity = dx * 0.6;
-    lastX = t; lastTime = now;
-    pos = dragStartPos + (t - startX); render();
-  }, { passive: true });
-  track.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; coast(); });
+    const tx = e.touches[0].clientX;
+    const ty = e.touches[0].clientY;
+
+    // Lock direction after first significant movement
+    if (!directionLocked) {
+      const dx = Math.abs(tx - startX);
+      const dy = Math.abs(ty - startY);
+      if (dx + dy > 10) {
+        directionLocked = true;
+        isHorizontal = dx > dy;
+      }
+      return;
+    }
+
+    // If vertical swipe, let the page scroll normally
+    if (!isHorizontal) {
+      isDragging = false;
+      return;
+    }
+
+    // Horizontal swipe — move the carousel, prevent page scroll
+    e.preventDefault();
+    const now = Date.now(), dx = tx - lastX;
+    if (now - lastTime > 0) velocity = dx * 0.8;
+    lastX = tx; lastTime = now;
+    pos = dragStartPos + (tx - startX); render();
+  }, { passive: false });
+
+  track.addEventListener('touchend', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    if (isHorizontal) coast();
+  });
 
   phones.forEach(p => { p.style.position = 'absolute'; });
   animateIntro();
