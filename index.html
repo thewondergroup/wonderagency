@@ -82,12 +82,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 
 .hero-text{text-align:center;position:relative;z-index:2}
 .hero-eyebrow{font-family:var(--sans);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:24px;opacity:0;animation:fadeUp .8s var(--ease) 2.4s forwards}
-.hero h1{font-family:var(--display);font-size:clamp(2.4rem,5.5vw,5rem);font-weight:400;line-height:1.15;letter-spacing:.08em;text-transform:uppercase;margin-bottom:28px}
+.hero h1{font-family:var(--display);font-size:clamp(1.4rem,3.2vw,2.8rem);font-weight:400;line-height:1.2;letter-spacing:.1em;text-transform:uppercase;margin-bottom:28px}
 .hero h1 em{font-family:var(--serif);font-style:italic;color:var(--accent);text-transform:none;letter-spacing:0}
-.hero h1 .letter{display:inline-block;opacity:0;filter:blur(8px);transition:opacity .4s var(--ease),filter .5s var(--ease),color .3s}
-.hero h1 .letter.resolved{opacity:1;filter:blur(0)}
-.hero h1 .letter.space{width:.3em;opacity:1;filter:none}
-.hero h1 .word-wonders .letter.resolved{color:var(--accent)}
+.hero h1 .letter{display:inline-block;opacity:0;filter:blur(10px);transform:translateY(18px);transition:opacity .45s var(--ease),filter .5s var(--ease),transform .5s var(--ease),color .3s,text-shadow .3s}
+.hero h1 .letter.resolved{opacity:1;filter:blur(0);transform:translateY(0);text-shadow:0 0 20px rgba(240,236,228,.15)}
+.hero h1 .letter.settled{text-shadow:none}
+.hero h1 .letter.space{width:.25em;opacity:1;filter:none;transform:none}
+.hero h1 .word-wonders{display:block;font-size:clamp(3rem,8vw,7rem);letter-spacing:.12em;line-height:1;margin-top:8px;position:relative}
+.hero h1 .word-wonders .letter.resolved{color:var(--accent);text-shadow:0 0 30px rgba(201,169,110,.3)}
+.hero h1 .word-wonders .letter.settled{text-shadow:none}
+.hero h1 .word-wonders::after{content:'';position:absolute;top:0;left:-10%;width:0;height:100%;background:linear-gradient(90deg,transparent,rgba(201,169,110,.15),rgba(255,255,255,.08),rgba(201,169,110,.15),transparent);pointer-events:none;opacity:0}
+.hero h1 .word-wonders.shimmer::after{animation:wonderShimmer 1s var(--ease) forwards;width:120%;opacity:1}
+@keyframes wonderShimmer{0%{left:-20%;opacity:0}20%{opacity:1}100%{left:100%;opacity:0}}
 .hero-sub{font-size:.95rem;color:var(--muted);max-width:480px;margin:0 auto 40px;line-height:1.7;font-weight:300;opacity:0;animation:fadeUp .8s var(--ease) 2.6s forwards}
 .hero-cta{display:inline-flex;align-items:center;gap:14px;font-family:var(--display);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;border:1px solid var(--accent-dim);padding:18px 40px;transition:all .5s var(--ease);cursor:pointer;opacity:0;animation:fadeUp .8s var(--ease) 2.8s forwards}
 .hero-cta:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
@@ -377,10 +383,22 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   }
 
   // Resolve each letter in random order — starts first, before other text
+  const totalLetters = indices.length;
   setTimeout(() => {
     indices.forEach((idx, i) => {
       setTimeout(() => {
-        letterEls[idx].classList.add('resolved');
+        const el = letterEls[idx];
+        el.classList.add('resolved');
+        // Remove the glow after landing
+        setTimeout(() => el.classList.add('settled'), 500);
+
+        // After last letter resolves, trigger shimmer on WONDERS
+        if (i === totalLetters - 1) {
+          setTimeout(() => {
+            const wonders = document.querySelector('.word-wonders');
+            if (wonders) wonders.classList.add('shimmer');
+          }, 400);
+        }
       }, i * 50);
     });
   }, 1800);
