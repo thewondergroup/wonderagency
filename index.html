@@ -333,7 +333,7 @@ const reveals=document.querySelectorAll('.reveal');const observer=new Intersecti
 // Mobile menu
 const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelector('.nav-links');let menuOpen=false;if(toggle){toggle.addEventListener('click',()=>{menuOpen=!menuOpen;navLinks.style.cssText=menuOpen?'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,10,.97);flex-direction:column;align-items:center;justify-content:center;gap:32px;z-index:999':'';});navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menuOpen=false;navLinks.style.cssText=''}))}
 
-// Phone scroll parallax
+// Phone scroll — side phones tuck behind centre on scroll, pop back out on scroll up
 ;(function(){
   const hero = document.querySelector('.hero');
   const phones = document.querySelectorAll('.phone');
@@ -342,8 +342,12 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let ticking = false;
   let introsDone = false;
 
-  // Wait for entrance animations to finish before enabling scroll effect
+  // Wait for entrance animations to finish
   setTimeout(() => { introsDone = true; }, 3500);
+
+  // The distance side phones need to travel to tuck behind centre
+  // phone-w is 220, gap is 28, so each side phone is ~248px from centre
+  const tuckDistance = 248;
 
   function onScroll() {
     if (!ticking) {
@@ -358,34 +362,30 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
     const rect = hero.getBoundingClientRect();
     const heroH = hero.offsetHeight;
-    // progress: 0 = hero fully in view, 1 = hero scrolled off top
     const scrolled = Math.max(0, -rect.top);
-    const progress = Math.min(scrolled / (heroH * 0.5), 1);
+    const progress = Math.min(scrolled / (heroH * 0.4), 1);
 
-    // Eased progress for smoother motion
-    const ease = progress * progress;
+    // Smooth easing
+    const ease = progress < 0.5
+      ? 2 * progress * progress
+      : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
-    // Left phone: flies left and up
-    const lx = -ease * 350;
-    const ly = -ease * 200;
-    const lr = -ease * 15;
-    const lo = 1 - ease * 0.8;
-    phones[0].style.transform = `translate(${lx}px, ${ly}px) rotate(${lr}deg) scale(${1 - ease * 0.1})`;
-    phones[0].style.opacity = lo;
+    // Left phone: slides right (back behind centre) and scales down slightly
+    const lx = ease * tuckDistance;
+    const ls = 1 - ease * 0.08;
+    phones[0].style.transform = `translateX(${lx}px) scale(${ls})`;
+    phones[0].style.opacity = 1 - ease * 0.7;
+    phones[0].style.zIndex = ease > 0.5 ? '1' : '2';
 
-    // Centre phone: drops down and scales
-    const cy = ease * 150;
-    const co = 1 - ease * 0.9;
-    phones[1].style.transform = `translateY(${cy}px) scale(${1 - ease * 0.15})`;
-    phones[1].style.opacity = co;
+    // Centre phone: stays put, just a subtle scale
+    phones[1].style.transform = `scale(${1 + ease * 0.03})`;
 
-    // Right phone: flies right and up
-    const rx = ease * 350;
-    const ry = -ease * 200;
-    const rr = ease * 15;
-    const ro = 1 - ease * 0.8;
-    phones[2].style.transform = `translate(${rx}px, ${ry}px) rotate(${rr}deg) scale(${1 - ease * 0.1})`;
-    phones[2].style.opacity = ro;
+    // Right phone: slides left (back behind centre) and scales down slightly
+    const rx = -ease * tuckDistance;
+    const rs = 1 - ease * 0.08;
+    phones[2].style.transform = `translateX(${rx}px) scale(${rs})`;
+    phones[2].style.opacity = 1 - ease * 0.7;
+    phones[2].style.zIndex = ease > 0.5 ? '1' : '2';
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
