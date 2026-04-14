@@ -29,10 +29,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
 .phones-wrap{position:relative;z-index:2;margin-bottom:72px;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%)}
-.phones{position:relative;height:calc(var(--phone-h) + 60px);width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
+.phones{position:relative;width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
 .phones.dragging{cursor:grabbing}
 
-.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:absolute;top:30px;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.06),0 0 0 3px rgba(10,10,10,.8),0 20px 50px -15px rgba(0,0,0,.6);transform-style:preserve-3d;will-change:transform,opacity;transition:box-shadow .5s var(--ease);opacity:.3;transform:scale(.78)}
+.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:absolute;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.06),0 0 0 3px rgba(10,10,10,.8),0 20px 50px -15px rgba(0,0,0,.6);transform-style:preserve-3d;will-change:transform,opacity;transition:box-shadow .5s var(--ease);opacity:.3;transform:scale(.78)}
 
 /* Active centre phone — largest, fully visible */
 .phone.active{opacity:1;transform:scale(1.12);box-shadow:0 0 0 1.5px rgba(201,169,110,.15),0 0 0 3px rgba(10,10,10,.8),0 40px 100px -20px rgba(0,0,0,.7),0 0 140px -30px rgba(201,169,110,.1)}
@@ -162,7 +162,7 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 .footer-socials a:hover{color:var(--accent)}
 
 @media(max-width:1024px){.service-grid{grid-template-columns:repeat(2,1fr)}.work-grid,.work-row-2{grid-template-columns:1fr}.about{grid-template-columns:1fr;gap:80px}.approach-inner{grid-template-columns:1fr;gap:60px}.approach h2{position:static}.footer-inner{grid-template-columns:1fr 1fr}.clients-grid{grid-template-columns:repeat(3,1fr)}:root{--phone-w:180px;--phone-h:360px;--phone-r:26px}}
-@media(max-width:768px){nav{padding:20px 24px}.nav-links{display:none}.menu-toggle{display:block}.hero{padding:100px 24px 80px}:root{--phone-w:130px;--phone-h:260px;--phone-r:20px}.phones{gap:14px}.phone::before{width:48px;height:16px;top:8px;border-radius:10px}.phone:nth-child(2){width:calc(var(--phone-w) + 10px);height:calc(var(--phone-h) + 20px)}.about,.services,.work,.clients,.approach,.cta{padding-left:24px;padding-right:24px}.service-grid{grid-template-columns:1fr}.clients-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr;gap:40px}.footer-bottom{flex-direction:column;gap:14px;text-align:center}.cta{padding:120px 24px}}
+@media(max-width:768px){nav{padding:20px 24px}.nav-links{display:none}.menu-toggle{display:block}.hero{padding:100px 24px 80px}:root{--phone-w:130px;--phone-h:260px;--phone-r:20px}.phone::before{width:48px;height:16px;top:8px;border-radius:10px}.about,.services,.work,.clients,.approach,.cta{padding-left:24px;padding-right:24px}.service-grid{grid-template-columns:1fr}.clients-grid{grid-template-columns:repeat(2,1fr)}.footer-inner{grid-template-columns:1fr;gap:40px}.footer-bottom{flex-direction:column;gap:14px;text-align:center}.cta{padding:120px 24px}}
 @media(max-width:480px){:root{--phone-w:100px;--phone-h:200px;--phone-r:16px}.phone::before{width:36px;height:12px;top:6px;border-radius:8px}}
 </style>
 </head>
@@ -348,7 +348,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     });
   }, 1800);
 })();
-// Phone carousel — infinite loop, drag/swipe, cinematic entrance
+// Phone carousel — infinite loop, drag/swipe, cinematic entrance, responsive
 ;(function(){
   const wrap = document.querySelector('.phones-wrap');
   const track = document.getElementById('phone-carousel');
@@ -357,96 +357,91 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   const n = phones.length;
   if (n === 0) return;
 
-  const phoneW = 220, gap = 24, step = phoneW + gap;
-  const totalW = n * step;
+  function getDims() {
+    const s = getComputedStyle(document.documentElement);
+    const w = parseInt(s.getPropertyValue('--phone-w'));
+    const h = parseInt(s.getPropertyValue('--phone-h'));
+    const r = parseInt(s.getPropertyValue('--phone-r'));
+    const g = Math.round(w * 0.12);
+    return { w, h, r, gap: g, step: w + g, total: n * (w + g) };
+  }
+
+  let d = getDims();
   let pos = 0, isDragging = false, startX = 0, dragStartPos = 0;
   let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
-  let introProgress = 0; // 0 = all stacked, 1 = fully spread
-  let introRunning = true;
-
-  let introOpacityProgress = 0; // separate fade-in for the phones
+  let introRunning = true, introOpacityProgress = 0;
 
   function render() {
+    d = getDims();
     const wc = wrap.offsetWidth / 2;
+    const trackH = d.h * 1.15 + 20;
+    track.style.height = trackH + 'px';
+
     phones.forEach((phone, i) => {
-      let x = ((i * step + pos) % totalW + totalW) % totalW;
-      if (x > totalW / 2) x -= totalW;
+      let x = ((i * d.step + pos) % d.total + d.total) % d.total;
+      if (x > d.total / 2) x -= d.total;
 
-      const screenX = x - phoneW / 2 + wc;
+      const screenX = x - d.w / 2 + wc;
       phone.style.left = screenX + 'px';
+      phone.style.width = d.w + 'px';
+      phone.style.height = d.h + 'px';
+      phone.style.borderRadius = d.r + 'px';
 
-      // Distance-based scaling: centre = 1.12, far = 0.78
       const dist = Math.abs(x);
-      const normDist = Math.min(dist / (step * 2.5), 1);
+      const normDist = Math.min(dist / (d.step * 2.5), 1);
       const scale = 1.12 - normDist * 0.34;
       const opacity = Math.max(0.15, 1 - normDist * 0.85);
-
-      // During intro, fade everything in
       const finalOpacity = introRunning ? opacity * introOpacityProgress : opacity;
 
-      phone.style.transform = `scale(${scale})`;
+      const scaledH = d.h * scale;
+      phone.style.top = ((trackH - scaledH) / 2) + 'px';
+      phone.style.transform = 'scale(' + scale + ')';
       phone.style.opacity = finalOpacity;
-      phone.classList.toggle('active', dist < step * 0.35);
-      phone.classList.toggle('near', dist >= step * 0.35 && dist < step * 1.2);
+      phone.classList.toggle('active', dist < d.step * 0.35);
+      phone.classList.toggle('near', dist >= d.step * 0.35 && dist < d.step * 1.2);
       phone.style.zIndex = Math.round((1 - normDist) * 10);
     });
   }
 
-  // Slot-machine spin entrance: starts fast, decelerates, lands on centre
   function animateIntro() {
     wrap.classList.add('entering');
     const startTime = performance.now();
-    const fadeInDuration = 400;  // phones fade in over first 400ms
-    const spinDuration = 2800;   // total spin time
-    // Total distance to travel — several full loops plus landing on centre
-    const totalSpin = step * (n * 3 + Math.floor(n / 2)); // ~3 full rotations
+    const fadeIn = 400, duration = 2800;
+    const totalSpin = d.step * (n * 3 + Math.floor(n / 2));
 
     function tick(now) {
       const elapsed = now - startTime;
+      introOpacityProgress = Math.min(elapsed / fadeIn, 1);
 
-      // Fade phones in quickly at the start
-      introOpacityProgress = Math.min(elapsed / fadeInDuration, 1);
-
-      if (elapsed >= spinDuration) {
-        // Done — land exactly on centre
-        introRunning = false;
-        introOpacityProgress = 1;
+      if (elapsed >= duration) {
+        introRunning = false; introOpacityProgress = 1;
         wrap.classList.remove('entering');
-        // Snap to nearest to be clean
-        const remainder = ((pos % step) + step) % step;
-        pos = remainder < step / 2 ? pos - remainder : pos + (step - remainder);
-        render();
-        return;
+        const rem = ((pos % d.step) + d.step) % d.step;
+        pos = rem < d.step / 2 ? pos - rem : pos + (d.step - rem);
+        render(); return;
       }
 
-      // Deceleration curve — starts fast, slows to stop
-      // Using 1 - (1 - t)^3 for smooth deceleration
-      const t = elapsed / spinDuration;
+      const t = elapsed / duration;
       const eased = 1 - Math.pow(1 - t, 3);
-      
-      // Position based on eased progress through total spin distance
-      const startPos = -Math.floor(n / 2) * step - totalSpin;
-      const endPos = -Math.floor(n / 2) * step;
+      const startPos = -Math.floor(n / 2) * d.step - totalSpin;
+      const endPos = -Math.floor(n / 2) * d.step;
       pos = startPos + (endPos - startPos) * eased;
-
       render();
       animFrame = requestAnimationFrame(tick);
     }
-    
-    // Set initial position far back (will spin forward to centre)
-    pos = -Math.floor(n / 2) * step - totalSpin;
+
+    pos = -Math.floor(n / 2) * d.step - totalSpin;
     render();
     animFrame = requestAnimationFrame(tick);
   }
 
   function snapToNearest() {
-    const remainder = ((pos % step) + step) % step;
-    const target = remainder < step / 2 ? pos - remainder : pos + (step - remainder);
+    const rem = ((pos % d.step) + d.step) % d.step;
+    const target = rem < d.step / 2 ? pos - rem : pos + (d.step - rem);
     function tick() {
       const diff = target - pos;
       if (Math.abs(diff) < 0.5) { pos = target; render(); return; }
-      pos += diff * 0.12;
-      render();
+      pos += diff * 0.12; render();
       animFrame = requestAnimationFrame(tick);
     }
     tick();
@@ -454,13 +449,11 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
   function coast() {
     if (Math.abs(velocity) > 0.5) {
-      pos += velocity; velocity *= 0.93;
-      render();
+      pos += velocity; velocity *= 0.93; render();
       animFrame = requestAnimationFrame(coast);
     } else { snapToNearest(); }
   }
 
-  // Mouse
   track.addEventListener('mousedown', e => {
     if (introRunning) return;
     isDragging = true; startX = e.clientX; dragStartPos = pos;
@@ -474,15 +467,13 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     const now = Date.now(), dx = e.clientX - lastX;
     if (now - lastTime > 0) velocity = dx * 0.6;
     lastX = e.clientX; lastTime = now;
-    pos = dragStartPos + (e.clientX - startX);
-    render();
+    pos = dragStartPos + (e.clientX - startX); render();
   });
   window.addEventListener('mouseup', () => {
     if (!isDragging) return;
     isDragging = false; track.classList.remove('dragging'); coast();
   });
 
-  // Touch
   track.addEventListener('touchstart', e => {
     if (introRunning) return;
     isDragging = true; startX = e.touches[0].clientX; dragStartPos = pos;
@@ -494,15 +485,13 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     const now = Date.now(), t = e.touches[0].clientX, dx = t - lastX;
     if (now - lastTime > 0) velocity = dx * 0.6;
     lastX = t; lastTime = now;
-    pos = dragStartPos + (t - startX);
-    render();
+    pos = dragStartPos + (t - startX); render();
   }, { passive: true });
   track.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; coast(); });
 
-  // Init
-  phones.forEach(p => { p.style.position = 'absolute'; p.style.top = '30px'; });
+  phones.forEach(p => { p.style.position = 'absolute'; });
   animateIntro();
-  window.addEventListener('resize', () => { render(); if (!introRunning) snapToNearest(); });
+  window.addEventListener('resize', () => { d = getDims(); render(); if (!introRunning) snapToNearest(); });
 })();
 </script>
 </body>
