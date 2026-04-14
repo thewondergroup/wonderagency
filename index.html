@@ -28,28 +28,47 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 48px 80px}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
-.phones{display:flex;align-items:center;justify-content:center;gap:0;position:relative;z-index:2;margin-bottom:72px;perspective:1800px;animation:phonesSpread .9s cubic-bezier(.34,1.56,.64,1) 1.2s forwards}
-@keyframes phonesSpread{to{gap:28px}}
+.phones{display:flex;align-items:center;justify-content:center;position:relative;z-index:2;margin-bottom:72px;perspective:1800px;gap:28px}
 
-/* flash burst at moment of split */
-.phones-flash{position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.3),rgba(201,169,110,.1),transparent 70%);transform:translate(-50%,-50%);z-index:1;pointer-events:none;opacity:0;animation:flashBurst .8s ease-out 1.1s forwards}
-@keyframes flashBurst{0%{width:0;height:0;opacity:.8}30%{width:600px;height:600px;opacity:.3}100%{width:1000px;height:1000px;opacity:0}}
+/* flash burst when side phones emerge */
+.phones-flash{position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.25),rgba(201,169,110,.08),transparent 70%);transform:translate(-50%,-50%);z-index:1;pointer-events:none;opacity:0;animation:flashBurst .8s ease-out 1.4s forwards}
+@keyframes flashBurst{0%{width:0;height:0;opacity:.7}30%{width:500px;height:500px;opacity:.25}100%{width:900px;height:900px;opacity:0}}
 
 /* shine sweep */
 .phone-shine{position:absolute;inset:0;z-index:6;pointer-events:none;border-radius:var(--phone-r);overflow:hidden}
-.phone-shine::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);animation:shineSwipe .6s var(--ease) 2.2s forwards;opacity:0}
+.phone-shine::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.1) 50%,transparent 70%);animation:shineSwipe .6s var(--ease) 2.6s forwards;opacity:0}
 @keyframes shineSwipe{0%{left:-100%;opacity:1}100%{left:150%;opacity:0}}
 
-.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12);transform-style:preserve-3d;will-change:transform,opacity;transition:none;opacity:0}
+.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12);transform-style:preserve-3d;will-change:transform,opacity;transition:none}
 
-/* Phase 1: fade in stacked with 3D rotation */
-.phone:nth-child(2){animation:phoneStackIn .5s var(--ease) .3s forwards,phoneSettle .7s cubic-bezier(.34,1.56,.64,1) 1.2s forwards}
-.phone:nth-child(3){width:calc(var(--phone-w) + 16px);height:calc(var(--phone-h) + 32px);z-index:3;animation:phoneStackIn .5s var(--ease) .5s forwards,phoneSettleC .7s cubic-bezier(.34,1.56,.64,1) 1.2s forwards}
-.phone:nth-child(4){animation:phoneStackIn .5s var(--ease) .7s forwards,phoneSettle .7s cubic-bezier(.34,1.56,.64,1) 1.2s forwards}
+/* LEFT PHONE — starts hidden behind centre, slides out left */
+.phone:nth-child(2){opacity:0;transform:translateX(calc(var(--phone-w)/2 + 14px)) scale(.9);animation:phoneSlideL 1s cubic-bezier(.34,1.56,.64,1) 1.4s forwards}
 
-@keyframes phoneStackIn{0%{opacity:0;transform:scale(1.2) rotateY(30deg)}100%{opacity:1;transform:scale(1.08) rotateY(0deg)}}
-@keyframes phoneSettle{0%{transform:scale(1.08)}60%{transform:scale(.97)}100%{transform:scale(1)}}
-@keyframes phoneSettleC{0%{transform:scale(1.12)}60%{transform:scale(.98)}100%{transform:scale(1)}}
+/* CENTRE PHONE — fades in first, solo hero moment */
+.phone:nth-child(3){width:calc(var(--phone-w) + 16px);height:calc(var(--phone-h) + 32px);z-index:3;opacity:0;transform:scale(.85);animation:phoneCentreIn .8s var(--ease) .3s forwards}
+
+/* RIGHT PHONE — starts hidden behind centre, slides out right */
+.phone:nth-child(4){opacity:0;transform:translateX(calc(var(--phone-w)/-2 - 14px)) scale(.9);animation:phoneSlideR 1s cubic-bezier(.34,1.56,.64,1) 1.4s forwards}
+
+/* Centre fades in with a scale-up */
+@keyframes phoneCentreIn{
+  0%{opacity:0;transform:scale(.85)}
+  100%{opacity:1;transform:scale(1)}
+}
+
+/* Left slides out from behind centre */
+@keyframes phoneSlideL{
+  0%{opacity:0;transform:translateX(calc(var(--phone-w)/2 + 14px)) scale(.9)}
+  20%{opacity:1}
+  100%{opacity:1;transform:translateX(0) scale(1)}
+}
+
+/* Right slides out from behind centre */
+@keyframes phoneSlideR{
+  0%{opacity:0;transform:translateX(calc(var(--phone-w)/-2 - 14px)) scale(.9)}
+  20%{opacity:1}
+  100%{opacity:1;transform:translateX(0) scale(1)}
+}
 
 .phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:72px;height:24px;background:#0a0a0a;border-radius:14px;z-index:10}
 .phone::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,transparent 40%,transparent 60%,rgba(255,255,255,.02) 100%);z-index:5;pointer-events:none;border-radius:var(--phone-r)}
@@ -61,7 +80,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .phone-placeholder-icon svg{width:16px;height:16px;fill:var(--accent);margin-left:2px}
 .phone-placeholder span{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-family:var(--display)}
 
-.hero-text{text-align:center;position:relative;z-index:2;opacity:0;animation:fadeUp 1s var(--ease) 2.2s forwards}
+.hero-text{text-align:center;position:relative;z-index:2;opacity:0;animation:fadeUp 1s var(--ease) 2.5s forwards}
 .hero-eyebrow{font-family:var(--sans);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:24px}
 .hero h1{font-family:var(--display);font-size:clamp(2.4rem,5.5vw,5rem);font-weight:400;line-height:1.15;letter-spacing:.08em;text-transform:uppercase;margin-bottom:28px}
 .hero h1 em{font-family:var(--serif);font-style:italic;color:var(--accent);text-transform:none;letter-spacing:0}
@@ -71,7 +90,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero-cta svg{width:18px;height:18px;transition:transform .4s var(--ease)}
 .hero-cta:hover svg{transform:translateX(5px)}
 
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp 1s var(--ease) 2.8s forwards}
+.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp 1s var(--ease) 3.2s forwards}
 .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--accent),transparent);animation:scrollPulse 2s ease-in-out infinite}
 @keyframes scrollPulse{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:.3;transform:scaleY(.6)}}
 .hero-scroll span{font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);font-family:var(--display)}
@@ -324,7 +343,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let introsDone = false;
 
   // Wait for entrance animations to finish before enabling scroll effect
-  setTimeout(() => { introsDone = true; }, 3000);
+  setTimeout(() => { introsDone = true; }, 3500);
 
   function onScroll() {
     if (!ticking) {
