@@ -29,11 +29,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
 .phones{display:flex;align-items:center;justify-content:center;gap:28px;position:relative;z-index:2;margin-bottom:72px}
-.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12);opacity:0;transform:translateY(80px) scale(.92) rotate(var(--rot,0deg))}
-.phone:nth-child(1){--rot:0deg;animation:phoneIn 1.2s var(--ease) .3s forwards}
-.phone:nth-child(2){--rot:0deg;width:calc(var(--phone-w) + 16px);height:calc(var(--phone-h) + 32px);z-index:3;animation:phoneIn 1.2s var(--ease) .55s forwards}
-.phone:nth-child(3){--rot:0deg;animation:phoneIn 1.2s var(--ease) .8s forwards}
-@keyframes phoneIn{0%{opacity:0;transform:translateY(80px) scale(.92) rotate(var(--rot,0deg))}100%{opacity:1;transform:translateY(0) scale(1) rotate(var(--rot,0deg))}}
+.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12);opacity:0;transform:translateY(80px) scale(.92);will-change:transform,opacity;transition:none}
+.phone:nth-child(1){animation:phoneIn 1.2s var(--ease) .3s forwards}
+.phone:nth-child(2){width:calc(var(--phone-w) + 16px);height:calc(var(--phone-h) + 32px);z-index:3;animation:phoneIn 1.2s var(--ease) .55s forwards}
+.phone:nth-child(3){animation:phoneIn 1.2s var(--ease) .8s forwards}
+@keyframes phoneIn{0%{opacity:0;transform:translateY(80px) scale(.92)}100%{opacity:1;transform:translateY(0) scale(1)}}
 
 .phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:72px;height:24px;background:#0a0a0a;border-radius:14px;z-index:10}
 .phone::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,transparent 40%,transparent 60%,rgba(255,255,255,.02) 100%);z-index:5;pointer-events:none;border-radius:var(--phone-r)}
@@ -285,9 +285,72 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 </footer>
 
 <script>
+// Video placeholder handling
 document.querySelectorAll('.phone').forEach(phone=>{const v=phone.querySelector('video'),p=phone.querySelector('.phone-placeholder');if(v&&v.getAttribute('src')){v.addEventListener('loadeddata',()=>{if(p)p.style.display='none'});v.addEventListener('error',()=>{v.style.display='none'})}else{if(v)v.style.display='none'}});
+
+// Scroll reveal
 const reveals=document.querySelectorAll('.reveal');const observer=new IntersectionObserver(entries=>{entries.forEach((entry,i)=>{if(entry.isIntersecting){setTimeout(()=>entry.target.classList.add('visible'),i*80);observer.unobserve(entry.target)}})},{threshold:.12});reveals.forEach(el=>observer.observe(el));
+
+// Mobile menu
 const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelector('.nav-links');let menuOpen=false;if(toggle){toggle.addEventListener('click',()=>{menuOpen=!menuOpen;navLinks.style.cssText=menuOpen?'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,10,.97);flex-direction:column;align-items:center;justify-content:center;gap:32px;z-index:999':'';});navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menuOpen=false;navLinks.style.cssText=''}))}
+
+// Phone scroll parallax
+;(function(){
+  const hero = document.querySelector('.hero');
+  const phones = document.querySelectorAll('.phone');
+  if (!hero || phones.length < 3) return;
+
+  let ticking = false;
+  let introsDone = false;
+
+  // Wait for entrance animations to finish before enabling scroll effect
+  setTimeout(() => { introsDone = true; }, 2200);
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updatePhones);
+      ticking = true;
+    }
+  }
+
+  function updatePhones() {
+    ticking = false;
+    if (!introsDone) return;
+
+    const rect = hero.getBoundingClientRect();
+    const heroH = hero.offsetHeight;
+    // progress: 0 = hero fully in view, 1 = hero scrolled off top
+    const scrolled = Math.max(0, -rect.top);
+    const progress = Math.min(scrolled / (heroH * 0.5), 1);
+
+    // Eased progress for smoother motion
+    const ease = progress * progress;
+
+    // Left phone: flies left and up
+    const lx = -ease * 350;
+    const ly = -ease * 200;
+    const lr = -ease * 15;
+    const lo = 1 - ease * 0.8;
+    phones[0].style.transform = `translate(${lx}px, ${ly}px) rotate(${lr}deg) scale(${1 - ease * 0.1})`;
+    phones[0].style.opacity = lo;
+
+    // Centre phone: drops down and scales
+    const cy = ease * 150;
+    const co = 1 - ease * 0.9;
+    phones[1].style.transform = `translateY(${cy}px) scale(${1 - ease * 0.15})`;
+    phones[1].style.opacity = co;
+
+    // Right phone: flies right and up
+    const rx = ease * 350;
+    const ry = -ease * 200;
+    const rr = ease * 15;
+    const ro = 1 - ease * 0.8;
+    phones[2].style.transform = `translate(${rx}px, ${ry}px) rotate(${rr}deg) scale(${1 - ease * 0.1})`;
+    phones[2].style.opacity = ro;
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
 </script>
 </body>
 </html>
