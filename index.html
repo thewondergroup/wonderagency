@@ -27,6 +27,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 48px 80px}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.hero-light{position:absolute;top:50%;left:50%;width:900px;height:600px;transform:translate(-50%,-50%);pointer-events:none;z-index:1}
+.hero-light-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0;animation-fill-mode:forwards}
+.hero-light-orb:nth-child(1){width:400px;height:400px;background:radial-gradient(circle,rgba(180,200,230,.1),transparent 70%);top:10%;left:15%;animation:orbDrift1 12s ease-in-out infinite,orbFadeIn 2s var(--ease) 1s forwards}
+.hero-light-orb:nth-child(2){width:300px;height:300px;background:radial-gradient(circle,rgba(160,190,240,.07),transparent 70%);top:30%;right:10%;animation:orbDrift2 15s ease-in-out infinite,orbFadeIn 2s var(--ease) 1.5s forwards}
+.hero-light-orb:nth-child(3){width:250px;height:350px;background:radial-gradient(circle,rgba(200,215,245,.05),transparent 70%);bottom:10%;left:35%;animation:orbDrift3 18s ease-in-out infinite,orbFadeIn 2s var(--ease) 2s forwards}
+@keyframes orbDrift1{0%,100%{transform:translate(0,0)}25%{transform:translate(60px,-30px)}50%{transform:translate(-20px,40px)}75%{transform:translate(-50px,-20px)}}
+@keyframes orbDrift2{0%,100%{transform:translate(0,0)}25%{transform:translate(-40px,35px)}50%{transform:translate(30px,-25px)}75%{transform:translate(50px,20px)}}
+@keyframes orbDrift3{0%,100%{transform:translate(0,0)}33%{transform:translate(40px,-30px)}66%{transform:translate(-35px,25px)}}
+@keyframes orbFadeIn{to{opacity:1}}
 
 .phones{display:flex;align-items:center;justify-content:center;gap:28px;position:relative;z-index:2;margin-bottom:72px}
 .phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12);opacity:0;transform:translateY(80px) scale(.92);will-change:transform,opacity;transition:none}
@@ -176,6 +185,11 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
 
 <section class="hero">
   <div class="hero-glow"></div>
+  <div class="hero-light">
+    <div class="hero-light-orb"></div>
+    <div class="hero-light-orb"></div>
+    <div class="hero-light-orb"></div>
+  </div>
   <div class="phones">
     <div class="phone">
       <video src="assets/reel-1.mp4" autoplay muted loop playsinline></video>
