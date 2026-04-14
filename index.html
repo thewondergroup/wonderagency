@@ -28,22 +28,18 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 48px 80px}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
-.phones-wrap{position:relative;z-index:2;margin-bottom:72px;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 15%,#000 85%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 15%,#000 85%,transparent 100%)}
-.phones{position:relative;height:var(--phone-h);width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
+.phones-wrap{position:relative;z-index:2;margin-bottom:72px;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%)}
+.phones{position:relative;height:calc(var(--phone-h) + 60px);width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
 .phones.dragging{cursor:grabbing}
 
-.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:relative;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7);transform-style:preserve-3d;will-change:transform,opacity;transition:transform .4s var(--ease),opacity .4s var(--ease);opacity:.35;transform:scale(.85)}
-.phone.active{opacity:1;transform:scale(1);box-shadow:0 0 0 1.5px rgba(255,255,255,.08),0 0 0 3px rgba(10,10,10,.8),0 30px 80px -20px rgba(0,0,0,.7),0 0 120px -40px rgba(201,169,110,.12)}
-.phone.near{opacity:.6;transform:scale(.92)}
+.phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:absolute;top:30px;overflow:hidden;flex-shrink:0;box-shadow:0 0 0 1.5px rgba(255,255,255,.06),0 0 0 3px rgba(10,10,10,.8),0 20px 50px -15px rgba(0,0,0,.6);transform-style:preserve-3d;will-change:transform,opacity;transition:box-shadow .5s var(--ease);opacity:.3;transform:scale(.78)}
 
-.phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:72px;height:24px;background:#0a0a0a;border-radius:14px;z-index:10}
-.phone::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,transparent 40%,transparent 60%,rgba(255,255,255,.02) 100%);z-index:5;pointer-events:none;border-radius:var(--phone-r)}
+/* Active centre phone — largest, fully visible */
+.phone.active{opacity:1;transform:scale(1.12);box-shadow:0 0 0 1.5px rgba(201,169,110,.15),0 0 0 3px rgba(10,10,10,.8),0 40px 100px -20px rgba(0,0,0,.7),0 0 140px -30px rgba(201,169,110,.1)}
+.phone.near{opacity:.55;transform:scale(.92)}
 
-.phone video{width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--phone-r)}
-
-/* entrance animation */
-.phones-wrap{opacity:0;transform:translateY(40px);animation:carouselIn .8s var(--ease) .3s forwards}
-@keyframes carouselIn{to{opacity:1;transform:translateY(0)}}
+/* Entrance — phones start collapsed to centre, invisible, then burst outward */
+.phones-wrap.entering .phone{opacity:0;transition:none}
 
 .phone::before{content:'';position:absolute;top:12px;left:50%;transform:translateX(-50%);width:72px;height:24px;background:#0a0a0a;border-radius:14px;z-index:10}
 .phone::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,transparent 40%,transparent 60%,rgba(255,255,255,.02) 100%);z-index:5;pointer-events:none;border-radius:var(--phone-r)}
@@ -352,7 +348,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     });
   }, 1800);
 })();
-// Phone carousel — infinite loop, drag/swipe, snap to centre
+// Phone carousel — infinite loop, drag/swipe, cinematic entrance
 ;(function(){
   const wrap = document.querySelector('.phones-wrap');
   const track = document.getElementById('phone-carousel');
@@ -363,60 +359,83 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
   const phoneW = 220, gap = 24, step = phoneW + gap;
   const totalW = n * step;
-
-  // Virtual position — can go infinitely in either direction
-  let pos = 0;
-  let isDragging = false, startX = 0, dragStartPos = 0;
+  let pos = 0, isDragging = false, startX = 0, dragStartPos = 0;
   let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
+  let introProgress = 0; // 0 = all stacked, 1 = fully spread
+  let introRunning = true;
 
   function render() {
     const wc = wrap.offsetWidth / 2;
-
     phones.forEach((phone, i) => {
-      // Calculate where this phone should be, wrapping around
       let x = ((i * step + pos) % totalW + totalW) % totalW;
-      // Centre the range so phones wrap around the middle
       if (x > totalW / 2) x -= totalW;
-      // Position relative to screen centre
-      const screenX = x - phoneW / 2 + wc;
-      phone.style.transform = `translateX(${screenX}px)`;
-      phone.style.position = 'absolute';
-      phone.style.left = '0';
 
-      // Distance from centre of screen
-      const dist = Math.abs(x);
-      phone.classList.toggle('active', dist < step * 0.35);
+      // During intro, lerp from centre (0) to final position
+      const finalX = x;
+      const currentX = introRunning ? finalX * introProgress : finalX;
+
+      const screenX = currentX - phoneW / 2 + wc;
+      phone.style.left = screenX + 'px';
+
+      // Distance-based scaling: centre = 1.12, near = 0.92, far = 0.78
+      const dist = Math.abs(introRunning ? finalX * introProgress : finalX);
+      const normDist = Math.min(dist / (step * 2.5), 1);
+      const scale = 1.12 - normDist * 0.34;
+      const opacity = Math.max(0.15, 1 - normDist * 0.85);
+
+      // During intro, scale from 0.5 to target
+      const introScale = introRunning ? 0.5 + (scale - 0.5) * introProgress : scale;
+      const introOpacity = introRunning ? opacity * introProgress : opacity;
+
+      phone.style.transform = `scale(${introScale})`;
+      phone.style.opacity = introOpacity;
+
+      // Active/near classes for box-shadow transitions
+      phone.classList.toggle('active', dist < step * 0.35 && (!introRunning || introProgress > 0.8));
       phone.classList.toggle('near', dist >= step * 0.35 && dist < step * 1.2);
 
-      // Fade out phones further from centre
-      const maxDist = step * 3;
-      const opacity = dist > maxDist ? 0.15 : dist < step * 0.35 ? 1 : 0.6 - (dist / maxDist) * 0.3;
-      if (!phone.classList.contains('active') && !phone.classList.contains('near')) {
-        phone.style.opacity = Math.max(0.15, 0.5 - (dist / maxDist) * 0.35);
-      } else {
-        phone.style.opacity = '';
-      }
+      // Z-index: centre on top
+      phone.style.zIndex = Math.round((1 - normDist) * 10);
     });
   }
 
-  function snapToNearest() {
-    // Find the pos that would put the nearest phone dead centre (pos=0 means phone 0 centred)
-    // We want pos % step to be 0
-    const remainder = ((pos % step) + step) % step;
-    let target;
-    if (remainder < step / 2) {
-      target = pos - remainder;
-    } else {
-      target = pos + (step - remainder);
-    }
+  // Cinematic entrance animation
+  function animateIntro() {
+    wrap.classList.add('entering');
+    const startTime = performance.now();
+    const duration = 1400;
+    const delay = 300;
 
-    function tick() {
-      const diff = target - pos;
-      if (Math.abs(diff) < 0.5) {
-        pos = target;
-        render();
+    function tick(now) {
+      const elapsed = now - startTime - delay;
+      if (elapsed < 0) {
+        animFrame = requestAnimationFrame(tick);
         return;
       }
+      // Elastic ease-out
+      const t = Math.min(elapsed / duration, 1);
+      const ease = t < 1 ? 1 - Math.pow(1 - t, 3) + Math.sin(t * Math.PI) * 0.08 * (1 - t) : 1;
+      introProgress = ease;
+      render();
+
+      if (t < 1) {
+        animFrame = requestAnimationFrame(tick);
+      } else {
+        introProgress = 1;
+        introRunning = false;
+        wrap.classList.remove('entering');
+        render();
+      }
+    }
+    animFrame = requestAnimationFrame(tick);
+  }
+
+  function snapToNearest() {
+    const remainder = ((pos % step) + step) % step;
+    const target = remainder < step / 2 ? pos - remainder : pos + (step - remainder);
+    function tick() {
+      const diff = target - pos;
+      if (Math.abs(diff) < 0.5) { pos = target; render(); return; }
       pos += diff * 0.12;
       render();
       animFrame = requestAnimationFrame(tick);
@@ -426,17 +445,15 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
   function coast() {
     if (Math.abs(velocity) > 0.5) {
-      pos += velocity;
-      velocity *= 0.93;
+      pos += velocity; velocity *= 0.93;
       render();
       animFrame = requestAnimationFrame(coast);
-    } else {
-      snapToNearest();
-    }
+    } else { snapToNearest(); }
   }
 
   // Mouse
   track.addEventListener('mousedown', e => {
+    if (introRunning) return;
     isDragging = true; startX = e.clientX; dragStartPos = pos;
     lastX = e.clientX; lastTime = Date.now(); velocity = 0;
     track.classList.add('dragging');
@@ -458,6 +475,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
   // Touch
   track.addEventListener('touchstart', e => {
+    if (introRunning) return;
     isDragging = true; startX = e.touches[0].clientX; dragStartPos = pos;
     lastX = startX; lastTime = Date.now(); velocity = 0;
     if (animFrame) cancelAnimationFrame(animFrame);
@@ -472,13 +490,11 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   }, { passive: true });
   track.addEventListener('touchend', () => { if (!isDragging) return; isDragging = false; coast(); });
 
-  // Init — phone 0 starts centred (pos = 0)
-  // Offset so middle phone in the array starts centred
+  // Init — centre the middle phone
   pos = -Math.floor(n / 2) * step;
-  render();
-  // Snap cleanly after entrance animation
-  setTimeout(() => snapToNearest(), 100);
-  window.addEventListener('resize', () => { render(); snapToNearest(); });
+  phones.forEach(p => { p.style.position = 'absolute'; p.style.top = '30px'; });
+  animateIntro();
+  window.addEventListener('resize', () => { render(); if (!introRunning) snapToNearest(); });
 })();
 </script>
 </body>
