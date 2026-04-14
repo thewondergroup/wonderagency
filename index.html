@@ -84,6 +84,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero-eyebrow{font-family:var(--sans);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:24px}
 .hero h1{font-family:var(--display);font-size:clamp(2.4rem,5.5vw,5rem);font-weight:400;line-height:1.15;letter-spacing:.08em;text-transform:uppercase;margin-bottom:28px}
 .hero h1 em{font-family:var(--serif);font-style:italic;color:var(--accent);text-transform:none;letter-spacing:0}
+.hero h1 .letter{display:inline-block;opacity:0;filter:blur(12px);transition:opacity .6s var(--ease),filter .8s var(--ease),color .3s}
+.hero h1 .letter.resolved{opacity:1;filter:blur(0)}
+.hero h1 .letter.space{width:.3em;opacity:1;filter:none}
+.hero h1 .word-wonders .letter.resolved{color:var(--accent)}
 .hero-sub{font-size:.95rem;color:var(--muted);max-width:480px;margin:0 auto 40px;line-height:1.7;font-weight:300}
 .hero-cta{display:inline-flex;align-items:center;gap:14px;font-family:var(--display);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;border:1px solid var(--accent-dim);padding:18px 40px;transition:all .5s var(--ease);cursor:pointer}
 .hero-cta:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
@@ -231,7 +235,7 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
   </div>
   <div class="hero-text">
     <div class="hero-eyebrow">Full-service digital marketing &mdash; London</div>
-    <h1>We make brands <em>wonderful</em></h1>
+    <h1 id="hero-headline"></h1>
     <p class="hero-sub">Strategy, content, performance, and design &mdash; crafted for hospitality and lifestyle brands that refuse to blend in.</p>
     <a href="#contact" class="hero-cta">Start a project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
   </div>
@@ -333,7 +337,54 @@ const reveals=document.querySelectorAll('.reveal');const observer=new Intersecti
 // Mobile menu
 const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelector('.nav-links');let menuOpen=false;if(toggle){toggle.addEventListener('click',()=>{menuOpen=!menuOpen;navLinks.style.cssText=menuOpen?'display:flex;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(10,10,10,.97);flex-direction:column;align-items:center;justify-content:center;gap:32px;z-index:999':'';});navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menuOpen=false;navLinks.style.cssText=''}))}
 
-// Phone scroll — side phones tuck behind centre on scroll, pop back out on scroll up
+// Letter-by-letter resolve effect for hero headline
+;(function(){
+  const headline = document.getElementById('hero-headline');
+  if (!headline) return;
+
+  const words = ['BECOME','ONE','OF','THE','WONDERS'];
+  const letterEls = [];
+
+  // Build DOM
+  words.forEach((word, wi) => {
+    const wordSpan = document.createElement('span');
+    wordSpan.className = wi === words.length - 1 ? 'word-wonders' : 'word';
+    wordSpan.style.display = 'inline-block';
+    wordSpan.style.whiteSpace = 'nowrap';
+
+    for (let i = 0; i < word.length; i++) {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = word[i];
+      wordSpan.appendChild(span);
+      letterEls.push(span);
+    }
+    headline.appendChild(wordSpan);
+
+    if (wi < words.length - 1) {
+      const space = document.createElement('span');
+      space.className = 'letter space';
+      space.innerHTML = '&nbsp;';
+      headline.appendChild(space);
+    }
+  });
+
+  // Shuffle indices
+  const indices = letterEls.map((_, i) => i);
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+
+  // Resolve each letter in random order after hero-text fades in
+  setTimeout(() => {
+    indices.forEach((idx, i) => {
+      setTimeout(() => {
+        letterEls[idx].classList.add('resolved');
+      }, i * 90);
+    });
+  }, 3200);
+})();
 ;(function(){
   const hero = document.querySelector('.hero');
   const phones = document.querySelectorAll('.phone');
