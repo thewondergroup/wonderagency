@@ -342,11 +342,20 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let ticking = false;
   let introsDone = false;
 
-  // Wait for entrance animations to finish
-  setTimeout(() => { introsDone = true; }, 3500);
+  // After entrance animations finish, strip them so JS can control transforms
+  setTimeout(() => {
+    phones.forEach(p => {
+      p.style.animation = 'none';
+      p.style.opacity = '1';
+      p.style.transform = 'none';
+    });
+    // Small delay to let the browser apply the cleared state
+    requestAnimationFrame(() => {
+      introsDone = true;
+      updatePhones(); // run once to set initial state
+    });
+  }, 3500);
 
-  // The distance side phones need to travel to tuck behind centre
-  // phone-w is 220, gap is 28, so each side phone is ~248px from centre
   const tuckDistance = 248;
 
   function onScroll() {
@@ -365,25 +374,21 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
     const scrolled = Math.max(0, -rect.top);
     const progress = Math.min(scrolled / (heroH * 0.4), 1);
 
-    // Smooth easing
+    // Smooth ease-in-out
     const ease = progress < 0.5
       ? 2 * progress * progress
       : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
-    // Left phone: slides right (back behind centre) and scales down slightly
-    const lx = ease * tuckDistance;
-    const ls = 1 - ease * 0.08;
-    phones[0].style.transform = `translateX(${lx}px) scale(${ls})`;
+    // Left phone: slides right (back behind centre)
+    phones[0].style.transform = `translateX(${ease * tuckDistance}px) scale(${1 - ease * 0.08})`;
     phones[0].style.opacity = 1 - ease * 0.7;
     phones[0].style.zIndex = ease > 0.5 ? '1' : '2';
 
-    // Centre phone: stays put, just a subtle scale
+    // Centre phone: stays put, subtle scale up
     phones[1].style.transform = `scale(${1 + ease * 0.03})`;
 
-    // Right phone: slides left (back behind centre) and scales down slightly
-    const rx = -ease * tuckDistance;
-    const rs = 1 - ease * 0.08;
-    phones[2].style.transform = `translateX(${rx}px) scale(${rs})`;
+    // Right phone: slides left (back behind centre)
+    phones[2].style.transform = `translateX(${-ease * tuckDistance}px) scale(${1 - ease * 0.08})`;
     phones[2].style.opacity = 1 - ease * 0.7;
     phones[2].style.zIndex = ease > 0.5 ? '1' : '2';
   }
