@@ -514,7 +514,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       const elapsed = now - startTime;
       let allDone = false;
 
-      // Phase 1: Fade in
+      // Phase 1: Fade in ONLY the centre phone
       if (elapsed < phase1Duration) {
         introOpacityProgress = elapsed / phase1Duration;
       } else {
@@ -529,6 +529,17 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
         phoneRotations[ci] = Math.max(0, 90 * (1 - ease2) - ov2);
       }
 
+      // Hide side phones until they start sliding
+      phones.forEach((phone, i) => {
+        if (i !== ci) {
+          const orderIdx = sideOrder.indexOf(i);
+          const myStart = phase3Start + (orderIdx >= 0 ? orderIdx * stagger : 9999);
+          if (elapsed < myStart) {
+            phone.style.opacity = '0';
+          }
+        }
+      });
+
       // Phase 3: Side phones slide out from behind centre (already face-on)
       if (elapsed >= phase3Start) {
         sideOrder.forEach((phoneIdx, orderIdx) => {
@@ -536,14 +547,17 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
           const sideElapsed = elapsed - phase3Start - myDelay;
           if (sideElapsed < 0) return;
 
+          // Fade in quickly as they start sliding
+          const fadeT = Math.min(sideElapsed / 200, 1);
+          phones[phoneIdx].style.opacity = fadeT;
+
           // Slide from centre to position
           const slideT = Math.min(sideElapsed / slideDuration, 1);
-          // Bouncy ease-out for satisfying landing
           const slideEase = slideT < 1 ? 1 - Math.pow(1 - slideT, 2.5) : 1;
           const fullOffset = (ci - phoneIdx) * d.step;
           phoneSlideOffsets[phoneIdx] = fullOffset * (1 - slideEase);
 
-          // Already facing forward — no turn needed
+          // Already facing forward
           phoneRotations[phoneIdx] = 0;
         });
       }
