@@ -73,9 +73,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 
 .phone video{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;position:relative;z-index:1}
 
-/* Active phone warm underglow */
-.phone-glow{position:absolute;bottom:-20px;left:10%;right:10%;height:60px;background:radial-gradient(ellipse at center,rgba(201,169,110,.08),transparent 70%);border-radius:50%;pointer-events:none;opacity:0;transition:opacity .5s var(--ease);z-index:0}
-.phone.active .phone-glow{opacity:1}
+/* Active phone warm underglow — breathing */
+.phone-glow{position:absolute;bottom:-20px;left:5%;right:5%;height:80px;background:radial-gradient(ellipse at center,rgba(201,169,110,.1),transparent 70%);border-radius:50%;pointer-events:none;opacity:0;transition:opacity .5s var(--ease);z-index:0}
+.phone.active .phone-glow{opacity:1;animation:glowBreathe 3s ease-in-out infinite}
+@keyframes glowBreathe{0%,100%{opacity:.7;transform:scaleX(1)}50%{opacity:1;transform:scaleX(1.1)}}
+
+/* Shine sweep — triggered by adding .shone class */
+.phone-body .phone-shine{position:absolute;inset:0;z-index:11;pointer-events:none;border-radius:inherit;overflow:hidden;opacity:0}
+.phone-body .phone-shine.active{opacity:1}
+.phone-body .phone-shine::after{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.12) 48%,rgba(255,255,255,.04) 52%,transparent 70%);animation:none}
+.phone-body .phone-shine.active::after{animation:shineAcross .6s var(--ease) forwards}
+@keyframes shineAcross{0%{left:-100%}100%{left:150%}}
 
 .hero-text{text-align:center;position:relative;z-index:2}
 .hero-eyebrow{font-family:var(--sans);font-size:.68rem;letter-spacing:.4em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:24px}
@@ -214,13 +222,13 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
   <div class="hero-glow"></div>
   <div class="phones-wrap">
     <div class="phones" id="phone-carousel">
-      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
-      <div class="phone active"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone active"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div><div class="phone-shine"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
     </div>
   </div>
   <div class="hero-text">
@@ -414,8 +422,10 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let pos = 0, isDragging = false, startX = 0, dragStartPos = 0;
   let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
   let introRunning = true, introOpacityProgress = 0;
-  // Per-phone intro state: each phone has its own rotation and slide offset
-  let phoneIntroStates = phones.map(() => ({ rotation: 90, slideX: 0 }));
+  let phoneRotations = phones.map(() => 90);
+  let phoneSlideOffsets = phones.map(() => 0);
+  let floatOffset = 0;
+  let floatRunning = false;
 
   function render() {
     d = getDims();
@@ -427,7 +437,8 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       let x = ((i * d.step + pos) % d.total + d.total) % d.total;
       if (x > d.total / 2) x -= d.total;
 
-      const screenX = x - d.w / 2 + wc;
+      const screenX = x - d.w / 2 + wc + phoneSlideOffsets[i];
+      phone.style.left = screenX + 'px';
       phone.style.width = d.w + 'px';
       phone.style.height = d.h + 'px';
       phone.style.borderRadius = d.r + 'px';
@@ -438,85 +449,144 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       const opacity = Math.max(0.15, 1 - normDist * 0.85);
       const finalOpacity = introRunning ? opacity * introOpacityProgress : opacity;
 
-      const scaledH = d.h * scale;
-      phone.style.top = ((trackH - scaledH) / 2) + 'px';
+      // Subtle float for idle animation
+      const phonefloat = floatRunning ? Math.sin(Date.now() / 2000 + i * 0.9) * 3 : 0;
 
-      if (introRunning) {
-        const st = phoneIntroStates[i];
-        phone.style.left = (screenX + st.slideX) + 'px';
-        phone.style.transform = 'scale(' + scale + ') rotateY(' + st.rotation + 'deg)';
-      } else {
-        phone.style.left = screenX + 'px';
-        phone.style.transform = 'scale(' + scale + ')';
-      }
+      const scaledH = d.h * scale;
+      phone.style.top = ((trackH - scaledH) / 2 + phonefloat) + 'px';
+
+      const rot = phoneRotations[i];
+      phone.style.transform = rot > 0.1
+        ? 'scale(' + scale + ') rotateY(' + rot + 'deg)'
+        : 'scale(' + scale + ')';
 
       phone.style.opacity = finalOpacity;
-      phone.classList.toggle('active', dist < d.step * 0.35 && !introRunning);
+      phone.classList.toggle('active', dist < d.step * 0.35 && rot < 5);
       phone.classList.toggle('near', dist >= d.step * 0.35 && dist < d.step * 1.2);
       phone.style.zIndex = Math.round((1 - normDist) * 10);
     });
   }
 
+  // Ambient float loop — subtle idle breathing motion
+  function startFloat() {
+    floatRunning = true;
+    function floatLoop() {
+      if (!isDragging) render();
+      requestAnimationFrame(floatLoop);
+    }
+    requestAnimationFrame(floatLoop);
+  }
+
   function animateIntro() {
     wrap.classList.add('entering');
+    const ci = Math.floor(n / 2);
+
+    // All phones start stacked at centre position, edge-on, invisible
+    pos = -ci * d.step;
+    phoneRotations = phones.map(() => 90);
+    phoneSlideOffsets = phones.map((_, i) => (ci - i) * d.step); // all stacked at centre
+    introOpacityProgress = 0;
+
     const startTime = performance.now();
-    const slideDuration = 1000;
-    const staggerDelay = 120;
-    const turnDuration = 800;
-    const wrapW = wrap.offsetWidth;
 
-    pos = -Math.floor(n / 2) * d.step;
+    // ── PHASE 1: Fade in the single centre phone edge-on (0–600ms)
+    const phase1Duration = 600;
 
-    // All phones start off-screen to the left, edge-on
-    phoneIntroStates = phones.map(() => ({ rotation: 90, slideX: -wrapW - d.w }));
-    introOpacityProgress = 1; // visible immediately so you see the thin edges
+    // ── PHASE 2: Centre phone rotates to face viewer (600–1800ms)
+    const phase2Start = 600;
+    const phase2Duration = 1200;
+
+    // ── PHASE 3: Side phones slide out from behind centre + turn (1400ms+)
+    const phase3Start = 1400;
+    const slideDuration = 900;
+    const turnDuration = 700;
+    const stagger = 120;
+
+    // Build turn order: pairs outward from centre
+    const sideOrder = [];
+    for (let offset = 1; offset <= ci; offset++) {
+      if (ci - offset >= 0) sideOrder.push(ci - offset);
+      if (ci + offset < n) sideOrder.push(ci + offset);
+    }
 
     function tick(now) {
       const elapsed = now - startTime;
-      let allDone = true;
+      let allDone = false;
 
-      phones.forEach((phone, i) => {
-        const st = phoneIntroStates[i];
-        const myDelay = i * staggerDelay;
+      // Phase 1: Fade in
+      if (elapsed < phase1Duration) {
+        introOpacityProgress = elapsed / phase1Duration;
+      } else {
+        introOpacityProgress = 1;
+      }
 
-        // Phase 1: Slide in from left (still edge-on at 90deg)
-        const slideElapsed = elapsed - myDelay;
-        if (slideElapsed < 0) {
-          allDone = false;
-          return;
-        }
+      // Phase 2: Centre phone turns
+      if (elapsed >= phase2Start) {
+        const t2 = Math.min((elapsed - phase2Start) / phase2Duration, 1);
+        const ease2 = 1 - Math.pow(1 - t2, 3);
+        const ov2 = t2 > 0.7 ? Math.sin((t2 - 0.7) / 0.3 * Math.PI) * 3 : 0;
+        phoneRotations[ci] = Math.max(0, 90 * (1 - ease2) - ov2);
+      }
 
-        const slideT = Math.min(slideElapsed / slideDuration, 1);
-        const slideEase = 1 - Math.pow(1 - slideT, 3);
-        st.slideX = (-wrapW - d.w) * (1 - slideEase);
+      // Phase 3: Side phones slide out and turn
+      if (elapsed >= phase3Start) {
+        sideOrder.forEach((phoneIdx, orderIdx) => {
+          const myDelay = orderIdx * stagger;
+          const sideElapsed = elapsed - phase3Start - myDelay;
+          if (sideElapsed < 0) return;
 
-        // Phase 2: Turn to face viewer (starts when slide is 60% done)
-        const turnStart = slideDuration * 0.6;
-        const turnElapsed = slideElapsed - turnStart;
-        if (turnElapsed > 0) {
-          const turnT = Math.min(turnElapsed / turnDuration, 1);
-          // Ease-out with tiny overshoot for snap
-          const turnEase = turnT < 1 ? 1 - Math.pow(1 - turnT, 2.5) : 1;
-          const overshoot = turnT > 0.7 ? Math.sin((turnT - 0.7) / 0.3 * Math.PI) * 3 : 0;
-          st.rotation = Math.max(0, 90 * (1 - turnEase) - overshoot);
-        } else {
-          st.rotation = 90;
-        }
+          // Slide from centre to position
+          const slideT = Math.min(sideElapsed / slideDuration, 1);
+          const slideEase = slideT < 1 ? 1 - Math.pow(1 - slideT, 2.5) : 1;
+          const fullOffset = (ci - phoneIdx) * d.step;
+          phoneSlideOffsets[phoneIdx] = fullOffset * (1 - slideEase);
 
-        const totalPhoneTime = myDelay + slideDuration * 0.6 + turnDuration;
-        if (elapsed < totalPhoneTime) allDone = false;
-      });
+          // Turn (starts at 30% of slide)
+          const turnStart = slideDuration * 0.3;
+          const turnElapsed = sideElapsed - turnStart;
+          if (turnElapsed > 0) {
+            const turnT = Math.min(turnElapsed / turnDuration, 1);
+            const turnEase = 1 - Math.pow(1 - turnT, 3);
+            const ov = turnT > 0.7 ? Math.sin((turnT - 0.7) / 0.3 * Math.PI) * 3 : 0;
+            phoneRotations[phoneIdx] = Math.max(0, 90 * (1 - turnEase) - ov);
+          }
+        });
+      }
 
       render();
 
-      if (!allDone) {
-        animFrame = requestAnimationFrame(tick);
-      } else {
-        phoneIntroStates = phones.map(() => ({ rotation: 0, slideX: 0 }));
+      // Trigger shine on phones as they finish turning
+      // Centre phone
+      if (elapsed >= phase2Start + phase2Duration && !phones[ci].dataset.shone) {
+        phones[ci].dataset.shone = '1';
+        const shine = phones[ci].querySelector('.phone-shine');
+        if (shine) shine.classList.add('active');
+      }
+      // Side phones
+      if (elapsed >= phase3Start) {
+        sideOrder.forEach((phoneIdx, orderIdx) => {
+          const myDone = phase3Start + orderIdx * stagger + slideDuration * 0.3 + turnDuration;
+          if (elapsed >= myDone && !phones[phoneIdx].dataset.shone) {
+            phones[phoneIdx].dataset.shone = '1';
+            const shine = phones[phoneIdx].querySelector('.phone-shine');
+            if (shine) shine.classList.add('active');
+          }
+        });
+      }
+
+      // Check if everything is done
+      const lastPhoneTime = phase3Start + (sideOrder.length - 1) * stagger + slideDuration * 0.3 + turnDuration;
+      if (elapsed >= lastPhoneTime) {
+        phoneRotations = phones.map(() => 0);
+        phoneSlideOffsets = phones.map(() => 0);
         introRunning = false;
         wrap.classList.remove('entering');
         render();
+        startFloat();
+        return;
       }
+
+      animFrame = requestAnimationFrame(tick);
     }
 
     render();
