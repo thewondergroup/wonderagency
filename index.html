@@ -421,9 +421,10 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let d = getDims();
   let pos = 0, isDragging = false, startX = 0, dragStartPos = 0;
   let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
-  let introRunning = true, introOpacityProgress = 0;
+  let introRunning = true;
   let phoneRotations = phones.map(() => 90);
   let phoneSlideOffsets = phones.map(() => 0);
+  let phoneOpacities = phones.map(() => 0); // per-phone opacity control
   let floatOffset = 0;
   let floatRunning = false;
 
@@ -446,8 +447,10 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       const dist = Math.abs(x);
       const normDist = Math.min(dist / (d.step * 2.5), 1);
       const scale = 1.12 - normDist * 0.34;
-      const opacity = Math.max(0.15, 1 - normDist * 0.85);
-      const finalOpacity = introRunning ? opacity * introOpacityProgress : opacity;
+      const distOpacity = Math.max(0.15, 1 - normDist * 0.85);
+
+      // During intro, use per-phone opacity; after, use distance-based
+      const finalOpacity = introRunning ? phoneOpacities[i] : distOpacity;
 
       // Subtle float for idle animation
       const phonefloat = floatRunning ? Math.sin(Date.now() / 2000 + i * 0.9) * 3 : 0;
@@ -483,27 +486,19 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
     // All phones start stacked at centre position, edge-on, invisible
     pos = -ci * d.step;
-    // Centre phone starts edge-on, side phones start face-on but hidden behind centre
     phoneRotations = phones.map((_, i) => i === ci ? 90 : 0);
-    phoneSlideOffsets = phones.map((_, i) => (ci - i) * d.step); // all stacked at centre
-    introOpacityProgress = 0;
+    phoneSlideOffsets = phones.map((_, i) => (ci - i) * d.step);
+    phoneOpacities = phones.map(() => 0); // all hidden initially
 
     const startTime = performance.now();
 
-    // ── PHASE 1: Fade in the single centre phone edge-on (0–600ms)
     const phase1Duration = 600;
-
-    // ── PHASE 2: Centre phone rotates to face viewer (600–1800ms)
     const phase2Start = 600;
     const phase2Duration = 1200;
-
-    // ── PHASE 3: Side phones slide out from behind centre + turn (1400ms+)
-    const phase3Start = 1400;
+    const phase3Start = 1600;
     const slideDuration = 900;
-    const turnDuration = 700;
     const stagger = 120;
 
-    // Build turn order: pairs outward from centre
     const sideOrder = [];
     for (let offset = 1; offset <= ci; offset++) {
       if (ci - offset >= 0) sideOrder.push(ci - offset);
@@ -512,14 +507,9 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
     function tick(now) {
       const elapsed = now - startTime;
-      let allDone = false;
 
-      // Phase 1: Fade in ONLY the centre phone
-      if (elapsed < phase1Duration) {
-        introOpacityProgress = elapsed / phase1Duration;
-      } else {
-        introOpacityProgress = 1;
-      }
+      // Phase 1: Only centre phone fades in
+      phoneOpacities[ci] = Math.min(elapsed / phase1Duration, 1);
 
       // Phase 2: Centre phone turns
       if (elapsed >= phase2Start) {
@@ -529,35 +519,22 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
         phoneRotations[ci] = Math.max(0, 90 * (1 - ease2) - ov2);
       }
 
-      // Hide side phones until they start sliding
-      phones.forEach((phone, i) => {
-        if (i !== ci) {
-          const orderIdx = sideOrder.indexOf(i);
-          const myStart = phase3Start + (orderIdx >= 0 ? orderIdx * stagger : 9999);
-          if (elapsed < myStart) {
-            phone.style.opacity = '0';
-          }
-        }
-      });
-
-      // Phase 3: Side phones slide out from behind centre (already face-on)
+      // Phase 3: Side phones slide out and fade in
       if (elapsed >= phase3Start) {
         sideOrder.forEach((phoneIdx, orderIdx) => {
           const myDelay = orderIdx * stagger;
           const sideElapsed = elapsed - phase3Start - myDelay;
           if (sideElapsed < 0) return;
 
-          // Fade in quickly as they start sliding
-          const fadeT = Math.min(sideElapsed / 200, 1);
-          phones[phoneIdx].style.opacity = fadeT;
+          // Fade in as they emerge
+          phoneOpacities[phoneIdx] = Math.min(sideElapsed / 300, 1);
 
-          // Slide from centre to position
+          // Slide from centre to final position
           const slideT = Math.min(sideElapsed / slideDuration, 1);
           const slideEase = slideT < 1 ? 1 - Math.pow(1 - slideT, 2.5) : 1;
           const fullOffset = (ci - phoneIdx) * d.step;
           phoneSlideOffsets[phoneIdx] = fullOffset * (1 - slideEase);
 
-          // Already facing forward
           phoneRotations[phoneIdx] = 0;
         });
       }
@@ -574,7 +551,7 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       // Side phones
       if (elapsed >= phase3Start) {
         sideOrder.forEach((phoneIdx, orderIdx) => {
-          const myDone = phase3Start + orderIdx * stagger + slideDuration * 0.3 + turnDuration;
+          const myDone = phase3Start + orderIdx * stagger + slideDuration;
           if (elapsed >= myDone && !phones[phoneIdx].dataset.shone) {
             phones[phoneIdx].dataset.shone = '1';
             const shine = phones[phoneIdx].querySelector('.phone-shine');
@@ -584,10 +561,11 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       }
 
       // Check if everything is done
-      const lastPhoneTime = phase3Start + (sideOrder.length - 1) * stagger + slideDuration * 0.3 + turnDuration;
+      const lastPhoneTime = phase3Start + (sideOrder.length - 1) * stagger + slideDuration;
       if (elapsed >= lastPhoneTime) {
         phoneRotations = phones.map(() => 0);
         phoneSlideOffsets = phones.map(() => 0);
+        phoneOpacities = phones.map(() => 1);
         introRunning = false;
         wrap.classList.remove('entering');
         render();
