@@ -34,7 +34,23 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 
 .phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:absolute;flex-shrink:0;transform-style:preserve-3d;will-change:transform,opacity;transition:box-shadow .5s var(--ease),filter .5s var(--ease);opacity:.3;transform:scale(.78)}
 
-.phone-body{width:100%;height:100%;border-radius:inherit;position:relative;overflow:hidden;background:#000;backface-visibility:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 0 2.5px #1a1a1a,0 0 0 3.5px rgba(255,255,255,.04),0 20px 60px -15px rgba(0,0,0,.7)}
+.phone-body{width:100%;height:100%;border-radius:inherit;position:relative;overflow:hidden;background:#000;backface-visibility:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 0 2.5px #1a1a1a,0 0 0 3.5px rgba(255,255,255,.04),0 20px 60px -15px rgba(0,0,0,.7);transform:translateZ(5px)}
+
+/* 3D side edges — titanium frame */
+.phone-side{position:absolute;background:linear-gradient(to bottom,#3a3a3a,#252525 30%,#1e1e1e 70%,#2a2a2a);backface-visibility:hidden}
+.phone-side-right{width:10px;height:100%;top:0;right:0;transform-origin:right center;transform:rotateY(90deg) translateZ(0px);border-radius:0 3px 3px 0;box-shadow:inset -1px 0 0 rgba(255,255,255,.06),inset 1px 0 0 rgba(255,255,255,.03)}
+.phone-side-left{width:10px;height:100%;top:0;left:0;transform-origin:left center;transform:rotateY(-90deg) translateZ(0px);border-radius:3px 0 0 3px;box-shadow:inset 1px 0 0 rgba(255,255,255,.06),inset -1px 0 0 rgba(255,255,255,.03)}
+.phone-side-top{width:100%;height:10px;top:0;left:0;transform-origin:top center;transform:rotateX(90deg);background:linear-gradient(to right,#2a2a2a,#353535 50%,#2a2a2a);border-radius:3px 3px 0 0;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.phone-side-bottom{width:100%;height:10px;bottom:0;left:0;transform-origin:bottom center;transform:rotateX(-90deg);background:linear-gradient(to right,#2a2a2a,#353535 50%,#2a2a2a);border-radius:0 0 3px 3px;box-shadow:inset 0 -1px 0 rgba(255,255,255,.04)}
+
+/* Side button details */
+.phone-side-right::before{content:'';position:absolute;top:28%;right:2px;width:3px;height:12%;background:linear-gradient(to bottom,#444,#333);border-radius:2px;box-shadow:inset 0 0 1px rgba(255,255,255,.1)}
+.phone-side-left::before{content:'';position:absolute;top:18%;left:2px;width:3px;height:5%;background:linear-gradient(to bottom,#444,#333);border-radius:2px;box-shadow:inset 0 0 1px rgba(255,255,255,.1)}
+.phone-side-left::after{content:'';position:absolute;top:28%;left:2px;width:3px;height:14%;background:linear-gradient(to bottom,#444,#333);border-radius:2px;box-shadow:inset 0 0 1px rgba(255,255,255,.1)}
+
+/* Back panel — visible when phone is >90deg */
+.phone-back{position:absolute;inset:0;background:linear-gradient(160deg,#1a1a1a,#111 50%,#1a1a1a);border-radius:inherit;transform:translateZ(-5px) rotateY(180deg);backface-visibility:hidden}
+.phone-back::after{content:'';position:absolute;top:8%;left:50%;transform:translateX(-50%);width:20%;height:20%;border-radius:18%;background:linear-gradient(145deg,#222,#1a1a1a);box-shadow:0 0 0 2px #252525,inset 0 0 4px rgba(0,0,0,.5)}
 
 /* Active centre phone */
 .phone.active{opacity:1;transform:scale(1.12)}
@@ -198,13 +214,13 @@ footer{padding:80px 48px 40px;border-top:1px solid rgba(201,169,110,.1)}
   <div class="hero-glow"></div>
   <div class="phones-wrap">
     <div class="phones" id="phone-carousel">
-      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
-      <div class="phone active"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
-      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone active"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-3.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-1.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
+      <div class="phone"><div class="phone-body"><video src="assets/reel-2.mp4" autoplay muted loop playsinline></video><div class="phone-glass"></div></div><div class="phone-side phone-side-right"></div><div class="phone-side phone-side-left"></div><div class="phone-side phone-side-top"></div><div class="phone-side phone-side-bottom"></div><div class="phone-back"></div><div class="phone-glow"></div></div>
     </div>
   </div>
   <div class="hero-text">
