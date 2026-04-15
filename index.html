@@ -28,13 +28,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:28px 48px;display:f
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 48px 80px}
 .hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(201,169,110,.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
 
-.phones-wrap{position:relative;z-index:2;margin-bottom:40px;width:100%;overflow-x:clip;overflow-y:visible;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);padding:20px 0}
+.phones-wrap{position:relative;z-index:2;margin-bottom:40px;width:100%;overflow-x:clip;overflow-y:visible;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);padding:20px 0;perspective:1400px}
 .phones{position:relative;width:100%;cursor:grab;user-select:none;-webkit-user-select:none}
 .phones.dragging{cursor:grabbing}
 
 .phone{width:var(--phone-w);height:var(--phone-h);border-radius:var(--phone-r);position:absolute;flex-shrink:0;transform-style:preserve-3d;will-change:transform,opacity;transition:box-shadow .5s var(--ease),filter .5s var(--ease);opacity:.3;transform:scale(.78)}
 
-.phone-body{width:100%;height:100%;border-radius:inherit;position:relative;overflow:hidden;background:#000;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 0 2.5px #1a1a1a,0 0 0 3.5px rgba(255,255,255,.04),0 20px 60px -15px rgba(0,0,0,.7)}
+.phone-body{width:100%;height:100%;border-radius:inherit;position:relative;overflow:hidden;background:#000;backface-visibility:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 0 0 2.5px #1a1a1a,0 0 0 3.5px rgba(255,255,255,.04),0 20px 60px -15px rgba(0,0,0,.7)}
 
 /* Active centre phone */
 .phone.active{opacity:1;transform:scale(1.12)}
@@ -398,11 +398,11 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let pos = 0, isDragging = false, startX = 0, dragStartPos = 0;
   let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
   let introRunning = true, introOpacityProgress = 0;
+  let introRotation = 90;
 
   function render() {
     d = getDims();
     const wc = wrap.offsetWidth / 2;
-    const isMobile = window.innerWidth <= 768;
     const trackH = d.h * 1.25;
     track.style.height = trackH + 'px';
 
@@ -424,9 +424,15 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
 
       const scaledH = d.h * scale;
       phone.style.top = ((trackH - scaledH) / 2) + 'px';
-      phone.style.transform = 'scale(' + scale + ')';
+
+      if (introRunning) {
+        phone.style.transform = 'scale(' + scale + ') rotateY(' + introRotation + 'deg)';
+      } else {
+        phone.style.transform = 'scale(' + scale + ')';
+      }
+
       phone.style.opacity = finalOpacity;
-      phone.classList.toggle('active', dist < d.step * 0.35);
+      phone.classList.toggle('active', dist < d.step * 0.35 && !introRunning);
       phone.classList.toggle('near', dist >= d.step * 0.35 && dist < d.step * 1.2);
       phone.style.zIndex = Math.round((1 - normDist) * 10);
     });
@@ -435,31 +441,39 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   function animateIntro() {
     wrap.classList.add('entering');
     const startTime = performance.now();
-    const fadeIn = 400, duration = 2800;
-    const totalSpin = d.step * (n * 3 + Math.floor(n / 2));
+    const delay = 200;
+    const duration = 1400;
+
+    pos = -Math.floor(n / 2) * d.step;
+    introRotation = 90;
+    introOpacityProgress = 0;
 
     function tick(now) {
-      const elapsed = now - startTime;
-      introOpacityProgress = Math.min(elapsed / fadeIn, 1);
+      const elapsed = now - startTime - delay;
+      if (elapsed < 0) { render(); animFrame = requestAnimationFrame(tick); return; }
 
-      if (elapsed >= duration) {
-        introRunning = false; introOpacityProgress = 1;
-        wrap.classList.remove('entering');
-        const rem = ((pos % d.step) + d.step) % d.step;
-        pos = rem < d.step / 2 ? pos - rem : pos + (d.step - rem);
-        render(); return;
-      }
+      const t = Math.min(elapsed / duration, 1);
+      // Cubic ease-out with slight overshoot
+      const ease = t < 1 ? 1 - Math.pow(1 - t, 3) : 1;
+      const overshoot = t > 0.6 ? Math.sin((t - 0.6) / 0.4 * Math.PI) * 2 : 0;
 
-      const t = elapsed / duration;
-      const eased = 1 - Math.pow(1 - t, 3);
-      const startPos = -Math.floor(n / 2) * d.step - totalSpin;
-      const endPos = -Math.floor(n / 2) * d.step;
-      pos = startPos + (endPos - startPos) * eased;
+      introRotation = 90 * (1 - ease) - overshoot;
+      if (introRotation < 0) introRotation = 0;
+      introOpacityProgress = Math.min(elapsed / 400, 1);
+
       render();
-      animFrame = requestAnimationFrame(tick);
+
+      if (t < 1) {
+        animFrame = requestAnimationFrame(tick);
+      } else {
+        introRotation = 0;
+        introRunning = false;
+        introOpacityProgress = 1;
+        wrap.classList.remove('entering');
+        render();
+      }
     }
 
-    pos = -Math.floor(n / 2) * d.step - totalSpin;
     render();
     animFrame = requestAnimationFrame(tick);
   }
