@@ -438,15 +438,18 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       let x = ((i * d.step + pos) % d.total + d.total) % d.total;
       if (x > d.total / 2) x -= d.total;
 
-      const screenX = x - d.w / 2 + wc + phoneSlideOffsets[i];
+      const dist = Math.abs(x);
+      const normDist = Math.min(dist / (d.step * 2.5), 1);
+      const scale = 1.12 - normDist * 0.34;
+
+      // Compensate position for scale — pull phones inward to close visual gaps
+      const scaleOffset = (1 - scale) * d.w * 0.5 * Math.sign(x);
+      const screenX = x - d.w / 2 + wc + phoneSlideOffsets[i] - scaleOffset;
       phone.style.left = screenX + 'px';
       phone.style.width = d.w + 'px';
       phone.style.height = d.h + 'px';
       phone.style.borderRadius = d.r + 'px';
 
-      const dist = Math.abs(x);
-      const normDist = Math.min(dist / (d.step * 2.5), 1);
-      const scale = 1.12 - normDist * 0.34;
       const distOpacity = Math.max(0.15, 1 - normDist * 0.85);
 
       // During intro, use per-phone opacity; after, use distance-based
