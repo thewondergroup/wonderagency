@@ -398,7 +398,8 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   let pos = 0, isDragging = false, startX = 0, dragStartPos = 0;
   let lastX = 0, velocity = 0, lastTime = 0, animFrame = null;
   let introRunning = true, introOpacityProgress = 0;
-  let introRotation = 90;
+  // Per-phone intro state: each phone has its own rotation and slide offset
+  let phoneIntroStates = phones.map(() => ({ rotation: 90, slideX: 0 }));
 
   function render() {
     d = getDims();
@@ -411,7 +412,6 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       if (x > d.total / 2) x -= d.total;
 
       const screenX = x - d.w / 2 + wc;
-      phone.style.left = screenX + 'px';
       phone.style.width = d.w + 'px';
       phone.style.height = d.h + 'px';
       phone.style.borderRadius = d.r + 'px';
@@ -426,8 +426,11 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
       phone.style.top = ((trackH - scaledH) / 2) + 'px';
 
       if (introRunning) {
-        phone.style.transform = 'scale(' + scale + ') rotateY(' + introRotation + 'deg)';
+        const st = phoneIntroStates[i];
+        phone.style.left = (screenX + st.slideX) + 'px';
+        phone.style.transform = 'scale(' + scale + ') rotateY(' + st.rotation + 'deg)';
       } else {
+        phone.style.left = screenX + 'px';
         phone.style.transform = 'scale(' + scale + ')';
       }
 
@@ -441,34 +444,60 @@ const toggle=document.querySelector('.menu-toggle'),navLinks=document.querySelec
   function animateIntro() {
     wrap.classList.add('entering');
     const startTime = performance.now();
-    const delay = 200;
-    const duration = 1400;
+    const slideDuration = 1000;
+    const staggerDelay = 120;
+    const turnDuration = 800;
+    const wrapW = wrap.offsetWidth;
 
     pos = -Math.floor(n / 2) * d.step;
-    introRotation = 90;
-    introOpacityProgress = 0;
+
+    // All phones start off-screen to the left, edge-on
+    phoneIntroStates = phones.map(() => ({ rotation: 90, slideX: -wrapW - d.w }));
+    introOpacityProgress = 1; // visible immediately so you see the thin edges
 
     function tick(now) {
-      const elapsed = now - startTime - delay;
-      if (elapsed < 0) { render(); animFrame = requestAnimationFrame(tick); return; }
+      const elapsed = now - startTime;
+      let allDone = true;
 
-      const t = Math.min(elapsed / duration, 1);
-      // Cubic ease-out with slight overshoot
-      const ease = t < 1 ? 1 - Math.pow(1 - t, 3) : 1;
-      const overshoot = t > 0.6 ? Math.sin((t - 0.6) / 0.4 * Math.PI) * 2 : 0;
+      phones.forEach((phone, i) => {
+        const st = phoneIntroStates[i];
+        const myDelay = i * staggerDelay;
 
-      introRotation = 90 * (1 - ease) - overshoot;
-      if (introRotation < 0) introRotation = 0;
-      introOpacityProgress = Math.min(elapsed / 400, 1);
+        // Phase 1: Slide in from left (still edge-on at 90deg)
+        const slideElapsed = elapsed - myDelay;
+        if (slideElapsed < 0) {
+          allDone = false;
+          return;
+        }
+
+        const slideT = Math.min(slideElapsed / slideDuration, 1);
+        const slideEase = 1 - Math.pow(1 - slideT, 3);
+        st.slideX = (-wrapW - d.w) * (1 - slideEase);
+
+        // Phase 2: Turn to face viewer (starts when slide is 60% done)
+        const turnStart = slideDuration * 0.6;
+        const turnElapsed = slideElapsed - turnStart;
+        if (turnElapsed > 0) {
+          const turnT = Math.min(turnElapsed / turnDuration, 1);
+          // Ease-out with tiny overshoot for snap
+          const turnEase = turnT < 1 ? 1 - Math.pow(1 - turnT, 2.5) : 1;
+          const overshoot = turnT > 0.7 ? Math.sin((turnT - 0.7) / 0.3 * Math.PI) * 3 : 0;
+          st.rotation = Math.max(0, 90 * (1 - turnEase) - overshoot);
+        } else {
+          st.rotation = 90;
+        }
+
+        const totalPhoneTime = myDelay + slideDuration * 0.6 + turnDuration;
+        if (elapsed < totalPhoneTime) allDone = false;
+      });
 
       render();
 
-      if (t < 1) {
+      if (!allDone) {
         animFrame = requestAnimationFrame(tick);
       } else {
-        introRotation = 0;
+        phoneIntroStates = phones.map(() => ({ rotation: 0, slideX: 0 }));
         introRunning = false;
-        introOpacityProgress = 1;
         wrap.classList.remove('entering');
         render();
       }
