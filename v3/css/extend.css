@@ -374,3 +374,9 @@ body:has(.w-nav-button.w--open) .x-nav{opacity:0!important;pointer-events:none!i
 /* logos now sit straight after the numbers */
 .x-logos-wrap{position:relative;z-index:1;background:#000;padding:3rem 0 7rem}
 .x-logos-label{padding:0 var(--x-pad);margin-bottom:1.6rem}
+/* plain wording: longer service names, intro line */
+.x-sv-ch h3{font-size:clamp(2.6rem,5.4vw,5.6rem);line-height:1}
+@media (max-width:767px){.x-sv-ch h3{font-size:clamp(2rem,9.5vw,2.8rem)}}
+.x-lede{margin:-2rem 0 0;max-width:40rem;font-weight:300;font-size:clamp(1.05rem,1.4vw,1.3rem);line-height:1.6;color:#d6d6d6}
+.x-hero-sub{max-width:31rem}
+@media (max-width:767px){#hero h1.x-name{margin-top:-24vh}.x-hero-sub{bottom:36px}}
