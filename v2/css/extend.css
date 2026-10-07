@@ -171,3 +171,7 @@
 @media (max-width:767px){.x-wall{height:200vh}.x-wall-card{width:46vw}.x-wall-track{gap:4vw}}
 @media (prefers-reduced-motion:reduce){.x-wall{height:auto;padding:6rem 0}.x-wall-sticky{position:static;height:auto;overflow-x:auto}}
 video.hero-image{object-fit:cover}
+
+/* "become one of the wonders": the last word sits in front of the video */
+#About h2:last-of-type{position:relative;z-index:2}
+video.about-image{object-fit:cover;background:#111}
