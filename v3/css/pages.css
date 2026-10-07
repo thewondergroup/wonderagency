@@ -144,3 +144,6 @@ img,video{display:block;max-width:100%}
 @media (max-width:767px){.p-res{grid-template-columns:1fr}.p-res b{white-space:normal}}
 .p-cards--4{grid-template-columns:repeat(4,1fr)}
 @media (max-width:991px){.p-cards--4{grid-template-columns:1fr 1fr}}
+.p-res-h{margin:1rem 0 0;font-family:Italiana,sans-serif;font-weight:400;font-size:1.8rem;color:#fff}
+.p-hero .x-chat{justify-self:end;width:min(100%,460px)}
+@media (max-width:991px){.p-hero .x-chat{justify-self:stretch}}

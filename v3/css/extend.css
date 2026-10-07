@@ -383,3 +383,7 @@ body:has(.w-nav-button.w--open) .x-nav{opacity:0!important;pointer-events:none!i
 
 .x-sv-more{display:inline-block;margin-top:1.6rem}
 @media (max-width:767px){.x-sv-more{margin-top:1rem;font-size:.7rem}}
+.x-footer-grid--4{grid-template-columns:1.5fr 1fr 1fr 1fr}
+@media (max-width:991px){.x-footer-grid--4{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.x-footer-grid--4{grid-template-columns:1fr}}
+.x-footer p a{color:#fff}
