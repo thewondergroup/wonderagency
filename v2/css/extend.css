@@ -175,3 +175,38 @@ video.hero-image{object-fit:cover}
 /* "become one of the wonders": the last word sits in front of the video */
 #About h2:last-of-type{position:relative;z-index:2}
 video.about-image{object-fit:cover;background:#111}
+
+/* ==== offer + calls to action ==== */
+.x-hero-btns{display:flex;align-items:center;flex-wrap:wrap;gap:1rem 2.2rem}
+.x-link{color:#fff;text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;border-bottom:1px solid var(--x-gold);padding-bottom:.35rem;transition:color .3s}
+.x-link:hover{color:var(--x-gold)}
+.x-btn{white-space:nowrap}
+.x-cta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.6rem 3rem;margin-top:4.5rem;padding:2.6rem 0;border-top:1px solid var(--x-line);border-bottom:1px solid var(--x-line)}
+.x-cta p{margin:0;font-family:Italiana,sans-serif;font-size:clamp(1.5rem,2.6vw,2.4rem);line-height:1.2;color:#fff;max-width:34rem}
+.x-audit{display:grid;grid-template-columns:1.05fr 1fr;gap:3rem 7rem;align-items:start}
+.x-audit h3{margin:0 0 1.6rem;font-family:Italiana,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(2.4rem,5vw,5rem);line-height:1.05;color:#fff}
+.x-audit p{margin:0 0 2.4rem;font-weight:300;font-size:1.15rem;line-height:1.65;color:#d6d6d6;max-width:32rem}
+.x-audit-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--x-line)}
+.x-audit-list li{display:grid;grid-template-columns:3.5rem 1fr;padding:1.5rem 0;border-bottom:1px solid var(--x-line)}
+.x-audit-list span{font-size:.875rem;color:var(--x-gold);padding-top:.35rem}
+.x-audit-list b{display:block;font-family:Italiana,sans-serif;font-weight:400;font-size:1.7rem;line-height:1.2;color:#fff}
+.x-audit-list em{display:block;margin-top:.4rem;font-style:normal;font-weight:300;line-height:1.55;color:#bdbdbd}
+.x-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem 4rem;margin-top:7rem}
+.x-step{border-top:1px solid var(--x-gold);padding-top:1.6rem}
+.x-step span{font-size:.75rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--x-gold)}
+.x-step h3{margin:1rem 0 .9rem;font-family:Italiana,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(1.8rem,2.8vw,2.8rem);line-height:1.1;color:#fff}
+.x-step p{margin:0;font-weight:300;line-height:1.65;color:#bdbdbd}
+@media (max-width:991px){.x-audit{grid-template-columns:1fr}.x-steps{grid-template-columns:1fr;margin-top:4.5rem}}
+/* the button that is always there */
+.x-pill{position:fixed;z-index:1001;top:calc(3% + 18px);right:calc(3% + 104px);display:inline-flex;align-items:center;gap:.7rem;height:44px;padding:0 1.3rem;border:1px solid var(--x-gold);border-radius:44px;background:rgba(0,0,0,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#fff;text-decoration:none;font-size:.75rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;transition:background .35s,color .35s,opacity .5s,transform .5s}
+.x-pill i{font-style:normal;color:var(--x-gold);transition:color .35s,transform .35s}
+.x-pill:hover{background:var(--x-gold);color:#000}
+.x-pill:hover i{color:#000;transform:translateX(4px)}
+.w-mod-js .x-pill{opacity:0;transform:translateY(-10px);pointer-events:none}
+.w-mod-js .x-pill.is-on{opacity:1;transform:none;pointer-events:auto}
+@media (max-width:767px){.x-pill{right:92px;top:calc(3% + 20px);height:40px;padding:0 1rem;font-size:.68rem}}
+/* the form: more fields, so slightly smaller type */
+.form-block .form-label.w-input{font-size:clamp(20px,min(2.4vw,3.6vh),36px)!important;line-height:1.4!important;height:auto!important;min-height:0!important;margin-bottom:8px!important;padding-top:.22em!important;padding-bottom:.22em!important}
+.form-block textarea.form-label.w-input{height:2.9em!important}
+.x-form-intro{font-size:clamp(14px,2vh,18px)}
+body:has(.w-nav-button.w--open) .x-pill{opacity:0!important;pointer-events:none!important}

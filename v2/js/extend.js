@@ -96,6 +96,31 @@
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   window.addEventListener('resize', onScroll); onScroll();
 
+  // "Free audit" buttons: jump straight to the form (it sits at the end of a long pinned section)
+  var contact = document.getElementById('Contact'), pill = document.querySelector('.x-pill');
+  function formY() { return contact.getBoundingClientRect().top + window.scrollY + contact.offsetHeight - window.innerHeight; }
+  document.querySelectorAll('[data-x-audit]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      if (!contact) return;
+      e.preventDefault(); e.stopPropagation();   // stop Webflow's own anchor scroll, which would stop at the top of the section
+      var target = formY(), vh = window.innerHeight;
+      // long way to go: jump most of it, then glide the last screen
+      if (Math.abs(target - window.scrollY) > vh * 2) window.scrollTo(0, target - vh * 0.9);
+      window.scrollTo({ top: target, behavior: reduce ? 'auto' : 'smooth' });
+      var f = document.getElementById('name');
+      if (f) setTimeout(function () { try { f.focus({ preventScroll: true }); } catch (err) {} }, 1400);
+    });
+  });
+  // the always-there button shows once the opening has finished, and hides while the form is on screen
+  if (pill && contact) {
+    var pillTick = function () {
+      var y = window.scrollY, ready = hero ? hero.classList.contains('is-done') : true;
+      pill.classList.toggle('is-on', ready && y < formY() - window.innerHeight * 1.2);
+    };
+    window.addEventListener('scroll', pillTick, { passive: true });
+    setInterval(pillTick, 800);
+  }
+
   // Hover preview on closed service rows (desktop pointers only)
   var peek = document.querySelector('.x-peek');
   if (peek && window.matchMedia('(hover:hover) and (min-width:992px)').matches) {
