@@ -380,3 +380,6 @@ body:has(.w-nav-button.w--open) .x-nav{opacity:0!important;pointer-events:none!i
 .x-lede{margin:-2rem 0 0;max-width:40rem;font-weight:300;font-size:clamp(1.05rem,1.4vw,1.3rem);line-height:1.6;color:#d6d6d6}
 .x-hero-sub{max-width:31rem}
 @media (max-width:767px){#hero h1.x-name{margin-top:-24vh}.x-hero-sub{bottom:36px}}
+
+.x-sv-more{display:inline-block;margin-top:1.6rem}
+@media (max-width:767px){.x-sv-more{margin-top:1rem;font-size:.7rem}}

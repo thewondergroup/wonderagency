@@ -35,7 +35,9 @@
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('is-menu')) setMenu(false); });
   document.querySelectorAll('.x-nav-links a, .x-nav-brand, .x-menu nav a').forEach(function (a) {
     a.addEventListener('click', function (e) {
-      var id = a.getAttribute('href'), t = id === '#top' ? document.body : document.querySelector(id);
+      var id = a.getAttribute('href') || '';
+      if (id.charAt(0) !== '#') { if (root.classList.contains('is-menu')) setMenu(false); return; }
+      var t = id === '#top' ? document.body : document.querySelector(id);
       if (!t) return; e.preventDefault(); e.stopPropagation();
       var wasOpen = root.classList.contains('is-menu'); if (wasOpen) setMenu(false);
       var y = id === '#top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 20;
