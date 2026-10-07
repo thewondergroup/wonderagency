@@ -23,13 +23,29 @@
     nav.classList.toggle('is-solid', window.scrollY > 60);
   }
   setInterval(navTick, 400);
-  if (nav) nav.querySelectorAll('.x-nav-links a, .x-nav-brand').forEach(function (a) {
+  var root = document.documentElement, menu = document.getElementById('x-menu'), burger = nav && nav.querySelector('.x-nav-burger');
+  function setMenu(open) {
+    root.classList.toggle('is-menu', open);
+    if (burger) { burger.setAttribute('aria-expanded', open ? 'true' : 'false'); burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu'); }
+    if (menu) menu.setAttribute('aria-hidden', open ? 'false' : 'true');
+    if (lenis) { if (open) lenis.stop(); else lenis.start(); }
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  if (burger) burger.addEventListener('click', function () { setMenu(!root.classList.contains('is-menu')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && root.classList.contains('is-menu')) setMenu(false); });
+  document.querySelectorAll('.x-nav-links a, .x-nav-brand, .x-menu nav a').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href'), t = id === '#top' ? document.body : document.querySelector(id);
       if (!t) return; e.preventDefault(); e.stopPropagation();
-      goTo(id === '#top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 20);
+      var wasOpen = root.classList.contains('is-menu'); if (wasOpen) setMenu(false);
+      var y = id === '#top' ? 0 : t.getBoundingClientRect().top + window.scrollY - 20;
+      if (wasOpen) window.scrollTo(0, y); else goTo(y);
     });
   });
+  // audit buttons inside the menu: close it first (the jump itself is handled in extend.js)
+  document.querySelectorAll('.x-menu [data-x-audit]').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }, true); });
+  // selected work: the old 2022 pop-ups are gone, so clicks on the work images do nothing
+  window.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.image-work')) { e.stopPropagation(); e.preventDefault(); } }, true);
 
   // services: pinned chapters
   var sv = document.querySelector('.x-sv'), svCur = -1;
