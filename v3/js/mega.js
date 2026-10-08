@@ -126,6 +126,7 @@
       document.querySelectorAll('.x-mi.is-open').forEach(function (o) { if (o !== item) { o.classList.remove('is-open'); o.querySelector('[data-mi]').setAttribute('aria-expanded', 'false'); } });
       item.classList.toggle('is-open', on); b.setAttribute('aria-expanded', on ? 'true' : 'false');
       if (on) loadMedia(item);
+      var ai = item.querySelector('.x-ai'); if (on && ai) setTimeout(function () { aiRun(ai); }, 250);
     });
   });
   var burger = nav.querySelector('.x-nav-burger');

@@ -577,3 +577,16 @@ video{-webkit-touch-callout:none;pointer-events:none}
 .x-logos-track{padding-right:14px}
 @media (max-width:767px){.x-logos-wrap{padding:7rem 0 4.5rem;margin-top:-4rem}.x-logos-head{margin-bottom:1.8rem}.x-logos-head .x-link{margin-left:0}.x-logo{width:160px;height:84px;padding:0 20px;border-radius:14px}.x-logo img{max-height:46px;max-width:118px}.x-logos,.x-logos-track{gap:10px}.x-logos-track{padding-right:10px}}
 .x-logos-wrap{padding-bottom:3.5rem}@media (max-width:767px){.x-logos-wrap{padding-bottom:3rem}}
+
+/* AI Search animation inside the mobile menu */
+.x-mi .x-ai{min-height:0;padding:14px;margin:4px 0 6px;border-radius:18px}
+.x-mi .x-ai-orb{width:320px;height:320px;right:-140px;top:-150px}
+.x-mi .x-ai-win{width:100%}
+.x-mi .x-ai-body{min-height:0;padding:14px 14px 16px}
+.x-mi .x-ai-q{font-size:.84rem}
+.x-mi .x-ai-a{font-size:.82rem}
+.x-mi .x-ai-score{position:relative;right:auto;bottom:auto;width:auto;margin-top:12px;display:grid;grid-template-columns:78px 1fr;gap:16px;align-items:center;padding:14px}
+.x-mi .x-ai-ring{width:78px;height:78px;margin:0;flex:none}
+.x-mi .x-ai-ring b{font-size:1.6rem}
+.x-mi .x-ai-rows div:first-child{margin-top:0}
+.x-mi .x-ai-note{position:static;display:block;margin-top:10px}
