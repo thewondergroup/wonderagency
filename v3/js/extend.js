@@ -151,4 +151,21 @@
       var p = v.play(); if (p && p.catch) p.catch(function () {});
     });
   }
+
+  // Phones that block autoplay (iPhone Low Power Mode, data saver) allow playback once the visitor touches the page.
+  // On each touch or tap, start any autoplay video that's on screen but stopped.
+  (function () {
+    function inView(v) { var r = v.getBoundingClientRect(); return r.bottom > 0 && r.top < window.innerHeight && r.width > 0; }
+    function wants(v) { return v.hasAttribute('autoplay') || v.hasAttribute('data-x-auto') || v.classList.contains('is-on') || !!v.closest('.x-sv-med.is-on, .x-cases-bg, .p-aw, .p-hero-media, .p-art-media, .p-band'); }
+    function kick() {
+      document.querySelectorAll('video').forEach(function (v) {
+        if (!v.paused || !wants(v) || !inView(v)) return;
+        if (!v.getAttribute('src') && v.dataset.src) v.src = v.dataset.src;
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      });
+    }
+    ['touchend', 'click', 'keydown'].forEach(function (ev) { document.addEventListener(ev, kick, { passive: true, capture: true }); });
+    // and retry shortly after a touch-driven scroll settles, while the gesture still counts
+    var st = null; document.addEventListener('touchmove', function () { clearTimeout(st); st = setTimeout(kick, 120); }, { passive: true });
+  })();
 })();
