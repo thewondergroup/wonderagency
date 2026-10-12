@@ -189,3 +189,6 @@ img,video{display:block;max-width:100%}
 @media (max-width:767px){.p-art-hero{padding-top:120px}.p-art-media{aspect-ratio:4/3;margin-top:2.6rem}.p-art{padding-top:3rem}}
 ::selection{color:#fff}
 .p-form input[type=submit]{color:#fff}
+.p-h2:before,.p-art li:before{background:var(--x-fill,#255a63)}
+.p-form input[type=submit]{background:var(--x-fill,#255a63);color:#fff}
+::selection{background:var(--x-fill,#255a63);color:#fff}
