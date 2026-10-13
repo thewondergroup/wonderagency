@@ -711,3 +711,6 @@ video{-webkit-touch-callout:none;pointer-events:none}
 .x-nav-mark{display:block;height:20px;width:auto;flex:none}
 @media (max-width:767px){.x-nav-brand{gap:9px}.x-nav-mark{height:15px}}
 @media (max-width:359px){.x-nav-mark{display:none}}
+/* optical centring: line the wordmark up with the body of the W, not its loop */
+.x-nav-mark{position:relative;top:-1.5px}
+@media (max-width:767px){.x-nav-mark{top:-2px}}
