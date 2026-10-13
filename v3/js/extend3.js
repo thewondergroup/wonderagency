@@ -47,7 +47,7 @@
   // audit buttons inside the menu: close it first (the jump itself is handled in extend.js)
   document.querySelectorAll('.x-menu [data-x-audit]').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }, true); });
   // selected work: the old 2022 pop-ups are gone, so clicks on the work images do nothing
-  window.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.image-work')) { e.stopPropagation(); e.preventDefault(); } }, true);
+  window.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.image-work') && !e.target.closest('a')) { e.stopPropagation(); e.preventDefault(); } }, true);
 
   // services: pinned chapters
   var sv = document.querySelector('.x-sv'), svCur = -1;
@@ -93,4 +93,15 @@
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   window.addEventListener('resize', onScroll); onScroll();
+
+  // Who we work with: show the line and link for whichever sector is on screen
+  var wkWraps = document.querySelectorAll('#Work .wrap-text-work'), wkSlots = ['01', '02', '03', '04'].map(function (id) { return document.getElementById(id); }), wkCur = -1;
+  function wkTick() {
+    if (!wkWraps.length) return;
+    var mid = window.innerHeight / 2, best = 0, bd = 1e9;
+    wkSlots.forEach(function (s, k) { if (!s) return; var r = s.getBoundingClientRect(), d = Math.abs(r.top + r.height / 2 - mid); if (d < bd) { bd = d; best = k; } });
+    if (best === wkCur) return; wkCur = best;
+    wkWraps.forEach(function (w, k) { w.classList.toggle('is-on', k === best); });
+  }
+  window.addEventListener('scroll', function () { requestAnimationFrame(wkTick); }, { passive: true }); wkTick();
 })();

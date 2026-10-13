@@ -607,3 +607,15 @@ video{-webkit-touch-callout:none;pointer-events:none}
 .x-ai-rows div i:before{background:var(--x-fill)}
 .point,.background-primary-color,._100wh-section.second{background-color:var(--x-fill)!important}
 ::selection{background:var(--x-fill);color:#fff}
+
+/* "Who we work with": the old selected-work section, now one sector per slide */
+.x-work-link{position:relative;display:block;width:100%;height:100%;cursor:pointer;overflow:hidden;color:#fff;text-decoration:none}
+.x-work-link video{transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
+.x-work-link:hover video{transform:scale(1.04)}
+.x-work-tag{position:absolute;left:28px;bottom:26px;padding:12px 20px;border-radius:999px;background:rgba(10,10,10,.6);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14);font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;transition:background .35s,border-color .35s}
+.x-work-link:hover .x-work-tag{background:var(--x-fill,#255a63);border-color:var(--x-fill,#255a63)}
+.x-work-sub{max-width:24rem;margin:1.4rem 0 0 auto;text-align:right;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .5s,transform .7s cubic-bezier(.16,1,.3,1)}
+.wrap-text-work.is-on .x-work-sub{opacity:1;transform:none;pointer-events:auto;transition-delay:.15s}
+.x-work-sub p{margin:0 0 1.2rem;font-size:1.05rem;line-height:1.6;color:#cfcfcf}
+.wrap-text-work .heading-large{font-size:clamp(3rem,6.2vw,7rem)}
+@media (max-width:991px){.x-work-sub{display:none}.x-work-tag{left:16px;bottom:16px;padding:10px 16px;font-size:.62rem}}
