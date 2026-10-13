@@ -64,6 +64,9 @@
     });
     if (prev >= 0) setTimeout(function () { var m = meds[prev]; if (m && prev !== svCur) { m.classList.remove('was'); m.querySelector('video').pause(); } }, 900);
     if (count) count.textContent = '0' + (i + 1) + ' / 0' + chs.length;
+    // on phones the service list is one swipeable line: keep the active one in view
+    var ol = sv.querySelector('.x-sv-index'), on = btns[i];
+    if (ol && on && ol.scrollWidth > ol.clientWidth + 4) { var x = on.getBoundingClientRect().left - ol.getBoundingClientRect().left + ol.scrollLeft - 20; try { ol.scrollTo({ left: Math.max(0, x), behavior: 'smooth' }); } catch (e) { ol.scrollLeft = x; } }
     if (meds[i + 1]) load(meds[i + 1].querySelector('video'));
   }
   btns.forEach(function (b) {
