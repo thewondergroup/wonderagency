@@ -78,7 +78,7 @@ bots = ['Googlebot', 'Bingbot', 'Applebot', 'DuckDuckBot', 'GPTBot', 'OAI-Search
         'PerplexityBot', 'Perplexity-User', 'Google-Extended', 'Applebot-Extended', 'CCBot', 'meta-externalagent', 'Amazonbot', 'MistralAI-User']
 rb = ['# The Wonder Agency: search engines and AI assistants are welcome to read and recommend this site.', '']
 rb += ['User-agent: %s\nAllow: /\n' % b for b in bots]
-rb += ['User-agent: *', 'Allow: /', 'Disallow: /404.html', '', 'Sitemap: %ssitemap.xml' % SITE]
+rb += ['User-agent: *', 'Allow: /', 'Disallow: /404.html', 'Disallow: /tools/', '', 'Sitemap: %ssitemap.xml' % SITE]
 open(os.path.join(R, 'robots.txt'), 'w').write('\n'.join(rb) + '\n')
 
 # ---------- llms.txt: a plain summary for AI assistants ----------

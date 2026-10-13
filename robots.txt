@@ -57,5 +57,6 @@ Allow: /
 User-agent: *
 Allow: /
 Disallow: /404.html
+Disallow: /tools/
 
 Sitemap: https://thewonderagency.co/sitemap.xml
