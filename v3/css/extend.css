@@ -706,3 +706,8 @@ video{-webkit-touch-callout:none;pointer-events:none}
 }
 /* back-to-top button: keep it clear of content on smaller laptops */
 @media (max-width:1240px),(max-height:820px){.back-to-top{transform:scale(.72);transform-origin:100% 100%}}
+/* the W mark beside the wordmark */
+.x-nav-brand{display:inline-flex;align-items:center;gap:12px}
+.x-nav-mark{display:block;height:20px;width:auto;flex:none}
+@media (max-width:767px){.x-nav-brand{gap:9px}.x-nav-mark{height:15px}}
+@media (max-width:359px){.x-nav-mark{display:none}}

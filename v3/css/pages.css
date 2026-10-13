@@ -231,3 +231,7 @@ img,video{display:block;max-width:100%}
 .p-lb-prev{left:24px;top:50%;margin-top:-26px}.p-lb-next{right:24px;top:50%;margin-top:-26px}
 .p-lb-count{position:absolute;left:24px;top:32px;font-size:.72rem;font-weight:500;letter-spacing:.16em;color:var(--x-grey)}
 @media (max-width:767px){.p-lb-nav{top:auto;bottom:18px;margin:0;width:46px;height:46px}.p-lb-prev{left:calc(50% - 56px)}.p-lb-next{right:calc(50% - 56px)}.p-lb-media video{height:72vh}.p-lb-media img{max-height:72vh}.p-lb-media.is-land video{width:94vw}.p-lb-stage{margin-bottom:60px}}
+.p-legal h2{font-size:clamp(1.5rem,2.2vw,2rem);margin-top:3rem}
+.p-legal a{color:var(--x-gold)}
+.p-legal ul{margin-bottom:1.5rem}
+.x-footer-base a{color:inherit}
