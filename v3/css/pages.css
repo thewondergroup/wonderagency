@@ -130,7 +130,7 @@ img,video{display:block;max-width:100%}
 @media (max-width:767px){.p-aw{grid-template-columns:repeat(3,1fr)}.p-aw-col:nth-child(4){display:none}.p-ahero{padding-bottom:8vh}}
 
 /* about: numbers */
-.p-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0 3rem;padding:6rem var(--x-pad) 0}
+.p-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:0 3rem;padding:6rem var(--x-pad) 0}
 .p-stats>div{border-top:1px solid var(--x-line);padding-top:1.8rem}
 .p-stats b{display:block;font-family:Italiana,sans-serif;font-weight:400;font-size:clamp(3rem,6vw,6.4rem);line-height:1;color:var(--x-gold);white-space:nowrap}
 .p-stats span{display:block;margin-top:1rem;font-size:.8rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#fff;line-height:1.5}
