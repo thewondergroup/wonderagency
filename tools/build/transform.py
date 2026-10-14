@@ -331,6 +331,13 @@ insert_before('<div data-animation="default" class="navbar w-nav"', NAV)
 # ---- logo marquee straight after the hero; drop the old grid + its heading ----
 gs = h.index('<div class="w-layout-grid grid-3">'); ge = h.index('</div>', h.rfind('<img', gs, h.index('<div id="Work"'))) + 6
 logos = re.findall(r'<img src="(images/[^"]+)"[^>]*class="clients-image-three"', h[gs:ge]); assert len(logos) >= 20, len(logos)
+DROP = ('686d31194225aeb22860ac5d_6', 'logo-the-barley-mow')  # Victor Garvey at The Midland Grand, The Barley Mow
+old = [l for l in logos if not any(d in l for d in DROP)]; assert len(old) == len(logos) - 2, len(old)
+NEW = ['zahter', 'beeble', 'hutong', 'aqua-shard', 'harrys', 'dim-sum-library', 'visit-england', 'aqua-kyoto', 'wild-group', 'azzurra', 'shiro', 'aqua-nueva', 'script']
+new = ['images/x/logos/%s.webp' % n for n in NEW]; logos = []
+for k in range(max(len(old), len(new) * 2)):
+    if k < len(old): logos.append(old[k])
+    if k % 2 == 0 and k // 2 < len(new): logos.append(new[k // 2])
 row = lambda ls: ''.join('<span class="x-logo"><img src="%s" alt="" decoding="async"/></span>' % src for src in ls)
 ra, rb = row(logos[0::2]), row(logos[1::2])
 marquee = ('<section class="x-logos-wrap" aria-label="Selected clients"><div class="x-logos-head x-r"><div class="x-label">Trusted by</div>'

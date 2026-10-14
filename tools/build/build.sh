@@ -11,6 +11,7 @@ python3 $S/build3/prep_images.py $S
 cp $S/build3/extend.css css/extend.css; cp $S/build3/extend.js $S/build3/extend3.js js/; cp $S/script/node_modules/lenis/dist/lenis.min.js js/lenis.min.js
 sed -i "s#'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE'#'https://script.google.com/macros/s/AKfycbzzPgtb-gHU8EsYfempzwVKaS_g3TtE_8aqz2OQfLsmGA_qhBLciC1_FPOA-lUy9cikzw/exec'#" js/contact-form.js
 python3 -I $S/build3/patch_form.py $S/v3/js/contact-form.js
+mkdir -p images/x/logos && cp $S/build3/assets/logos/*.webp images/x/logos/
 python3 -I $S/build3/transform.py $S/site/index.html $S/v3/index.html
 python3 $S/build3/trim_logos.py $S/v3
 python3 $S/build3/optimise.py $S/v3
