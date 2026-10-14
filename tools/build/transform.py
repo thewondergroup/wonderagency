@@ -435,5 +435,7 @@ old_ul = '<ul><li>Content Creation</li><li>Social Media</li><li>Targeted Ads</li
 rep(old_ul, '<ul>' + ''.join('<li><a href="services/%s/">%s</a></li>' % (slug, e(name)) for name, slug in SLUGS) + '</ul>')
 rep('<li><a href="https://wonderscore.ai" target="_blank" rel="noopener">Wonder Score</a></li></ul>', '<li><a href="https://wonderscore.ai" target="_blank" rel="noopener">Wonder Score</a></li><li><a href="about/">About</a></li></ul>')
 
+# audit buttons go to the free audit page rather than the form at the bottom
+h = h.replace('href="#Contact" data-x-audit', 'href="free-audit/"')
 open(out, 'w', encoding='utf-8').write(h)
 print('ok', len(h))

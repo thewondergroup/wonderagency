@@ -43,7 +43,7 @@ def ai_visual(pre):
 def nav_html(pre, home=False):
     P = pre  # prefix for links
     brand = '#top' if home else (pre or './')
-    audit = ('#Contact" data-x-audit' if home else '%sfree-audit/"' % pre)
+    audit = ('%sfree-audit/"' % pre)
     links = ''.join(('<a href="%s%s" class="hover-cursor x-nav-t" data-mega="%s">%s<i class="x-car" aria-hidden="true"></i></a>' % (P, u, m, t)) if m else ('<a href="%s%s" class="hover-cursor">%s</a>' % (P, u, t)) for u, t, m in NAV)
     # services panel
     items = ''.join('<a class="x-mm-item" href="%sservices/%s/" data-s style="--s:%d"><span>0%d</span><div><b>%s</b><em>%s</em></div><i>→</i></a>' % (P, s['slug'], k, k + 1, e(s['name']), e(SVC_LINE[s['slug']])) for k, s in enumerate(SERVICES))
