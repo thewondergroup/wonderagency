@@ -225,7 +225,8 @@ RESULTS = [('£3.2m → £4.6m', 'Annual revenue for a restaurant over three yea
            ('+58%', 'Year-on-year food and beverage revenue for a hotel group in three months, with room bookings up 26%.'),
            ('+95%', 'Mid-week set lunch bookings at a Michelin-starred restaurant within three months.'),
            ('+18%', 'Q4 revenue for a three-restaurant group after a full digital overhaul.'),
-           ('220–250', 'Brunch covers every Saturday, six weeks after launching a new brunch in a historic City venue with no weekend trade.')]
+           ('220–250', 'Brunch covers every Saturday, six weeks after launching a new brunch in a historic City venue with no weekend trade.'),
+           ('48 hours', 'For the limited relaunch of The Square cookbooks to sell out, with a website and launch campaign by us.')]
 BELIEFS = [('People choose places that say something about them.', 'Where we eat, drink and stay says something about who we are. Good hospitality marketing makes clear what choosing your venue says about your guests, and makes sure your whole team tells the same story.'),
            ('Attention is an exchange.', 'People give you their attention and expect something back: something useful, something beautiful or something to look forward to. We make content that earns its place in the feed.'),
            ('True stories beat spin.', 'Storytelling is the oldest way people share what matters. We tell the real story of your food, your rooms and your people, because guests can tell the difference.')]
