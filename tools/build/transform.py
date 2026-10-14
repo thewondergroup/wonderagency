@@ -333,7 +333,7 @@ gs = h.index('<div class="w-layout-grid grid-3">'); ge = h.index('</div>', h.rfi
 logos = re.findall(r'<img src="(images/[^"]+)"[^>]*class="clients-image-three"', h[gs:ge]); assert len(logos) >= 20, len(logos)
 DROP = ('686d31194225aeb22860ac5d_6', 'logo-the-barley-mow')  # Victor Garvey at The Midland Grand, The Barley Mow
 old = [l for l in logos if not any(d in l for d in DROP)]; assert len(old) == len(logos) - 2, len(old)
-NEW = ['zahter', 'beeble', 'hutong', 'aqua-shard', 'harrys', 'dim-sum-library', 'visit-england', 'aqua-kyoto', 'wild-group', 'azzurra', 'shiro', 'aqua-nueva', 'script']
+NEW = ['zahter', 'beeble', 'hutong', 'aqua-shard', 'harrys', 'dim-sum-library', 'visit-england', 'aqua-kyoto', 'wild-group', 'azzurra', 'shiro', 'aqua-nueva', 'script', 'temper-tantrums']
 new = ['images/x/logos/%s.webp' % n for n in NEW]; logos = []
 for k in range(max(len(old), len(new) * 2)):
     if k < len(old): logos.append(old[k])
