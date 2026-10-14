@@ -23,6 +23,7 @@ cp $S/build3/mega.js js/mega.js; cp $S/build3/library.js js/library.js
 python3 -I $S/build3/prune.py $S/v3
 python3 -I $S/build3/names.py $S/v3
 python3 -I $S/build3/seo.py $S/v3
+python3 -I $S/build3/redirects.py $S/v3
 python3 -I $S/build3/recolor.py $S/v3
 python3 -I $S/build3/font.py $S/v3
 python3 -I $S/build3/bust.py $S/v3
