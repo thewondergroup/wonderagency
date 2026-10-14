@@ -137,8 +137,8 @@ SVC = [
  ('Website design', 'Design / Build / Convert', 'Fast websites that turn visitors into bookings.', 'Most hospitality websites lose people between the menu and the booking button. We design and build fast, mobile-first sites around that single journey, then keep them updated so they do not go stale.', ['Custom design and build', 'Booking system integration', 'Speed and Core Web Vitals work', 'Ongoing updates and maintenance']),
  ('Email marketing', 'Campaigns / Automation', 'Newsletters and automated emails that bring guests back.', 'The cheapest way to fill a quiet week is to talk to people who have already been in. We build the list, segment it properly, and send campaigns and automated flows that bring them back.', ['Campaign design and copywriting', 'List growth and segmentation', 'Automated flows and sequences', 'Deliverability and reporting']),
 ]
-CLIP = ['w68', 'w12', 'w58', 'w18', 'w11', 'w33', 'w48']
-CLIP_ALT = ['Sushi being sliced', 'Dinner rush in a busy restaurant', 'Smash burger on the griddle', 'A night out with creators', 'Japanese fine dining', 'Japanese tasting menu', 'Tiramisu made at the table']
+CLIP = ['w68', 'w12', 'w58', 'w18', 'w83', 'w33', 'w48']
+CLIP_ALT = ['Sushi being sliced', 'Dinner rush in a busy restaurant', 'Smash burger on the griddle', 'Japanese fine dining', 'A creator tasting dinner on camera', 'Japanese tasting menu', 'Tiramisu made at the table']
 def vid(clip, size, alt, extra=''):
     return '<video muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-%s.mp4" data-x-auto aria-label="%s"%s></video>' % (clip, clip, size, e(alt), extra)
 rows = ''
@@ -342,7 +342,7 @@ m = re.search(r'<div class="services"><div class="services-section">', h); asser
 remove_el('<div class="services">')
 
 # ---- services: pinned chapters with video ----
-SVC_VID = [('w28', 'Salmon aburi'), ('w52', 'Brunch'), ('w46', 'Burgers and steak'), ('w15', 'On the grill'), ('w11', 'First bite, on camera'),
+SVC_VID = [('w28', 'Salmon aburi'), ('w52', 'Brunch'), ('w46', 'Burgers and steak'), ('w15', 'On the grill'), ('w83', 'Creator visit, first bite'),
            ('w64', 'Fine dining plates'), ('w23', 'Christmas lunch')]
 idx = ''.join('<li><button type="button" class="hover-cursor" data-i="%d"><i>0%d</i>%s</button></li>' % (k, k+1, e(n)) for k, (n, *_r) in enumerate(SVC))
 chs = ''.join(('<article class="x-sv-ch%s" data-i="%d"><span class="x-sv-n">0%d / %s</span><h3>%s</h3><p class="x-sv-promise">%s</p><p class="x-sv-body">%s</p>'
