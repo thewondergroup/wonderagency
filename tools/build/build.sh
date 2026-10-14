@@ -2,7 +2,7 @@
 set -e
 S=/tmp/claude-0/-home-claude/5ebe2286-d1ca-5e11-b1a4-090b78facc58/scratchpad
 rm -rf $S/v3 && cp -a $S/site $S/v3 && cd $S/v3
-cp $S/script/node_modules/@fontsource/italiana/files/italiana-latin-400-normal.woff2 fonts/italiana-400.woff2
+cp $S/script/node_modules/@fontsource/marcellus/files/marcellus-latin-400-normal.woff2 fonts/marcellus-400.woff2
 cp $S/script/node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2 fonts/manrope-var.woff2
 cp $S/reels/reel-*.mp4 videos/
 mkdir -p videos/clips images/x && cp $S/clips3/*.mp4 videos/clips/ && cp $S/clips3/*.webp images/x/ && for f in $S/clips3/*.webp; do b=$(basename $f .webp); mv images/x/$b.webp images/x/clip-$b.webp; done
@@ -24,6 +24,7 @@ python3 -I $S/build3/prune.py $S/v3
 python3 -I $S/build3/names.py $S/v3
 python3 -I $S/build3/seo.py $S/v3
 python3 -I $S/build3/recolor.py $S/v3
+python3 -I $S/build3/font.py $S/v3
 python3 -I $S/build3/bust.py $S/v3
 # old address for influencer marketing (it was a paid ads page until October 2026): send people and search engines to the new one
 mkdir -p $S/v3/services/paid-advertising/influencer-marketing

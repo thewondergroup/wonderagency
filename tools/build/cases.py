@@ -7,7 +7,7 @@ SCOPE = [('Content creation', 'content-creation'), ('Social media', 'social-medi
 
 CASES = [
     dict(key='revenue', slug='restaurant-revenue-growth', label='Restaurant · three years', title='Revenue growth and business transformation',
-         stat='£3.2m → £4.6m', line='Annual revenue, grown over three years.',
+         stat='£3.2m → £4.6m', line='Annual revenue, grown over three years.',
          seo='Restaurant Marketing Case Study: £3.2m to £4.6m Revenue',
          overview='A focused digital marketing strategy that significantly increased the venue’s visibility, engagement and booking demand, and strengthened its digital presence and reputation.',
          challenge='A popular restaurant with more to give: £3.2m a year in revenue, 3,000 followers on Instagram and a Google rating of 4.0. The food deserved a bigger audience, and more of the people who found it online needed to end up at a table.',

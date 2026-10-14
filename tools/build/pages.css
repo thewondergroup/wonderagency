@@ -348,3 +348,6 @@ img,video{display:block;max-width:100%}
 .p-cs-pair--even{grid-template-columns:1fr 1fr;align-items:stretch}
 .p-cs-pair--even img,.p-cs-pair--even img:last-child{aspect-ratio:3/2}
 @media (max-width:991px){.p-cs-pair--even{grid-template-columns:minmax(0,1fr)}}
+.p-cs-stat{white-space:normal}
+.p-hero--case h1{overflow-wrap:break-word}
+@media (max-width:420px){.p-end h2{font-size:clamp(2rem,10.5vw,2.6rem)}}

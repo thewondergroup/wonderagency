@@ -2144,7 +2144,7 @@ body {
 h1 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: 4rem;
   font-weight: 400;
   line-height: 1.1;
@@ -2153,7 +2153,7 @@ h1 {
 h2 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: 3rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2162,7 +2162,7 @@ h2 {
 h3 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: 2rem;
   font-weight: 400;
   line-height: 1.2;
@@ -2171,7 +2171,7 @@ h3 {
 h4 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.4;
@@ -2180,7 +2180,7 @@ h4 {
 h5 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: .875rem;
   font-weight: 400;
   line-height: 1.5;
@@ -2189,7 +2189,7 @@ h5 {
 h6 {
   margin-top: 0;
   margin-bottom: 0;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: .75rem;
   font-weight: 400;
   line-height: 1.5;
@@ -2383,7 +2383,7 @@ figcaption {
 }
 
 .heading-large.secondary-font.text-style-all-caps.second.italic {
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-style: normal;
   font-weight: 400;
 }
@@ -2992,7 +2992,7 @@ figcaption {
 }
 
 .primary-font {
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
 }
 
 .position-absolute {
@@ -3879,7 +3879,7 @@ figcaption {
 .order {
   opacity: .3;
   color: #fff;
-  font-family: Italiana, sans-serif;
+  font-family: Marcellus, sans-serif;
   font-size: 3vh;
   text-decoration: none;
 }

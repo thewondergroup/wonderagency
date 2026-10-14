@@ -719,3 +719,6 @@ video{-webkit-touch-callout:none;pointer-events:none}
 .x-cases-books.is-on{opacity:1!important}
 .x-cases-books span{font-family:Italiana,sans-serif;text-transform:uppercase;font-size:clamp(3rem,9vw,9rem);line-height:.9;color:rgba(255,255,255,.08)}
 .x-cases-books span:last-child{color:rgba(94,173,186,.16)}
+.x-case2-stat{white-space:normal}
+.x-case2-stat{font-size:clamp(3rem,7.4vw,8rem);white-space:nowrap}
+@media (max-width:767px){.x-case2-stat{white-space:normal;font-size:clamp(2.8rem,14vw,4.4rem)}}
