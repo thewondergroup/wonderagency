@@ -32,7 +32,7 @@ FAQ = [
  ("How do you report on performance?", "Monthly reporting on bookings, revenue, engagement, follower growth and advertising return: commercial outcomes rather than vanity metrics. We say plainly what worked, what didn't, and what we're changing next month."),
 ]
 SVC_LINKS = [('Content creation', 'services/content-creation/'), ('Social media management', 'services/social-media-management/'), ('Paid advertising', 'services/paid-advertising/'),
-             ('SEO and AI search', 'services/seo-ai-search/'), ('Website design', 'services/website-design/'), ('Email marketing', 'services/email-marketing/'), ('Influencer marketing', 'services/paid-advertising/influencer-marketing/')]
+             ('SEO and AI search', 'services/seo-ai-search/'), ('Website design', 'services/website-design/'), ('Email marketing', 'services/email-marketing/'), ('Influencer marketing', 'services/influencer-marketing/')]
 ld = {"@context": "https://schema.org", "@graph": [
   {"@type": ["ProfessionalService", "Organization"], "@id": URL + "#org", "name": "The Wonder Agency", "alternateName": "Wonder Agency", "legalName": "C Plus C Ltd",
    "url": URL, "logo": {"@type": "ImageObject", "url": URL + "images/x/icon-512.png", "width": 512, "height": 512}, "image": URL + "images/x/og.jpg",
@@ -131,13 +131,14 @@ def heading(lines, sec_id=None):
 SVC = [
  ('Content creation', 'Photo / Video / Reels', 'Photos and videos of your venue, food and team, made for every channel.', 'We plan and run shoots in your venue, then produce everything that comes out of them. One shoot day feeds a month of social, your website, your ads and your email, so you are not paying for content twice.', ['Photography and video shoots on location', 'Reels and short-form edits', 'Menu, interior and team photography', 'Graphic design and creative direction']),
  ('Social media management', 'Strategy / Daily posting', 'We run your Instagram, TikTok and Facebook: posting, replies and monthly reports.', 'We take the accounts off your hands entirely. Strategy, calendar, daily posting, replying to every comment and DM, and a monthly report that tells you what actually moved.', ['Content calendars and daily scheduling', 'Community management, comments and DMs', 'Platform and algorithm optimisation', 'Monthly performance reporting']),
- ('Paid advertising', 'Meta / Google / Influencer', 'Meta and Google ads that bring in bookings, plus influencer campaigns.', 'Paid campaigns judged on covers and revenue, not impressions. We build the creative, set the targeting, and cut what is not working fast. Influencer partnerships run alongside when they earn their place.', ['Meta and Google campaign management', 'Audience targeting and retargeting', 'Paid creative production and testing', 'Influencer sourcing and management']),
+ ('Paid advertising', 'Meta / Google', 'Meta and Google ads that bring in bookings.', 'Paid campaigns judged on covers and revenue, not impressions. We build the creative, set the targeting, and cut what is not working fast.', ['Meta and Google campaign management', 'Audience targeting and retargeting', 'Paid creative production and testing', 'Tracking to the booking']),
+ ('Influencer marketing', 'Creators / Visits / Reporting', 'The right local creators at your tables, briefed properly and measured on bookings.', 'A good creator visit is a recommendation from a friend, seen by thousands. We find creators whose audience matches your guests, brief them on what to show, handle the invitations and report on what they brought in.', ['Creator sourcing and vetting', 'Invitations, visits and briefing', 'Paid partnerships and usage rights', 'Reporting on reach and bookings']),
  ('SEO and AI search', 'SEO / Wonder Score', 'Get found on Google, and recommended when people ask ChatGPT where to eat.', 'People increasingly ask ChatGPT and Gemini where to eat rather than searching. We do the traditional SEO work and the newer work that decides whether an AI assistant names you, tracked with our own tool, Wonder Score.', ['Technical SEO and site performance', 'Local SEO and Google Business Profile', 'Content and keyword strategy', 'AI search visibility (GEO) and Wonder Score tracking']),
  ('Website design', 'Design / Build / Convert', 'Fast websites that turn visitors into bookings.', 'Most hospitality websites lose people between the menu and the booking button. We design and build fast, mobile-first sites around that single journey, then keep them updated so they do not go stale.', ['Custom design and build', 'Booking system integration', 'Speed and Core Web Vitals work', 'Ongoing updates and maintenance']),
  ('Email marketing', 'Campaigns / Automation', 'Newsletters and automated emails that bring guests back.', 'The cheapest way to fill a quiet week is to talk to people who have already been in. We build the list, segment it properly, and send campaigns and automated flows that bring them back.', ['Campaign design and copywriting', 'List growth and segmentation', 'Automated flows and sequences', 'Deliverability and reporting']),
 ]
-CLIP = ['w68', 'w12', 'w58', 'w18', 'w33', 'w48']
-CLIP_ALT = ['Sushi being sliced', 'Dinner rush in a busy restaurant', 'Smash burger on the griddle', 'Japanese fine dining', 'Japanese tasting menu', 'Tiramisu made at the table']
+CLIP = ['w68', 'w12', 'w58', 'w11', 'w18', 'w33', 'w48']
+CLIP_ALT = ['Sushi being sliced', 'Dinner rush in a busy restaurant', 'Smash burger on the griddle', 'A night out with creators', 'Japanese fine dining', 'Japanese tasting menu', 'Tiramisu made at the table']
 def vid(clip, size, alt, extra=''):
     return '<video muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-%s.mp4" data-x-auto aria-label="%s"%s></video>' % (clip, clip, size, e(alt), extra)
 rows = ''
@@ -289,8 +290,8 @@ for old, new in (('>dynamic</h2>', '>covers</h2>'), ('>unique</h2>', '>regulars<
 h, n = re.subn(r'(class="heading-large secondary-font text-style-all-caps second">)experiences(</h2>)', r'\1for hospitality\2', h); assert n == 1
 # call to action after the services
 insert_before('<section class="x-section" aria-hidden="false">', '')
-h = h.replace('</div></div></section><section class="x-section" aria-hidden="false">', '</div><div class="x-cta x-r"><p>Not sure which of the six you need? The free audit tells you.</p>' + BTN % 'Get a free audit' + '</div></div></section><section class="x-section">', 1)
-assert 'Not sure which of the six' in h
+h = h.replace('</div></div></section><section class="x-section" aria-hidden="false">', '</div><div class="x-cta x-r"><p>Not sure which of the seven you need? The free audit tells you.</p>' + BTN % 'Get a free audit' + '</div></div></section><section class="x-section">', 1)
+assert 'Not sure which of the seven' in h
 # the audit offer + how it works, after the results
 AUDIT = [('Social and content', 'What you post, how it looks, and whether anyone acts on it.'), ('Paid ads', 'Where the budget goes and what it brings back in bookings.'),
          ('Search and AI search', 'How you show up on Google, and whether AI assistants name you.'), ('Website and booking', 'How many people you lose between the menu and the booking button.')]
@@ -341,20 +342,20 @@ m = re.search(r'<div class="services"><div class="services-section">', h); asser
 remove_el('<div class="services">')
 
 # ---- services: pinned chapters with video ----
-SVC_VID = [('w28', 'Salmon aburi'), ('w52', 'Brunch'), ('w46', 'Burgers and steak'),
+SVC_VID = [('w28', 'Salmon aburi'), ('w52', 'Brunch'), ('w46', 'Burgers and steak'), ('w11', 'First bite, on camera'),
            ('w15', 'On the grill'), ('w64', 'Fine dining plates'), ('w23', 'Christmas lunch')]
 idx = ''.join('<li><button type="button" class="hover-cursor" data-i="%d"><i>0%d</i>%s</button></li>' % (k, k+1, e(n)) for k, (n, *_r) in enumerate(SVC))
 chs = ''.join(('<article class="x-sv-ch%s" data-i="%d"><span class="x-sv-n">0%d / %s</span><h3>%s</h3><p class="x-sv-promise">%s</p><p class="x-sv-body">%s</p>'
                '<ul class="x-sv-inc">%s</ul></article>') % (' is-on' if k == 0 else '', k, k+1, e(tag), e(name), e(promise), e(body), ''.join('<li>%s</li>' % e(x) for x in inc))
               for k, (name, tag, promise, body, inc) in enumerate(SVC))
 meds = ''.join('<figure class="x-sv-med%s"><video muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-m.mp4" aria-label="%s"></video><figcaption>%s</figcaption></figure>' % (' is-on' if k == 0 else '', v, v, e(c), e(c)) for k, (v, c) in enumerate(SVC_VID))
-sv = ('<section id="WhatWeDo" class="x-section" aria-label="What we do">' + heading([('The six things', True), ('that fill', False), ('your tables', True)]) + '<div class="x-wrap"><p class="x-lede x-r">These are the six things that decide whether people find you, choose you and book. Get them right and the bookings follow. Take one, or let us run them all.</p></div></section>'
+sv = ('<section id="WhatWeDo" class="x-section" aria-label="What we do">' + heading([('The seven things', True), ('that fill', False), ('your tables', True)]) + '<div class="x-wrap"><p class="x-lede x-r">These are the seven things that decide whether people find you, choose you and book. Get them right and the bookings follow. Take one, or let us run them all.</p></div></section>'
       '<section class="x-sv" aria-label="Services in detail"><div class="x-sv-pin"><div class="x-sv-grid">'
       '<div class="x-sv-index"><ol>' + idx + '</ol><div class="x-sv-rail"><i></i></div></div>'
       '<div class="x-sv-stage">' + chs + '</div>'
-      '<div class="x-sv-media">' + meds + '<span class="x-sv-count">01 / 06</span></div>'
+      '<div class="x-sv-media">' + meds + '<span class="x-sv-count">01 / 07</span></div>'
       '</div></div></section>'
-      '<section class="x-section x-section--tight"><div class="x-wrap"><div class="x-cta x-r" style="margin-top:0"><p>Not sure which of the six you need? The free audit tells you.</p>' + BTN % 'Get a free audit' + '</div></div></section>')
+      '<section class="x-section x-section--tight"><div class="x-wrap"><div class="x-cta x-r" style="margin-top:0"><p>Not sure which of the seven you need? The free audit tells you.</p>' + BTN % 'Get a free audit' + '</div></div></section>')
 ss = h.index('<section id="WhatWeDo"'); se = h.index('<section class="x-section">', ss)
 h = h[:ss] + sv + h[se:]
 
@@ -407,7 +408,7 @@ rep('<p>Hospitality marketing, done properly. Restaurants, hotels and bars, plus
 
 
 # ================= phase 6: link the homepage to the new pages =================
-SLUGS = [('Content creation','content-creation'),('Social media management','social-media-management'),('Paid advertising','paid-advertising'),('SEO and AI search','seo-ai-search'),('Website design','website-design'),('Email marketing','email-marketing')]
+SLUGS = [('Content creation','content-creation'),('Social media management','social-media-management'),('Paid advertising','paid-advertising'),('Influencer marketing','influencer-marketing'),('SEO and AI search','seo-ai-search'),('Website design','website-design'),('Email marketing','email-marketing')]
 for name, slug in SLUGS:
     old = '<h3>%s</h3>' % e(name)
     i = h.index('<article class="x-sv-ch'); assert h.count(old) >= 1, name

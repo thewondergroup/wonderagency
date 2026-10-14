@@ -20,10 +20,11 @@ PHOTOS = [('01', 'Sea urchins'), ('02', 'Tomato and feta'), ('03', 'Porchetta, s
           ('45', 'Octopus salad'), ('46', 'Oyster, cucumber dressing'), ('47', 'Burger with a steak knife')]
 PHOTO_CAT = {'22': 'bars', '31': 'christmas', '36': 'kitchen'}
 
-SERVICE_CLIP = {'content-creation': 'w68', 'social-media-management': 'w12', 'paid-advertising': 'w58', 'seo-ai-search': 'w18', 'website-design': 'w33', 'email-marketing': 'w48'}
-SERVICE_BAND = {'content-creation': 'w19', 'social-media-management': 'w20', 'paid-advertising': 'w58', 'seo-ai-search': 'w18', 'website-design': 'w66', 'email-marketing': 'w24'}
+SERVICE_CLIP = {'influencer-marketing': 'w11', 'content-creation': 'w68', 'social-media-management': 'w12', 'paid-advertising': 'w58', 'seo-ai-search': 'w18', 'website-design': 'w33', 'email-marketing': 'w48'}
+SERVICE_BAND = {'influencer-marketing': 'w52', 'content-creation': 'w19', 'social-media-management': 'w20', 'paid-advertising': 'w58', 'seo-ai-search': 'w18', 'website-design': 'w66', 'email-marketing': 'w24'}
 P = lambda n: 'images/x/ph-%s.webp' % n
 SERVICE_GALLERY = {
+ 'influencer-marketing': [('v', 'w11', 'First bite, on camera'), ('v', 'w29', 'Late night'), ('v', 'w80', 'Chef collaboration dinner'), ('i', P('26'), 'At the table'), ('v', 'w72', 'Supper club'), ('v', 'w26', 'Guest chef evening'), ('v', 'w05', 'Bar snacks and wine')],
  'content-creation': [('v', 'w68', 'Sushi'), ('v', 'w08', 'Burger build'), ('i', P('01'), 'Sea urchins'), ('v', 'w13', 'Lemon tart, brûléed'), ('i', P('03'), 'Porchetta'), ('v', 'w57', 'Soufflé and caramel'), ('i', P('36'), 'In the kitchen'), ('v', 'w16', 'Dim sum')],
  'social-media-management': [('v', 'w12', 'Dinner rush'), ('v', 'w24', 'Cocktails'), ('i', P('02'), 'Tomato and feta'), ('v', 'w52', 'Brunch'), ('v', 'w66', 'Oysters, uni and tuna'), ('i', P('19'), 'Steak and red wine'), ('v', 'w20', 'Bar service')],
  'paid-advertising': [('v', 'w58', 'Smash burger'), ('v', 'w46', 'Burgers and steak'), ('i', P('32'), 'Tomahawk spread'), ('v', 'w54', 'Steak, butter-basted'), ('v', 'w45', 'Tagliolini'), ('i', P('18'), 'Sunday roast')],
@@ -40,7 +41,7 @@ SECTOR = {
 }
 COMBO_CLIP = {'services/social-media-management/restaurants/': 'w12', 'services/social-media-management/hotels/': 'w21', 'services/seo-ai-search/restaurants/': 'w18',
               'services/paid-advertising/restaurants/': 'w58', 'services/content-creation/restaurants/': 'w68', 'services/website-design/restaurants/': 'w33',
-              'services/paid-advertising/influencer-marketing/': 'w52', 'services/email-marketing/hotels/': 'w74', 'who-we-work-with/hotels/food-and-beverage/': 'w21'}
+              'services/email-marketing/hotels/': 'w74', 'who-we-work-with/hotels/food-and-beverage/': 'w21'}
 ARTICLE_CLIP = {'ai-search-for-restaurants': 'w18', 'instagram-mistakes-restaurants': 'w52', 'hotel-food-and-beverage-revenue': 'w42'}
 
 def apply(SERVICES, MEDIA, SECTORS, COMBOS, ARTICLES=None):

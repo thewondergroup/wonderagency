@@ -250,7 +250,7 @@ body:has(.w-nav-button.w--open) .x-nav{opacity:0!important;pointer-events:none!i
 @media (prefers-reduced-motion:reduce){.x-logos-track{animation:none}}
 
 /* services: pinned chapters with video */
-.x-sv{position:relative;z-index:1;background:#000;height:calc(6 * 70vh + 100vh)}
+.x-sv{position:relative;z-index:1;background:#000;height:calc(7 * 70vh + 100vh)}
 .x-sv-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center}
 .x-sv-grid{display:grid;grid-template-columns:190px minmax(0,1fr) auto;gap:4vw;align-items:center;width:100%;padding:0 6vw}
 .x-sv-index{position:relative;padding-left:26px}
@@ -286,7 +286,7 @@ body:has(.w-nav-button.w--open) .x-nav{opacity:0!important;pointer-events:none!i
 .x-sv-count{position:absolute;right:14px;top:14px;z-index:3;font-size:.66rem;letter-spacing:.16em;color:#fff;background:rgba(0,0,0,.55);padding:6px 11px;border-radius:999px}
 @media (max-width:1100px){.x-sv-grid{grid-template-columns:minmax(0,1fr) auto;gap:3rem}.x-sv-index{grid-column:1/-1;padding-left:0}.x-sv-index ol{flex-direction:row;flex-wrap:wrap;gap:8px 22px}.x-sv-rail{display:none}.x-sv-index button.is-on{transform:none}.x-sv-media{height:min(56vh,480px)}}
 @media (max-width:767px){
-  .x-sv{height:calc(6 * 80vh + 100vh)}
+  .x-sv{height:calc(7 * 80vh + 100vh)}
   .x-sv-grid{grid-template-columns:1fr;gap:16px;padding:84px 20px 0;align-content:start;height:100%}
   .x-sv-index ol{gap:6px 14px}.x-sv-index button{font-size:.8rem}
   .x-sv-stage{min-height:0}

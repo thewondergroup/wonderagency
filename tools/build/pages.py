@@ -19,7 +19,7 @@ def poster(name):
     p = 'images/x/clip-%s.webp' % name; assert exists(p), p; return p
 
 from pages_content import COMBOS
-SVC_LINE = {'content-creation': 'Photo and video that makes people want to book', 'social-media-management': 'Instagram and TikTok, run every day',
+SVC_LINE = {'influencer-marketing': 'Creators who bring the right guests in', 'content-creation': 'Photo and video that makes people want to book', 'social-media-management': 'Instagram and TikTok, run every day',
             'paid-advertising': 'Meta and Google ads, tracked to the booking', 'seo-ai-search': 'Found on Google, recommended by AI',
             'website-design': 'Fast websites that turn visits into bookings', 'email-marketing': 'Bring past guests back, again and again'}
 SEC_LINE = {'restaurants': 'Fuller tables, every night of the week', 'hotels': 'Rooms, dining, events and weddings', 'bars-and-pubs': 'Busy bars, booked tables and big nights',
@@ -50,7 +50,7 @@ def nav_html(pre, home=False):
     vids = ''.join(mm_video(pre, s['clip']) for s in SERVICES)
     spec = ''.join('<a href="%s%s">%s</a>' % (P, c['path'], e(c['short'])) for c in COMBOS)
     p_svc = ('<div class="x-mm" data-panel="services" role="region" aria-label="Services" aria-hidden="true"><div class="x-mm-svc-grid">'
-             '<div><span class="x-mm-label" data-s>Six services that fill a room</span><div class="x-mm-list">%s</div></div>'
+             '<div><span class="x-mm-label" data-s>Seven services that fill a room</span><div class="x-mm-list">%s</div></div>'
              '<a class="x-mm-prev" href="%sservices/%s/" data-s style="--s:2" tabindex="-1">%s<div class="x-mm-cap"><b>%s</b><span>Explore →</span></div></a>'
              '<div class="x-mm-cta" data-s style="--s:4">%s<div class="x-label">Free audit</div><h3>Find out what’s costing you bookings</h3>'
              '<p>We review your social media, ads, search and website, and tell you what we’d fix first. Free, with no obligation.</p>'
@@ -201,10 +201,10 @@ ld = [ORG, crumb_ld([('', 'Home'), (path, 'Services')]),
 write(path + 'index.html', head(pre, 'Hospitality Marketing Services | Restaurants, Hotels & Bars | The Wonder Agency',
       'Content, social media, paid ads, SEO and AI search, websites and email for restaurants, hotels and bars. Everything you need to get more bookings, from one team.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text"><div>' + crumbs(pre, [('', 'Home'), (None, 'Services')]) +
-      '<div class="x-label">Services</div><h1>Everything you need to get more bookings</h1><p class="p-lede">Six services that decide whether people find you, choose you and book. Take one, or let one team run them all, so every channel works towards the same goal.</p>'
+      '<div class="x-label">Services</div><h1>Everything you need to get more bookings</h1><p class="p-lede">Seven services that decide whether people find you, choose you and book. Take one, or let one team run them all, so every channel works towards the same goal.</p>'
       '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a></div></div></section>' % pre +
       '<section class="p-sec" style="padding-top:2rem"><div class="p-cards">%s</div></section>' % cards +
-      end_cta(pre, 'Not sure where to start?', 'The free audit looks at your social media, ads, search and website, and tells you which of the six will make the biggest difference first.') + chrome_bottom(pre))
+      end_cta(pre, 'Not sure where to start?', 'The free audit looks at your social media, ads, search and website, and tells you which of the seven will make the biggest difference first.') + chrome_bottom(pre))
 
 # ---------- about ----------
 pre = '../'; path = 'about/'
