@@ -38,7 +38,7 @@ CASES = [
          results=['The limited run sold out within 48 hours of launch.', 'A new website selling Savoury, Sweet and the collector’s edition direct, with the story behind the books.',
                   'A launch campaign built around the chef, the books and the collector’s edition.'],
          scope=[('Website design', 'website-design'), ('Launch campaign', None), ('Social media', 'social-media-management'), ('Design', None)],
-         site='https://thesquarecookbook.co.uk/', panel=True,
+         site='https://thesquarecookbook.co.uk/',
          short='Cookbook relaunch, October 2025. We built the website and launch campaign for Phil Howard’s The Square cookbooks; the limited run sold out within 48 hours.'),
 ]
 
