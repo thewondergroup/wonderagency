@@ -400,7 +400,7 @@ write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video,
 for c in cases.CASES:
     pre = '../../'; path = cases.url(c)
     ld = [ORG, crumb_ld([('', 'Home'), ('work/', 'Work'), (path, c['title'])]), cases.page_ld(SITE, c, SITE + '#org')]
-    body = cases.page_body(pre, c).replace('{CRUMBS}', crumbs(pre, [('', 'Home'), ('work/', 'Work'), (None, c['title'])]))
+    body = cases.page_body(pre, c).replace('{CRUMBS}', crumbs(pre, [('', 'Home'), ('work/', 'Work'), (None, c['title'])])).replace('{MEDIA}', cases.media_html(pre, c))
     write(path + 'index.html', head(pre, c['seo'] + ' | The Wonder Agency', c['short'], path, ld) + chrome_top(pre) + body + end_cta(pre) + chrome_bottom(pre))
 
 # ---------- Wonder Score ----------

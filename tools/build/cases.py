@@ -37,6 +37,7 @@ CASES = [
          nums=[('$4,688', 'Average price per kg, a world record'), ('$256k', 'Raised across 12 lots'), ('8', 'Countries bidding')],
          scope=[('Website design', 'website-design'), ('Content creation', 'content-creation'), ('Auction marketing', None), ('Social media', 'social-media-management'), ('Lot artwork', None), ('Box and packaging design', None)],
          site='https://longboardcoffees.com/',
+         film='lb-film', pair=('-2', '-3'),
          short='Coffee auction, first ever. We rebuilt Longboard’s website, shot new content, marketed the auction and designed the lot artwork and boxes; it achieved the highest average lot price of any coffee auction in the world, $4,688.82 per kg.'),
     dict(key='hotel', slug='hotel-boost', label='Hotel · three months', title='Hotel boost',
          stat='+58%', line='Year-on-year food and beverage revenue, with room bookings up 26%.',
@@ -152,15 +153,27 @@ def page_body(pre, c):
         '<section class="p-sec" style="padding-top:2rem">%s</section>'
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">The challenge</p><div class="p-body x-r"><p>%s</p><p>%s</p></div></div></section>'
         '<section class="p-sec"><h2 class="p-h2 x-r">What we did</h2><div class="p-inc">%s</div></section>'
-        '<section class="p-sec"><div class="p-cs-wide x-r"><img src="%s" alt="" loading="lazy" decoding="async"/></div></section>'
+        '{MEDIA}'
         '<section class="p-sec" id="results"><h2 class="p-h2 x-r">Results</h2><div class="p-cs-detail x-r"><ul class="p-cs-res">%s</ul>%s</div></section>'
         '<section class="p-sec"><div class="p-cs-scope x-r"><span class="p-cs-scope-h">Scope</span>%s</div>%s</section>'
         '<section class="p-sec"><div class="p-next x-r"><span class="x-label">Next case study</span><a href="%s%s"><b>%s</b><em>%s</em><i>→</i></a></div></section>'
         '<section class="p-sec"><h2 class="p-h2 x-r">More case studies</h2>%s</section>') % (
         c['n'], e(c['label']), e(c['title']), e(c['stat']), e(c['line']), pre, img(pre, c),
-        nums, e(c['challenge']), e(c['overview']), steps, img(pre, c, '-2'), ''.join('<li>%s</li>' % e(r) for r in c['results']), chart_html(c),
+        nums, e(c['challenge']), e(c['overview']), steps, ''.join('<li>%s</li>' % e(r) for r in c['results']), chart_html(c),
         scope_html(pre, c.get('scope')), ('<div style="margin-top:1.6rem">%s</div>' % site) if site else '',
         pre, url(nxt), e(nxt['title']), e(nxt['stat']), cards(pre, skip=c, small=True))
+
+def media_html(pre, c):
+    out = ''
+    if c.get('film'):
+        out += ('<section class="p-sec"><div class="p-cs-film x-r"><video muted loop playsinline preload="none" poster="%simages/x/clip-%s.webp" '
+                'data-src="%svideos/clips/%s-l.mp4" data-x-auto aria-hidden="true"></video></div></section>') % (pre, c['film'], pre, c['film'])
+    if c.get('pair'):
+        out += '<section class="p-sec"><div class="p-cs-pair p-cs-pair--even">%s</div></section>' % ''.join(
+            '<img class="x-r" style="--x-d:%.2fs" src="%s" alt="" loading="lazy" decoding="async"/>' % (j * 0.1, img(pre, c, s)) for j, s in enumerate(c['pair']))
+    else:
+        out += '<section class="p-sec"><div class="p-cs-wide x-r"><img src="%s" alt="" loading="lazy" decoding="async"/></div></section>' % img(pre, c, '-2')
+    return out
 
 def page_ld(site, c, org_id):
     return {"@type": "Article", "headline": c['title'] + ': ' + c['line'].rstrip('.'), "description": c['short'], "url": site + url(c),
