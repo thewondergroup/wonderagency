@@ -309,6 +309,7 @@ rep('<p class="x-form-intro">Tell us about your venue. We&#x27;ll tell you exact
 h, n = re.subn(r'(<input class="form-label text-size-large form primary-font w-input" maxlength="256" name="email"[^>]*/>)', r'\1<input class="form-label text-size-large form primary-font w-input" maxlength="256" name="venue" placeholder="Your venue" type="text" id="venue" required=""/><input class="form-label text-size-large form primary-font w-input" maxlength="256" name="link" placeholder="Website or Instagram" type="text" id="link"/>', h); assert n == 1
 rep('<textarea placeholder="Your message"', '<textarea placeholder="Anything we should know? (optional)"')
 rep('<div>Thank you! Your submission has been received!</div>', '<div>Thank you. Your audit request is in and we&#x27;ll be in touch.</div>')
+rep('<div>Oops! Something went wrong while submitting the form.</div>', '<div>Sorry, something went wrong. Please email <a href="mailto:hello@thewonder.group" style="color:inherit;text-decoration:underline">hello@thewonder.group</a> instead.</div>')
 # always-there button
 
 
