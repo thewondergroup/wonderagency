@@ -368,9 +368,10 @@ h = h[:ss] + sv + h[se:]
 
 # ---- results: full-screen video case studies ----
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import cases as _cases
-_BG = {'revenue': ('v', 'fish-b'), 'hotel': ('v', 'grill-c'), 'overhaul': ('i', 'case-overhaul-bg'), 'michelin': ('i', 'case-michelin'), 'brunch': ('i', 'case-brunch')}
+_BG = {'revenue': ('v', 'fish-b'), 'hotel': ('v', 'grill-c'), 'overhaul': ('i', 'case-overhaul-bg'), 'michelin': ('i', 'case-michelin'), 'brunch': ('i', 'case-brunch'), 'square': ('d', 'x-cases-books')}
 def _bg(k, c):
     kind, src = _BG[c['key']]; on = ' class="is-on"' if k == 0 else ''
+    if kind == 'd': return '<div class="%s%s" aria-hidden="true"><span>Savoury</span><span>Sweet</span><span>Collector’s edition</span></div>' % (src, ' is-on' if k == 0 else '')
     if kind == 'v': return '<video%s muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-m.mp4" aria-hidden="true"></video>' % (on, src, src)
     return '<img%s src="images/x/cases/%s.webp" alt="" loading="lazy" decoding="async"/>' % (on, src)
 CASES = _cases.CASES

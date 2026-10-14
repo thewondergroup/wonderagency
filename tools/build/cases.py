@@ -32,10 +32,26 @@ CASES = [
          overview='We launched a Saturday brunch in a historic City of London venue with no history of weekend trade, using content, social, creators and targeted ads together. Six weeks in, it sells out consistently.',
          results=['220 to 250 brunch covers every Saturday, six weeks after launch.', 'Weekend trade from a standing start, in a venue that had none.'],
          short='Historic City venue, six weeks. A new Saturday brunch now does 220 to 250 covers every week, from no weekend trade at all.'),
+    dict(key='square', label='Cookbook relaunch · October 2025', title='The Square cookbooks',
+         stat='48 hours', line='To sell out the limited run.',
+         overview='Phil Howard’s The Square: Savoury and Sweet are two of the most celebrated cookbooks of a generation, and had been out of print for years. We built the website and ran the launch campaign to bring them back, possibly for the last time, alongside a combined collector’s edition limited to 250 hand-numbered copies.',
+         results=['The limited run sold out within 48 hours of launch.', 'A new website selling Savoury, Sweet and the collector’s edition direct, with the story behind the books.',
+                  'A launch campaign built around the chef, the books and the collector’s edition.'],
+         scope=[('Website design', 'website-design'), ('Launch campaign', None), ('Social media', 'social-media-management'), ('Design', None)],
+         site='https://thesquarecookbook.co.uk/', panel=True,
+         short='Cookbook relaunch, October 2025. We built the website and launch campaign for Phil Howard’s The Square cookbooks; the limited run sold out within 48 hours.'),
 ]
 
-def scope_html(pre):
-    return ''.join(('<a href="%sservices/%s/">%s</a>' % (pre, s, e(n))) if s else '<span>%s</span>' % e(n) for n, s in SCOPE)
+def scope_html(pre, scope=None):
+    return ''.join(('<a href="%sservices/%s/">%s</a>' % (pre, s, e(n))) if s else '<span>%s</span>' % e(n) for n, s in (scope or SCOPE))
+
+def panel_html():
+    # a typographic stand-in for photography: the two volumes and the collector's edition
+    return ('<div class="p-cs-media p-cs-media--books" aria-hidden="true"><div class="p-books">'
+            '<div class="p-book p-book--a"><span>Volume one</span><b>Savoury</b><i>12 chapters · 500+ pages</i></div>'
+            '<div class="p-book p-book--b"><span>Volume two</span><b>Sweet</b><i>12 chapters</i></div>'
+            '<div class="p-book p-book--c"><span>Collector’s edition</span><b>Savoury<br/>&amp; Sweet</b><i>250 hand-numbered copies</i></div>'
+            '</div><div class="p-books-tag">Sold out in 48 hours</div></div>')
 
 def chart_html(c):
     if 'chart' not in c: return ''
@@ -45,15 +61,15 @@ def chart_html(c):
 def work_section(pre):
     out = ''
     for k, c in enumerate(CASES):
-        media = ('<div class="p-cs-media"><img class="p-cs-main" src="%simages/x/cases/case-%s.webp" alt="" loading="lazy" decoding="async"/>'
+        media = panel_html() if c.get('panel') else ('<div class="p-cs-media"><img class="p-cs-main" src="%simages/x/cases/case-%s.webp" alt="" loading="lazy" decoding="async"/>'
                  '<img class="p-cs-inset" src="%simages/x/cases/case-%s-2.webp" alt="" loading="lazy" decoding="async"/></div>') % (pre, c['key'], pre, c['key'])
         body = ('<div class="p-cs-body"><div class="x-label">Case study 0%d · %s</div><h3>%s</h3><div class="p-cs-stat">%s</div><p class="p-cs-line">%s</p>'
-                '<p>%s</p><ul class="p-cs-res">%s</ul>%s<div class="p-cs-scope"><span class="p-cs-scope-h">Scope</span>%s</div></div>') % (
-            k + 1, e(c['label']), e(c['title']), e(c['stat']), e(c['line']), e(c['overview']), ''.join('<li>%s</li>' % e(r) for r in c['results']), chart_html(c), scope_html(pre))
+                '<p>%s</p><ul class="p-cs-res">%s</ul>%s<div class="p-cs-scope"><span class="p-cs-scope-h">Scope</span>%s</div>%s</div>') % (
+            k + 1, e(c['label']), e(c['title']), e(c['stat']), e(c['line']), e(c['overview']), ''.join('<li>%s</li>' % e(r) for r in c['results']), chart_html(c), scope_html(pre, c.get('scope')), ('<a class="x-link p-cs-site" href="%s" target="_blank" rel="noopener">Visit the site ↗</a>' % c['site']) if c.get('site') else '')
         out += '<article class="p-cs x-r%s" id="case-%s">%s%s</article>' % (' p-cs--flip' if k % 2 else '', c['key'], media, body)
     return '<div class="p-css">%s</div>' % out
 
 def ld(site):
     return {"@type": "ItemList", "name": "Case studies", "itemListElement": [{"@type": "ListItem", "position": k + 1, "item": {
         "@type": "Article", "headline": c['title'], "description": c['short'], "url": site + 'work/#case-' + c['key'],
-        "image": site + 'images/x/cases/case-%s.webp' % c['key'], "author": {"@id": site + "#org"}}} for k, c in enumerate(CASES)]}
+        "author": {"@id": site + "#org"}, **({"image": site + 'images/x/cases/case-%s.webp' % c['key']} if not c.get('panel') else {"about": c.get('site')})}} for k, c in enumerate(CASES)]}

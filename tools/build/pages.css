@@ -292,3 +292,16 @@ img,video{display:block;max-width:100%}
 .p-cs-bar:nth-child(3) i{transition-delay:.6s}
 @media (max-width:991px){.p-css{gap:7rem}.p-cs{grid-template-columns:minmax(0,1fr);gap:3rem}.p-cs--flip .p-cs-media{order:0}.p-cs-media{padding:0 0 14% 0;margin-right:6%}.p-cs--flip .p-cs-media{margin:0 0 0 6%}.p-cs-main{aspect-ratio:4/3}}
 @media (prefers-reduced-motion:reduce){.w-mod-js .p-cs-bar i{transform:none;transition:none}}
+/* The Square cookbooks: typographic book stack in place of photography */
+.p-cs-media--books{padding:0;aspect-ratio:4/5;border-radius:var(--x-r);background:radial-gradient(120% 90% at 30% 20%,#1b3d43 0%,#0d1f22 55%,#070d0e 100%);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.p-books{position:relative;width:78%;height:70%}
+.p-book{position:absolute;display:flex;flex-direction:column;justify-content:space-between;width:58%;aspect-ratio:3/4;padding:1.4rem 1.3rem;border-radius:4px 10px 10px 4px;box-shadow:0 30px 60px rgba(0,0,0,.55),inset 6px 0 0 rgba(0,0,0,.18);color:#fff}
+.p-book span{font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;opacity:.75}
+.p-book b{font-family:Italiana,sans-serif;font-weight:400;text-transform:uppercase;font-size:clamp(1.5rem,2.6vw,2.4rem);line-height:1.05}
+.p-book i{font-style:normal;font-size:.72rem;opacity:.7}
+.p-book--a{left:0;top:6%;background:#f2ede4;color:#1d1d1d;transform:rotate(-7deg)}
+.p-book--b{left:22%;top:0;background:#255A63;transform:rotate(3deg)}
+.p-book--c{right:0;bottom:0;width:62%;background:#111;border:1px solid rgba(94,173,186,.5);transform:rotate(-2deg)}
+.p-book--c b{color:#5eadba}
+.p-books-tag{position:absolute;left:1.4rem;bottom:1.4rem;padding:.55rem 1rem;border-radius:999px;background:#5eadba;color:#04161a;font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.p-cs-site{display:inline-block;margin-top:1.6rem}
