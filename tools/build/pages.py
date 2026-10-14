@@ -384,16 +384,23 @@ ld = [ORG, crumb_ld([('', 'Home'), (path, 'Work')]),
       {"@type": "CollectionPage", "name": "Our work", "url": SITE + path, "about": "Food, drink and hospitality photography, video and results",
        "hasPart": [{"@type": "VideoObject", "name": it['cap'], "thumbnailUrl": SITE + 'images/x/clip-%s.webp' % it['id'], "contentUrl": SITE + 'videos/clips/%s-m.mp4' % it['id'], "uploadDate": "2026-10-13", "description": it['cap']} for kind, it in lib if kind == 'v']}, sites.ld(SITE), cases.ld(SITE)]
 write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video, Websites & Results | The Wonder Agency',
-      'Selected photography, video and websites for restaurants, hotels, bars and food and drink brands, plus five case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue, +95% set lunch bookings and more.', path, ld) + chrome_top(pre) +
+      'Selected photography, video and websites for restaurants, hotels, bars and food and drink brands, plus six case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue, +95% set lunch bookings and more.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Work')]) +
-      '<div class="x-label">Work</div><h1>Our work</h1><p class="p-lede">A selection of what we shoot in restaurants, kitchens, bars and hotels, the websites we build, and what that work has done for our clients’ bookings and revenue.</p>' +
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#results" class="x-link">See the results</a></div></div></section>' % pre +
-      '<section class="p-sec" id="selected" style="padding-top:0"><h2 class="p-h2 x-r">Selected work</h2>'
+      '<div class="x-label">Work</div><h1>Our work</h1><p class="p-lede">What our work has done for our clients’ bookings and revenue, followed by a selection of what we shoot in restaurants, kitchens, bars and hotels, and the websites we build.</p>' +
+      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#selected" class="x-link">See the content</a></div></div></section>' % pre +
+      '<section class="p-sec" id="results" style="padding-top:0"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % cases.cards(pre) +
+      '<section class="p-sec" id="selected"><h2 class="p-h2 x-r">Selected work</h2>'
       '<div class="p-lib" id="p-lib">%s</div></section>' % cells +
       sites.section(pre, 'Websites', 'Sites we’ve designed and built for restaurants, bars and the people who design them.', sid='websites') +
-      '<section class="p-sec" id="results"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % cases.work_section(pre) +
       '<section class="p-sec"><h2 class="p-h2 x-r">Selected clients</h2><div class="p-logos">%s</div></section>' % ''.join('<span class="p-logo"><img src="%s%s" alt="" loading="lazy"/></span>' % (pre, l) for l in seen) +
       end_cta(pre, 'Want content like this?') + viewer + chrome_bottom(pre, '<script src="%sjs/library.js"></script>' % pre))
+
+# ---------- case study pages ----------
+for c in cases.CASES:
+    pre = '../../'; path = cases.url(c)
+    ld = [ORG, crumb_ld([('', 'Home'), ('work/', 'Work'), (path, c['title'])]), cases.page_ld(SITE, c, SITE + '#org')]
+    body = cases.page_body(pre, c).replace('{CRUMBS}', crumbs(pre, [('', 'Home'), ('work/', 'Work'), (None, c['title'])]))
+    write(path + 'index.html', head(pre, c['seo'] + ' | The Wonder Agency', c['short'], path, ld) + chrome_top(pre) + body + end_cta(pre) + chrome_bottom(pre))
 
 # ---------- Wonder Score ----------
 pre = '../'; path = 'wonder-score/'

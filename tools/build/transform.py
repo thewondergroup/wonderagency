@@ -377,8 +377,8 @@ def _bg(k, c):
 CASES = _cases.CASES
 cases = ('<div class="x-cases" style="--n:%d"><div class="x-cases-stick"><div class="x-cases-bg">' % len(CASES) +
          ''.join(_bg(k, c) for k, c in enumerate(CASES)) +
-         '</div>' + ''.join('<article class="x-case2%s"><div class="x-label">%s</div><div class="x-case2-stat">%s</div><h3>%s</h3><p>%s</p><a href="work/#case-%s" class="x-link">Read the case study</a></article>' % (
-             ' is-on' if k == 0 else '', e(c['label']), e(c['stat']).replace('→', '<em>→</em>').replace('+', '<em>+</em>', 1), e(c['line']), e(c['overview']), c['key']) for k, c in enumerate(CASES)) +
+         '</div>' + ''.join('<article class="x-case2%s"><div class="x-label">%s</div><div class="x-case2-stat">%s</div><h3>%s</h3><p>%s</p><a href="work/%s/" class="x-link">Read the case study</a></article>' % (
+             ' is-on' if k == 0 else '', e(c['label']), e(c['stat']).replace('→', '<em>→</em>').replace('+', '<em>+</em>', 1), e(c['line']), e(c['overview']), c['slug']) for k, c in enumerate(CASES)) +
          '<div class="x-cases-dots">' + ''.join('<span class="%s">0%d</span>' % ('is-on' if k == 0 else '', k+1) for k in range(len(CASES))) + '</div></div></div>')
 rs = h.index('<section id="Results"'); r1 = h.index('<article class="x-case x-r">', rs); r2 = h.index('<div class="x-more">', rs)
 h = h[:r1] + '</div>' + cases + '<div class="x-wrap" style="margin-top:4rem">' + h[r2:]
