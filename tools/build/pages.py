@@ -24,7 +24,7 @@ SVC_LINE = {'influencer-marketing': 'Creators who bring the right guests in', 'c
             'website-design': 'Fast websites that turn visits into bookings', 'email-marketing': 'Bring past guests back, again and again'}
 SEC_LINE = {'restaurants': 'Fuller tables, every night of the week', 'hotels': 'Rooms, dining, events and weddings', 'bars-and-pubs': 'Busy bars, booked tables and big nights',
             'restaurant-groups': 'Several brands, one plan', 'food-and-drink-brands': 'Wanted on menus and at home'}
-NAV = [('services/', 'Services', 'services'), ('who-we-work-with/', 'Who we work with', 'sectors'), ('wonder-score/', 'AI Search', 'ai'), ('work/', 'Work', None), ('about/', 'About', None)]
+NAV = [('services/', 'Services', 'services'), ('who-we-work-with/', 'Who we work with', 'sectors'), ('wonder-score/', 'AI Search', 'ai'), ('work/', 'Work', None), ('about/', 'About', None), ('contact/', 'Contact', None)]
 AI_LINKS = [('wonder-score/', 'Wonder Score: our AI tool'), ('services/seo-ai-search/', 'SEO and AI search'), ('services/seo-ai-search/restaurants/', 'Restaurant SEO'), ('insights/ai-search-for-restaurants/', 'Why AI search changes discovery')]
 
 def mm_video(pre, name, cls=''):
@@ -91,7 +91,7 @@ def nav_html(pre, home=False):
     plain = lambda k, u, t: '<div class="x-mi" style="--i:%d"><a class="x-mi-t" href="%s%s">%s<span class="x-arr">→</span></a></div>' % (k, P, u, t)
     mnav = (mi(0, 'Services', m_svc + '<a class="x-mi-all" href="%sservices/">All services →</a>' % P) +
             mi(1, 'Who we work with', m_sec + '<a class="x-mi-all" href="%swho-we-work-with/">Everyone we work with →</a>' % P) +
-            mi(2, 'AI Search', m_ai) + plain(3, 'work/', 'Work') + plain(4, 'insights/', 'Insights') + plain(5, 'about/', 'About'))
+            mi(2, 'AI Search', m_ai) + plain(3, 'work/', 'Work') + plain(4, 'insights/', 'Insights') + plain(5, 'about/', 'About') + plain(6, 'contact/', 'Work with us'))
     menu = ('<div class="x-menu" id="x-menu" aria-hidden="true" data-lenis-prevent><div class="x-mnav" role="navigation" aria-label="Menu">%s</div>'
             '<a href="%s class="x-nav-cta x-menu-cta">Get a free audit <i>→</i></a>'
             '<p class="x-menu-contact"><a href="mailto:hello@thewonder.group">hello@thewonder.group</a><a href="tel:+447775022514">+44 777 502 2514</a></p></div>') % (mnav, audit)
