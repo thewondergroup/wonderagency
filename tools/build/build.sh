@@ -24,6 +24,7 @@ python3 -I $S/build3/prune.py $S/v3
 python3 -I $S/build3/names.py $S/v3
 python3 -I $S/build3/seo.py $S/v3
 python3 -I $S/build3/redirects.py $S/v3
+mkdir -p images/email && cp $S/build3/assets/email/* images/email/
 python3 -I $S/build3/recolor.py $S/v3
 python3 -I $S/build3/font.py $S/v3
 python3 -I $S/build3/bust.py $S/v3
