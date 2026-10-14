@@ -331,7 +331,7 @@ write(path + 'index.html', head(pre, 'Contact The Wonder Agency | Hospitality Ma
 _js = os.path.join(ROOT, 'js', 'contact-form.js'); _t = open(_js, encoding='utf-8').read()
 _a = "data.set('field', 'AUDIT REQUEST\\nVenue: ' + (data.get('venue') || '') + '\\nWebsite / Instagram: ' + (data.get('link') || '') + '\\n\\n' + (data.get('field') || ''));"
 if _a in _t:
-    _t = _t.replace(_a, "if (form.dataset.kind === 'contact') data.set('field', 'ENQUIRY: ' + (data.get('topic') || '') + '\\nCompany: ' + (data.get('venue') || '') + '\\n\\n' + (data.get('field') || ''));\n    else " + _a)
+    _t = _t.replace(_a, "data.set('kind', form.dataset.kind || 'audit'); data.set('notes', data.get('field') || '');\n    if (form.dataset.kind === 'contact') data.set('field', 'ENQUIRY: ' + (data.get('topic') || '') + '\\nCompany: ' + (data.get('venue') || '') + '\\n\\n' + (data.get('field') || ''));\n    else " + _a)
     open(_js, 'w', encoding='utf-8').write(_t)
 
 SBYSLUG = {x['slug']: x for x in SECTORS}

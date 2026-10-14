@@ -33,6 +33,7 @@
     data.set('checkbox', form.querySelector('#checkbox').checked ? 'Yes' : 'No');
     data.set('page', location.href);
     // venue and link travel inside the message, so the existing Sheet script records them
+    data.set('kind', form.dataset.kind || 'audit'); data.set('notes', data.get('field') || '');
     if (form.dataset.kind === 'contact') data.set('field', 'ENQUIRY: ' + (data.get('topic') || '') + '\nCompany: ' + (data.get('venue') || '') + '\n\n' + (data.get('field') || ''));
     else data.set('field', 'AUDIT REQUEST\nVenue: ' + (data.get('venue') || '') + '\nWebsite / Instagram: ' + (data.get('link') || '') + '\n\n' + (data.get('field') || ''));
 
