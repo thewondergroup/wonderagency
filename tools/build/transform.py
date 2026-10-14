@@ -25,14 +25,14 @@ h, n = re.subn(r'<meta content="[^"]*" name="description"/>', '<meta content="%s
 h = re.sub(r'<meta content="Webflow" name="generator"/>', '', h)
 FAQ = [
  ("What kind of businesses do you work with?", "Our specialism is hospitality and lifestyle: restaurants, hotels, bars, and food and drink brands, from Michelin-starred rooms to hotel groups and independents. It's where we have the deepest experience and the strongest results, so it's where we start. The same approach works for other consumer-facing brands, and we take that work on selectively."),
- ("What services do you offer?", "Content creation (photography, videography, reels, design), social media management, targeted advertising across Meta and Google, influencer marketing, SEO and AI search visibility, web design and build, and email marketing. Most clients take several together, because the channels work harder when they're aligned."),
+ ("What services do you offer?", "Content creation (photography, videography, reels, design), social media management, targeted advertising across Meta and Google, SEO and AI search visibility, influencer marketing, web design and build, and email marketing. Most clients take several together, because the channels work harder when they're aligned."),
  ("What is AI search visibility, or GEO?", "Generative Engine Optimisation is making your brand visible inside AI-generated answers: ChatGPT, Gemini, Perplexity, Google's AI overviews. When someone asks an assistant where to eat in your area, GEO decides whether you're in the answer. We measure it with our own tool, Wonder Score, then do the work that moves it."),
  ("How quickly will we see results?", "Most clients see measurable movement within three months. We've delivered a 58% year-on-year increase in food and beverage revenue and a 95% increase in set lunch bookings, both inside a three-month window. Compounding gains in search, brand and audience take longer and are worth more."),
  ("Do you work outside London?", "Yes. We work across the UK and internationally. Content production travels; strategy, social, paid and search are location-independent. Several of our clients are outside London entirely."),
  ("How do you report on performance?", "Monthly reporting on bookings, revenue, engagement, follower growth and advertising return: commercial outcomes rather than vanity metrics. We say plainly what worked, what didn't, and what we're changing next month."),
 ]
 SVC_LINKS = [('Content creation', 'services/content-creation/'), ('Social media management', 'services/social-media-management/'), ('Paid advertising', 'services/paid-advertising/'),
-             ('SEO and AI search', 'services/seo-ai-search/'), ('Website design', 'services/website-design/'), ('Email marketing', 'services/email-marketing/'), ('Influencer marketing', 'services/influencer-marketing/')]
+             ('SEO and AI search', 'services/seo-ai-search/'), ('Influencer marketing', 'services/influencer-marketing/'), ('Website design', 'services/website-design/'), ('Email marketing', 'services/email-marketing/')]
 ld = {"@context": "https://schema.org", "@graph": [
   {"@type": ["ProfessionalService", "Organization"], "@id": URL + "#org", "name": "The Wonder Agency", "alternateName": "Wonder Agency", "legalName": "C Plus C Ltd",
    "url": URL, "logo": {"@type": "ImageObject", "url": URL + "images/x/icon-512.png", "width": 512, "height": 512}, "image": URL + "images/x/og.jpg",
@@ -132,12 +132,12 @@ SVC = [
  ('Content creation', 'Photo / Video / Reels', 'Photos and videos of your venue, food and team, made for every channel.', 'We plan and run shoots in your venue, then produce everything that comes out of them. One shoot day feeds a month of social, your website, your ads and your email, so you are not paying for content twice.', ['Photography and video shoots on location', 'Reels and short-form edits', 'Menu, interior and team photography', 'Graphic design and creative direction']),
  ('Social media management', 'Strategy / Daily posting', 'We run your Instagram, TikTok and Facebook: posting, replies and monthly reports.', 'We take the accounts off your hands entirely. Strategy, calendar, daily posting, replying to every comment and DM, and a monthly report that tells you what actually moved.', ['Content calendars and daily scheduling', 'Community management, comments and DMs', 'Platform and algorithm optimisation', 'Monthly performance reporting']),
  ('Paid advertising', 'Meta / Google', 'Meta and Google ads that bring in bookings.', 'Paid campaigns judged on covers and revenue, not impressions. We build the creative, set the targeting, and cut what is not working fast.', ['Meta and Google campaign management', 'Audience targeting and retargeting', 'Paid creative production and testing', 'Tracking to the booking']),
- ('Influencer marketing', 'Creators / Visits / Reporting', 'The right local creators at your tables, briefed properly and measured on bookings.', 'A good creator visit is a recommendation from a friend, seen by thousands. We find creators whose audience matches your guests, brief them on what to show, handle the invitations and report on what they brought in.', ['Creator sourcing and vetting', 'Invitations, visits and briefing', 'Paid partnerships and usage rights', 'Reporting on reach and bookings']),
  ('SEO and AI search', 'SEO / Wonder Score', 'Get found on Google, and recommended when people ask ChatGPT where to eat.', 'People increasingly ask ChatGPT and Gemini where to eat rather than searching. We do the traditional SEO work and the newer work that decides whether an AI assistant names you, tracked with our own tool, Wonder Score.', ['Technical SEO and site performance', 'Local SEO and Google Business Profile', 'Content and keyword strategy', 'AI search visibility (GEO) and Wonder Score tracking']),
+ ('Influencer marketing', 'Creators / Visits / Reporting', 'The right local creators at your tables, briefed properly and measured on bookings.', 'A good creator visit is a recommendation from a friend, seen by thousands. We find creators whose audience matches your guests, brief them on what to show, handle the invitations and report on what they brought in.', ['Creator sourcing and vetting', 'Invitations, visits and briefing', 'Paid partnerships and usage rights', 'Reporting on reach and bookings']),
  ('Website design', 'Design / Build / Convert', 'Fast websites that turn visitors into bookings.', 'Most hospitality websites lose people between the menu and the booking button. We design and build fast, mobile-first sites around that single journey, then keep them updated so they do not go stale.', ['Custom design and build', 'Booking system integration', 'Speed and Core Web Vitals work', 'Ongoing updates and maintenance']),
  ('Email marketing', 'Campaigns / Automation', 'Newsletters and automated emails that bring guests back.', 'The cheapest way to fill a quiet week is to talk to people who have already been in. We build the list, segment it properly, and send campaigns and automated flows that bring them back.', ['Campaign design and copywriting', 'List growth and segmentation', 'Automated flows and sequences', 'Deliverability and reporting']),
 ]
-CLIP = ['w68', 'w12', 'w58', 'w11', 'w18', 'w33', 'w48']
+CLIP = ['w68', 'w12', 'w58', 'w18', 'w11', 'w33', 'w48']
 CLIP_ALT = ['Sushi being sliced', 'Dinner rush in a busy restaurant', 'Smash burger on the griddle', 'A night out with creators', 'Japanese fine dining', 'Japanese tasting menu', 'Tiramisu made at the table']
 def vid(clip, size, alt, extra=''):
     return '<video muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-%s.mp4" data-x-auto aria-label="%s"%s></video>' % (clip, clip, size, e(alt), extra)
@@ -342,8 +342,8 @@ m = re.search(r'<div class="services"><div class="services-section">', h); asser
 remove_el('<div class="services">')
 
 # ---- services: pinned chapters with video ----
-SVC_VID = [('w28', 'Salmon aburi'), ('w52', 'Brunch'), ('w46', 'Burgers and steak'), ('w11', 'First bite, on camera'),
-           ('w15', 'On the grill'), ('w64', 'Fine dining plates'), ('w23', 'Christmas lunch')]
+SVC_VID = [('w28', 'Salmon aburi'), ('w52', 'Brunch'), ('w46', 'Burgers and steak'), ('w15', 'On the grill'), ('w11', 'First bite, on camera'),
+           ('w64', 'Fine dining plates'), ('w23', 'Christmas lunch')]
 idx = ''.join('<li><button type="button" class="hover-cursor" data-i="%d"><i>0%d</i>%s</button></li>' % (k, k+1, e(n)) for k, (n, *_r) in enumerate(SVC))
 chs = ''.join(('<article class="x-sv-ch%s" data-i="%d"><span class="x-sv-n">0%d / %s</span><h3>%s</h3><p class="x-sv-promise">%s</p><p class="x-sv-body">%s</p>'
                '<ul class="x-sv-inc">%s</ul></article>') % (' is-on' if k == 0 else '', k, k+1, e(tag), e(name), e(promise), e(body), ''.join('<li>%s</li>' % e(x) for x in inc))
@@ -408,7 +408,7 @@ rep('<p>Hospitality marketing, done properly. Restaurants, hotels and bars, plus
 
 
 # ================= phase 6: link the homepage to the new pages =================
-SLUGS = [('Content creation','content-creation'),('Social media management','social-media-management'),('Paid advertising','paid-advertising'),('Influencer marketing','influencer-marketing'),('SEO and AI search','seo-ai-search'),('Website design','website-design'),('Email marketing','email-marketing')]
+SLUGS = [('Content creation','content-creation'),('Social media management','social-media-management'),('Paid advertising','paid-advertising'),('SEO and AI search','seo-ai-search'),('Influencer marketing','influencer-marketing'),('Website design','website-design'),('Email marketing','email-marketing')]
 for name, slug in SLUGS:
     old = '<h3>%s</h3>' % e(name)
     i = h.index('<article class="x-sv-ch'); assert h.count(old) >= 1, name
