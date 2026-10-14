@@ -38,7 +38,7 @@ def ai_visual(pre):
             '<li><em>2</em><span class="x-ai-ghost" style="width:46%"></span></li><li><em>3</em><span class="x-ai-ghost" style="width:34%"></span></li></ol></div></div></div>'
             '<div class="x-ai-score"><div class="x-ai-ring"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" cx="50" cy="50" r="42"/></svg><b><span class="x-ai-num" data-n="86">86</span><small>Score</small></b></div>'
             '<div class="x-ai-rows"><div>Mention rate<span>High</span><i></i></div><div>Website health<span>Strong</span><i></i></div><div>Market position<span>Top 3</span><i></i></div></div></div>'
-            '<span class="x-ai-note">Illustrative example</span></div>')
+            '</div>')
 
 def nav_html(pre, home=False):
     P = pre  # prefix for links
