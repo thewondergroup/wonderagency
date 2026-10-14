@@ -2,7 +2,7 @@ import os, sys, json, re, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pages_content import SERVICES, MEDIA, SECTORS, COMBOS as _C
 from articles_content import ARTICLES as _A
-import media4
+import media4, sites
 media4.apply(SERVICES, MEDIA, SECTORS, _C, _A)
 ROOT = sys.argv[1]
 SITE = 'https://thewonderagency.co/'
@@ -170,6 +170,7 @@ for s in SERVICES:
     ld = [ORG, {"@type": "Service", "name": s['name'] + ' for restaurants, hotels and bars', "serviceType": s['name'], "description": s['desc'], "provider": {"@id": SITE + "#org"},
                 "areaServed": ["United Kingdom", "International"], "audience": {"@type": "Audience", "audienceType": "Restaurants, hotels, bars and food and drink brands"}, "url": SITE + path},
           crumb_ld([('', 'Home'), ('services/', 'Services'), (path, s['name'])]), faq_ld(s['faqs'])]
+    if s['slug'] == 'website-design': ld.append(sites.ld(SITE))
     inc = ''.join('<div class="x-r" style="--x-d:%.2fs"><span>0%d</span><h3>%s</h3><p>%s</p></div>' % ((k % 3) * 0.08, k + 1, e(t), e(d)) for k, (t, d) in enumerate(s['inc']))
     steps = ''.join('<div class="x-step x-r" style="--x-d:%.2fs"><span>Step %d</span><h3>%s</h3><p>%s</p></div>' % (k * 0.08, k + 1, e(t), e(d)) for k, (t, d) in enumerate(s['steps']))
     proof = ''
@@ -180,12 +181,12 @@ for s in SERVICES:
     rel = ''.join('<a class="p-card x-r" href="%sservices/%s/"><div class="p-card-media">%s</div><h3>%s</h3><p>%s</p><em>Find out more →</em></a>' % (pre, r, video(pre, BYSLUG[r]['clip'], False), e(BYSLUG[r]['name']), e(BYSLUG[r]['card'])) for r in s['related'])
     body = (head(pre, s['title'], s['desc'], path, ld) + chrome_top(pre) +
         '<section class="p-hero"><div>' + crumbs(pre, items) + '<div class="x-label">%s</div><h1>%s</h1><p class="p-lede">%s</p>' % (e(s['name']), e(s['h1']), e(s['lede'])) +
-        '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#included" class="x-link">What’s included</a></div></div>' % pre +
+        '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#%s" class="x-link">%s</a></div></div>' % (pre, 'sites' if s['slug'] == 'website-design' else 'included', 'See sites we’ve built' if s['slug'] == 'website-design' else 'What’s included') +
         '<div class="p-hero-media">%s</div></section>' % video(pre, s['clip']) +
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">%s</p><div class="p-body x-r">%s</div></div></section>' % (e(s['big']), ''.join('<p>%s</p>' % e(t) for t in s['why'])) +
         band(pre, MEDIA[s['slug']]['band'][0], MEDIA[s['slug']]['band'][1]) +
         '<section class="p-sec" id="included"><h2 class="p-h2 x-r">What’s included</h2><div class="p-inc">%s</div></section>' % inc +
-        gallery(pre, MEDIA[s['slug']]['gallery'], 'Recent work' if s['slug'] in ('content-creation', 'social-media-management', 'website-design') else 'In pictures') +
+        (sites.section(pre, lede='Every one designed and built by us: fast, built for phones, and set up so the booking button is never more than a thumb away.') if s['slug'] == 'website-design' else gallery(pre, MEDIA[s['slug']]['gallery'], 'Recent work' if s['slug'] in ('content-creation', 'social-media-management') else 'In pictures')) +
         '<section class="p-sec"><h2 class="p-h2 x-r">How it works</h2><div class="x-steps" style="margin-top:0">%s</div></section>' % steps +
         proof +
         '<section class="p-sec"><h2 class="p-h2 x-r">Questions</h2>%s</section>' % faq_html(s['faqs']) +
@@ -374,14 +375,15 @@ viewer = ('<div class="p-lb" id="p-lb" role="dialog" aria-modal="true" aria-labe
           '<button type="button" class="p-lb-nav p-lb-next" aria-label="Next">→</button><span class="p-lb-count"></span></div>')
 ld = [ORG, crumb_ld([('', 'Home'), (path, 'Work')]),
       {"@type": "CollectionPage", "name": "Our work", "url": SITE + path, "about": "Food, drink and hospitality photography, video and results",
-       "hasPart": [{"@type": "VideoObject", "name": it['cap'], "thumbnailUrl": SITE + 'images/x/clip-%s.webp' % it['id'], "contentUrl": SITE + 'videos/clips/%s-m.mp4' % it['id'], "uploadDate": "2026-10-13", "description": it['cap']} for kind, it in lib if kind == 'v']}]
-write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video & Results | The Wonder Agency',
-      'Selected photography and video from our shoots for restaurants, hotels, bars and food and drink brands, plus case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue and more.', path, ld) + chrome_top(pre) +
+       "hasPart": [{"@type": "VideoObject", "name": it['cap'], "thumbnailUrl": SITE + 'images/x/clip-%s.webp' % it['id'], "contentUrl": SITE + 'videos/clips/%s-m.mp4' % it['id'], "uploadDate": "2026-10-13", "description": it['cap']} for kind, it in lib if kind == 'v']}, sites.ld(SITE)]
+write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video, Websites & Results | The Wonder Agency',
+      'Selected photography, video and websites for restaurants, hotels, bars and food and drink brands, plus case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue and more.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Work')]) +
-      '<div class="x-label">Work</div><h1>Our work</h1><p class="p-lede">A selection of what we shoot in restaurants, kitchens, bars and hotels, and what that work has done for our clients’ bookings and revenue.</p>' +
+      '<div class="x-label">Work</div><h1>Our work</h1><p class="p-lede">A selection of what we shoot in restaurants, kitchens, bars and hotels, the websites we build, and what that work has done for our clients’ bookings and revenue.</p>' +
       '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#results" class="x-link">See the results</a></div></div></section>' % pre +
       '<section class="p-sec" id="selected" style="padding-top:0"><h2 class="p-h2 x-r">Selected work</h2>'
       '<div class="p-lib" id="p-lib">%s</div></section>' % cells +
+      sites.section(pre, 'Websites', 'Sites we’ve designed and built for restaurants, bars and the people who design them.', sid='websites') +
       '<section class="p-sec" id="results"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % results_html(RES) +
       '<section class="p-sec"><h2 class="p-h2 x-r">Trusted by</h2><div class="p-logos">%s</div></section>' % ''.join('<span class="p-logo"><img src="%s%s" alt="" loading="lazy"/></span>' % (pre, l) for l in seen) +
       end_cta(pre, 'Want content like this?') + viewer + chrome_bottom(pre, '<script src="%sjs/library.js"></script>' % pre))
@@ -445,7 +447,7 @@ for c in COMBOS:
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">%s</p><div class="p-body x-r">%s</div></div></section>' % (e(c['big']), ''.join('<p>%s</p>' % e(t) for t in c['why'])) +
         band(pre, MEDIA[s['slug']]['band'][0], MEDIA[s['slug']]['band'][1]) +
         '<section class="p-sec" id="included"><h2 class="p-h2 x-r">What’s included</h2><div class="p-inc">%s</div></section>' % inc +
-        gallery(pre, (x['gallery'] if x and path.startswith('who') else MEDIA[s['slug']]['gallery']), 'In pictures') +
+        (sites.section(pre, 'Restaurant websites we’ve built', only=('restaurants',)) if c['service'] == 'website-design' else gallery(pre, (x['gallery'] if x and path.startswith('who') else MEDIA[s['slug']]['gallery']), 'In pictures')) +
         proof +
         '<section class="p-sec"><h2 class="p-h2 x-r">Questions</h2>%s</section>' % faq_html(c['faqs']) +
         '<section class="p-sec"><h2 class="p-h2 x-r">Related</h2><div class="p-cards p-cards--small">%s</div></section>' % rel +
