@@ -17,6 +17,7 @@ python3 $S/build3/trim_logos.py $S/v3
 python3 $S/build3/optimise.py $S/v3
 cp $S/build3/pages.css css/pages.css
 mkdir -p images/x/sites && cp $S/sites-img/*.webp images/x/sites/
+mkdir -p images/x/cases && cp $S/build3/assets/cases/*.webp images/x/cases/
 python3 -I $S/build3/pages.py $S/v3
 cp $S/build3/mega.js js/mega.js; cp $S/build3/library.js js/library.js
 python3 -I $S/build3/prune.py $S/v3

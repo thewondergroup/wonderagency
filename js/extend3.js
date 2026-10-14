@@ -78,10 +78,10 @@
 
   // case studies: pinned, video behind
   var cs = document.querySelector('.x-cases'), csCur = -1;
-  var csVids = cs ? cs.querySelectorAll('.x-cases-bg video') : [], csPanels = cs ? cs.querySelectorAll('.x-case2') : [], csDots = cs ? cs.querySelectorAll('.x-cases-dots span') : [];
+  var csVids = cs ? cs.querySelectorAll('.x-cases-bg > *') : [], csPanels = cs ? cs.querySelectorAll('.x-case2') : [], csDots = cs ? cs.querySelectorAll('.x-cases-dots span') : [];
   function csSet(i) {
     if (i === csCur) return; csCur = i;
-    csVids.forEach(function (v, k) { v.classList.toggle('is-on', k === i); if (k === i) play(v); else v.pause(); });
+    csVids.forEach(function (v, k) { v.classList.toggle('is-on', k === i); if (v.tagName !== 'VIDEO') return; if (k === i) play(v); else v.pause(); });
     csPanels.forEach(function (p, k) { p.classList.toggle('is-on', k === i); });
     csDots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
   }
@@ -92,7 +92,7 @@
     ticking = false; navTick();
     if (sv) { var a = progress(sv); svSet(Math.min(chs.length - 1, Math.floor(a.p * chs.length))); if (rail) rail.style.height = (a.p * 100).toFixed(1) + '%';
       if (!a.near) meds.forEach(function (m) { m.querySelector('video').pause(); }); else if (meds[svCur]) play(meds[svCur].querySelector('video')); }
-    if (cs) { var c = progress(cs); csSet(c.p < 0.5 ? 0 : 1); if (!c.near) csVids.forEach(function (v) { v.pause(); }); else if (csVids[csCur]) play(csVids[csCur]); }
+    if (cs) { var c = progress(cs); csSet(Math.min(csPanels.length - 1, Math.floor(c.p * csPanels.length))); if (!c.near) csVids.forEach(function (v) { if (v.pause) v.pause(); }); else if (csVids[csCur] && csVids[csCur].tagName === 'VIDEO') play(csVids[csCur]); }
   }
   window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   window.addEventListener('resize', onScroll); onScroll();

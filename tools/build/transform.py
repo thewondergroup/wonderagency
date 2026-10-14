@@ -367,11 +367,17 @@ ss = h.index('<section id="WhatWeDo"'); se = h.index('<section class="x-section"
 h = h[:ss] + sv + h[se:]
 
 # ---- results: full-screen video case studies ----
-CASES = [('fish-b', 'Restaurant · three years', '£3.2m<em>→</em>£4.6m', 'Annual revenue, with Instagram from 3,000 to 20,000+ followers.', 'Every channel aligned: weekly shoots, daily social, paid, email and SEO. Google rating 4.0 to 4.6.'),
-         ('grill-c', 'Hotel group · three months', '<em>+</em>58%', 'Year-on-year food and beverage revenue. Room bookings up 26%.', 'A restaurant-first content strategy that made the hotel a destination for locals, not just guests.')]
-cases = ('<div class="x-cases"><div class="x-cases-stick"><div class="x-cases-bg">' +
-         ''.join('<video class="%s" muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-m.mp4" aria-hidden="true"></video>' % ('is-on' if k == 0 else '', v, v) for k, (v, *_r) in enumerate(CASES)) +
-         '</div>' + ''.join('<article class="x-case2%s"><div class="x-label">%s</div><div class="x-case2-stat">%s</div><h3>%s</h3><p>%s</p><div class="x-case-svc">Content · Social · Ads · Web · Influencer</div></article>' % (' is-on' if k == 0 else '', l, st, c, n) for k, (v, l, st, c, n) in enumerate(CASES)) +
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import cases as _cases
+_BG = {'revenue': ('v', 'fish-b'), 'hotel': ('v', 'grill-c'), 'overhaul': ('i', 'case-overhaul-bg'), 'michelin': ('i', 'case-michelin'), 'brunch': ('i', 'case-brunch')}
+def _bg(k, c):
+    kind, src = _BG[c['key']]; on = ' class="is-on"' if k == 0 else ''
+    if kind == 'v': return '<video%s muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-m.mp4" aria-hidden="true"></video>' % (on, src, src)
+    return '<img%s src="images/x/cases/%s.webp" alt="" loading="lazy" decoding="async"/>' % (on, src)
+CASES = _cases.CASES
+cases = ('<div class="x-cases" style="--n:%d"><div class="x-cases-stick"><div class="x-cases-bg">' % len(CASES) +
+         ''.join(_bg(k, c) for k, c in enumerate(CASES)) +
+         '</div>' + ''.join('<article class="x-case2%s"><div class="x-label">%s</div><div class="x-case2-stat">%s</div><h3>%s</h3><p>%s</p><a href="work/#case-%s" class="x-link">Read the case study</a></article>' % (
+             ' is-on' if k == 0 else '', e(c['label']), e(c['stat']).replace('→', '<em>→</em>').replace('+', '<em>+</em>', 1), e(c['line']), e(c['overview']), c['key']) for k, c in enumerate(CASES)) +
          '<div class="x-cases-dots">' + ''.join('<span class="%s">0%d</span>' % ('is-on' if k == 0 else '', k+1) for k in range(len(CASES))) + '</div></div></div>')
 rs = h.index('<section id="Results"'); r1 = h.index('<article class="x-case x-r">', rs); r2 = h.index('<div class="x-more">', rs)
 h = h[:r1] + '</div>' + cases + '<div class="x-wrap" style="margin-top:4rem">' + h[r2:]

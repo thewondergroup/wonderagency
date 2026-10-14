@@ -92,7 +92,7 @@ L = ['# The Wonder Agency', '',
      'Key facts:',
      '- Based in London, United Kingdom; part of The Wonder Group. Founded by Charles Morris and Charlotte Giles.',
      '- Specialism: hospitality and lifestyle brands, from Michelin-starred restaurants to hotel groups and independents.',
-     '- Results: one restaurant grew annual revenue from £3.2m to £4.6m over three years; a hotel group grew year-on-year food and beverage revenue by 58% in three months, with room bookings up 26%; a Michelin-starred restaurant grew mid-week set lunch bookings by 95% in three months; a three-restaurant group grew Q4 revenue by 18%.',
+     '- Results: one restaurant grew annual revenue from £3.2m to £4.6m over three years; a hotel group grew year-on-year food and beverage revenue by 58% in three months, with room bookings up 26%; a Michelin-starred restaurant grew mid-week set lunch bookings by 95% in three months; a three-restaurant group grew Q4 revenue by 18%; a new Saturday brunch in a historic City venue with no weekend trade reached 220 to 250 covers every Saturday within six weeks.',
      '- Offers a free marketing audit for restaurants, hotels and bars: ' + SITE + 'contact/',
      '- Contact: hello@thewonder.group, +44 777 502 2514', '']
 groups = [('Services', 'services/', ()), ('Who we work with', 'who-we-work-with/', ()), ('London', 'london/', ()), ('Work and results', 'work/', ()), ('AI search', 'wonder-score/', ()),

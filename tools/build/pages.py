@@ -2,7 +2,7 @@ import os, sys, json, re, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pages_content import SERVICES, MEDIA, SECTORS, COMBOS as _C
 from articles_content import ARTICLES as _A
-import media4, sites
+import media4, sites, cases
 media4.apply(SERVICES, MEDIA, SECTORS, _C, _A)
 ROOT = sys.argv[1]
 SITE = 'https://thewonderagency.co/'
@@ -224,7 +224,8 @@ KNOW = [('Covers, not clicks', 'We measure success the way you do: bookings, cov
 RESULTS = [('£3.2m → £4.6m', 'Annual revenue for a restaurant over three years, with Instagram from 3,000 to 20,000+ followers.'),
            ('+58%', 'Year-on-year food and beverage revenue for a hotel group in three months, with room bookings up 26%.'),
            ('+95%', 'Mid-week set lunch bookings at a Michelin-starred restaurant within three months.'),
-           ('+18%', 'Q4 revenue for a three-restaurant group after a full digital overhaul.')]
+           ('+18%', 'Q4 revenue for a three-restaurant group after a full digital overhaul.'),
+           ('220–250', 'Brunch covers every Saturday, six weeks after launching a new brunch in a historic City venue with no weekend trade.')]
 BELIEFS = [('People choose places that say something about them.', 'Where we eat, drink and stay says something about who we are. Good hospitality marketing makes clear what choosing your venue says about your guests, and makes sure your whole team tells the same story.'),
            ('Attention is an exchange.', 'People give you their attention and expect something back: something useful, something beautiful or something to look forward to. We make content that earns its place in the feed.'),
            ('True stories beat spin.', 'Storytelling is the oldest way people share what matters. We tell the real story of your food, your rooms and your people, because guests can tell the difference.')]
@@ -380,16 +381,16 @@ viewer = ('<div class="p-lb" id="p-lb" role="dialog" aria-modal="true" aria-labe
           '<button type="button" class="p-lb-nav p-lb-next" aria-label="Next">→</button><span class="p-lb-count"></span></div>')
 ld = [ORG, crumb_ld([('', 'Home'), (path, 'Work')]),
       {"@type": "CollectionPage", "name": "Our work", "url": SITE + path, "about": "Food, drink and hospitality photography, video and results",
-       "hasPart": [{"@type": "VideoObject", "name": it['cap'], "thumbnailUrl": SITE + 'images/x/clip-%s.webp' % it['id'], "contentUrl": SITE + 'videos/clips/%s-m.mp4' % it['id'], "uploadDate": "2026-10-13", "description": it['cap']} for kind, it in lib if kind == 'v']}, sites.ld(SITE)]
+       "hasPart": [{"@type": "VideoObject", "name": it['cap'], "thumbnailUrl": SITE + 'images/x/clip-%s.webp' % it['id'], "contentUrl": SITE + 'videos/clips/%s-m.mp4' % it['id'], "uploadDate": "2026-10-13", "description": it['cap']} for kind, it in lib if kind == 'v']}, sites.ld(SITE), cases.ld(SITE)]
 write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video, Websites & Results | The Wonder Agency',
-      'Selected photography, video and websites for restaurants, hotels, bars and food and drink brands, plus case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue and more.', path, ld) + chrome_top(pre) +
+      'Selected photography, video and websites for restaurants, hotels, bars and food and drink brands, plus five case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue, +95% set lunch bookings and more.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Work')]) +
       '<div class="x-label">Work</div><h1>Our work</h1><p class="p-lede">A selection of what we shoot in restaurants, kitchens, bars and hotels, the websites we build, and what that work has done for our clients’ bookings and revenue.</p>' +
       '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#results" class="x-link">See the results</a></div></div></section>' % pre +
       '<section class="p-sec" id="selected" style="padding-top:0"><h2 class="p-h2 x-r">Selected work</h2>'
       '<div class="p-lib" id="p-lib">%s</div></section>' % cells +
       sites.section(pre, 'Websites', 'Sites we’ve designed and built for restaurants, bars and the people who design them.', sid='websites') +
-      '<section class="p-sec" id="results"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % results_html(RES) +
+      '<section class="p-sec" id="results"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % cases.work_section(pre) +
       '<section class="p-sec"><h2 class="p-h2 x-r">Selected clients</h2><div class="p-logos">%s</div></section>' % ''.join('<span class="p-logo"><img src="%s%s" alt="" loading="lazy"/></span>' % (pre, l) for l in seen) +
       end_cta(pre, 'Want content like this?') + viewer + chrome_bottom(pre, '<script src="%sjs/library.js"></script>' % pre))
 
