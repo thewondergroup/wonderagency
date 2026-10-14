@@ -421,7 +421,7 @@ write(path + 'index.html', head(pre, 'Wonder Score | Is Your Restaurant or Hotel
       '<div class="p-btns"><a href="https://wonderscore.ai" target="_blank" rel="noopener" class="x-nav-cta">Check your Wonder Score <i>→</i></a><a href="#how" class="x-link">How it works</a></div></div>'
       '<div class="x-chat x-in" role="img" aria-label="Example: an AI assistant asked for the best restaurant for a special occasion in London recommends your restaurant first">'
       '<div class="x-chat-q">Best restaurant for a special occasion in London?</div><div class="x-chat-a"><span class="x-chat-who">AI assistant</span>Three places stand out, and the first is <strong>your restaurant</strong>.</div>'
-      '<div class="x-chat-score"><b>86</b><span>Wonder Score<br/>Illustrative example</span></div></div></section>' +
+      '<div class="x-chat-score"><b>86</b><span>Wonder Score</span></div></div></section>' +
       '<section class="p-sec"><div class="p-two"><p class="p-big x-r">When a guest asks an AI where to go, there are no ten blue links. There’s one answer.</p><div class="p-body x-r">'
       '<p>Search used to give people a page of results to choose from. AI assistants give a short answer with a few names in it, and most people go with it. If you’re not named, that guest never sees you.</p>'
       '<p>Wonder Score measures how visible you are in those answers, analyses your website and your competitors, and gives you a clear list of what to change to get recommended more. Then, if you want, we do the work for you.</p></div></div></section>' +

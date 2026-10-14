@@ -166,7 +166,7 @@ ws = ('<section id="WonderScore" class="x-section" aria-label="Wonder Score"><di
  '<div class="x-chat" role="img" aria-label="Example: an AI assistant asked for the best restaurant for a special occasion in London recommends your restaurant first">'
  '<div class="x-chat-q">Best restaurant for a special occasion in London?</div>'
  '<div class="x-chat-a"><span class="x-chat-who">AI assistant</span>Three places stand out, and the first is <strong>your restaurant</strong>.</div>'
- '<div class="x-chat-score"><b>86</b><span>Wonder Score<br/>Illustrative example</span></div></div></div></div></section>')
+ '<div class="x-chat-score"><b>86</b><span>Wonder Score</span></div></div></div></div></section>')
 faq = ('<section id="Questions" class="x-section" aria-label="Questions">' + heading([('Questions', True)]) + '<div class="x-wrap"><div class="x-acc x-acc--q">' +
  ''.join('<div class="x-acc-item x-r"><button type="button" class="x-acc-btn hover-cursor" aria-expanded="false" aria-controls="x-q-%d"><span class="x-acc-name">%s</span><span class="x-acc-icon" aria-hidden="true"></span></button><div class="x-acc-panel" id="x-q-%d"><div class="x-acc-inner"><p>%s</p></div></div></div>' % (k, e(q), k, e(a)) for k, (q, a) in enumerate(FAQ)) +
  '</div></div><div style="height:150px"></div></section>')
