@@ -1,4 +1,4 @@
-import re, sys, json, html as H
+import os, re, sys, json, html as H
 src, out = sys.argv[1], sys.argv[2]
 h = open(src, encoding='utf-8').read()
 def rep(old, new, count=1):
@@ -232,7 +232,7 @@ h = h[:hs] + hero + h[he:]
 
 # ---- selected work: one client per slot, with their footage ----
 WORK = [('Restaurants', 'w66', 'Oysters, uni and tuna', 'restaurants', 'From Michelin-starred dining rooms to neighbourhood favourites.', 'Marketing for restaurants'),
-        ('Hotels', 'w75', 'A beach day at a seaside hotel', 'hotels', 'Rooms, restaurants, bars, events and weddings.', 'Marketing for hotels'),
+        ('Hotels', 'w74', 'Sunset by the sea at a coastal hotel', 'hotels', 'Rooms, restaurants, bars, events and weddings.', 'Marketing for hotels'),
         ('Bars', 'w20', 'Bartenders at work in a busy bar', 'bars-and-pubs', 'Cocktail bars, pubs and late-night venues.', 'Marketing for bars and pubs'),
         ('Brands', 'beeble', 'Spirits campaign', 'food-and-drink-brands', 'Food and drink brands, from launch to shelf.', 'Marketing for food and drink brands')]
 ws = h.index('<div id="Work"'); we = h.index('navigation-2', ws)
@@ -243,7 +243,7 @@ def rename(m):
 work, n = re.subn(r'class="heading-large text-style-all-caps primary-font">([^<]*)</div>', rename, work); assert n == 5, n
 for k, (name, clip, alt, slug, line, more) in enumerate(WORK):
     work, n = re.subn(r'(<div id="0%d" data-w-id="[^"]*"[^>]*class="image-work) hover-cursor"><img[^>]*/>' % (k+1),
-                      lambda m: m.group(1) + '">' + '<a class="x-work-link" href="who-we-work-with/%s/" aria-label="%s"><video %s class="image" muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s-m.mp4" data-x-auto aria-label="%s"></video></a>' % (slug, e(more), re.search(r'data-w-id="[^"]*"', m.group(0).split('<img', 1)[1]).group(0), clip, clip, e(alt)),
+                      lambda m: m.group(1) + '">' + '<a class="x-work-link" href="who-we-work-with/%s/" aria-label="%s"><video %s class="image" muted loop playsinline preload="none" poster="images/x/clip-%s.webp" data-src="videos/clips/%s.mp4" data-x-auto aria-label="%s"></video></a>' % (slug, e(more), re.search(r'data-w-id="[^"]*"', m.group(0).split('<img', 1)[1]).group(0), clip, clip + ('-l' if os.path.exists(os.path.join(os.path.dirname(out), 'videos/clips/%s-l.mp4' % clip)) else '-m'), e(alt)),
                       work); assert n == 1, (k, n)
 for name, clip, alt, slug, line, more in WORK:
     work, n = re.subn(r'(primary-font">%s</div></div>)' % name, lambda m: m.group(1) + '<div class="x-work-sub"><p>%s</p><a href="who-we-work-with/%s/" class="x-link">%s</a></div>' % (e(line), slug, e(more)), work, count=1); assert n == 1, name
