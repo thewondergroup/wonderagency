@@ -11,7 +11,7 @@ SITE = 'https://thewonderagency.co/'
 MAP = {
     # Webflow defaults and common agency pages
     'home': '', 'index': '', 'about-us': 'about/', 'our-story': 'about/', 'team': 'about/', 'our-team': 'about/', 'the-team': 'about/',
-    'contact-us': 'contact/', 'get-in-touch': 'contact/', 'enquire': 'contact/', 'audit': 'contact/', 'free-audit': 'contact/',
+    'contact-us': 'contact/', 'get-in-touch': 'contact/', 'enquire': 'contact/', 'audit': 'free-audit/', 'marketing-audit': 'free-audit/', 'free-audit': 'contact/',
     'our-work': 'work/', 'portfolio': 'work/', 'case-studies': 'work/', 'case-study': 'work/', 'projects': 'work/', 'clients': 'work/', 'results': 'work/',
     'our-services': 'services/', 'what-we-do': 'services/', 'service': 'services/',
     'social-media': 'services/social-media-management/', 'social': 'services/social-media-management/', 'social-media-marketing': 'services/social-media-management/',

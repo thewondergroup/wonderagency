@@ -148,7 +148,7 @@ def page_body(pre, c):
     return (
         '<section class="p-hero p-hero--case"><div>{CRUMBS}'
         '<div class="x-label">Case study 0%d · %s</div><h1>%s</h1><div class="p-cs-stat p-cs-stat--hero">%s</div><p class="p-lede">%s</p>'
-        '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#results" class="x-link">See the results</a></div></div>'
+        '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#results" class="x-link">See the results</a></div></div>'
         '<div class="p-hero-media p-hero-media--still"><img src="%s" alt="" decoding="async"/></div></section>'
         '<section class="p-sec" style="padding-top:2rem">%s</section>'
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">The challenge</p><div class="p-body x-r"><p>%s</p><p>%s</p></div></div></section>'

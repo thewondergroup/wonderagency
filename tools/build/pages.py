@@ -43,7 +43,7 @@ def ai_visual(pre):
 def nav_html(pre, home=False):
     P = pre  # prefix for links
     brand = '#top' if home else (pre or './')
-    audit = ('#Contact" data-x-audit' if home else '%scontact/"' % pre)
+    audit = ('#Contact" data-x-audit' if home else '%sfree-audit/"' % pre)
     links = ''.join(('<a href="%s%s" class="hover-cursor x-nav-t" data-mega="%s">%s<i class="x-car" aria-hidden="true"></i></a>' % (P, u, m, t)) if m else ('<a href="%s%s" class="hover-cursor">%s</a>' % (P, u, t)) for u, t, m in NAV)
     # services panel
     items = ''.join('<a class="x-mm-item" href="%sservices/%s/" data-s style="--s:%d"><span>0%d</span><div><b>%s</b><em>%s</em></div><i>→</i></a>' % (P, s['slug'], k, k + 1, e(s['name']), e(SVC_LINE[s['slug']])) for k, s in enumerate(SERVICES))
@@ -122,8 +122,8 @@ def footer_html(pre):
             '<p><a href="mailto:hello@thewonder.group">hello@thewonder.group</a><br/><a href="tel:+447775022514">+44 777 502 2514</a></p></div>'
             '<div><h3>Services</h3><ul>%s</ul></div><div><h3>Who we work with</h3><ul>%s<li><a href="%slondon/">London</a></li></ul></div>'
             '<div><h3>Company</h3><ul><li><a href="%sabout/">About</a></li><li><a href="%swork/">Work</a></li><li><a href="%swonder-score/">AI Search</a></li><li><a href="%sinsights/">Insights</a></li><li><a href="%spricing/">Pricing</a></li>'
-            '<li><a href="%scontact/">Free audit</a></li><li><a href="https://www.instagram.com/the.wonder.list/" target="_blank" rel="noopener">Instagram</a></li></ul></div></div>'
-            '<div class="x-footer-base"><span>© 2026 The Wonder Agency · <a href="%sprivacy/">Privacy policy</a></span><span>Made to be booked out</span></div></footer>') % (svc, sec, pre, pre, pre, pre, pre, pre, pre, pre)
+            '<li><a href="%sfree-audit/">Free audit</a></li><li><a href="%scontact/">Contact</a></li><li><a href="https://www.instagram.com/the.wonder.list/" target="_blank" rel="noopener">Instagram</a></li></ul></div></div>'
+            '<div class="x-footer-base"><span>© 2026 The Wonder Agency · <a href="%sprivacy/">Privacy policy</a></span><span>Made to be booked out</span></div></footer>') % (svc, sec, pre, pre, pre, pre, pre, pre, pre, pre, pre)
 
 def chrome_bottom(pre, extra_js=''):
     return ('</main>' + footer_html(pre) +
@@ -142,7 +142,7 @@ def video(pre, name, eager=True):
     attrs = 'autoplay muted loop playsinline preload="auto" src="%s%s"' % (pre, clip(name)) if eager else 'muted loop playsinline preload="none" data-src="%s%s" data-x-auto' % (pre, clip(name))
     return '<video %s poster="%s%s" aria-hidden="true"></video>' % (attrs, pre, poster(name))
 def end_cta(pre, h2='Get your free audit', p='Tell us about your venue and we’ll show you what’s working, what isn’t, and what we’d do first. No charge and no obligation.'):
-    return ('<section class="p-end"><h2 class="x-r">%s</h2><p class="x-r">%s</p><div class="p-btns x-r"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a>'
+    return ('<section class="p-end"><h2 class="x-r">%s</h2><p class="x-r">%s</p><div class="p-btns x-r"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a>'
             '<a href="mailto:hello@thewonder.group" class="x-link">Email us</a></div></section>') % (h2, p, pre)
 
 def clip_l(name):
@@ -181,7 +181,7 @@ for s in SERVICES:
     rel = ''.join('<a class="p-card x-r" href="%sservices/%s/"><div class="p-card-media">%s</div><h3>%s</h3><p>%s</p><em>Find out more →</em></a>' % (pre, r, video(pre, BYSLUG[r]['clip'], False), e(BYSLUG[r]['name']), e(BYSLUG[r]['card'])) for r in s['related'])
     body = (head(pre, s['title'], s['desc'], path, ld) + chrome_top(pre) +
         '<section class="p-hero"><div>' + crumbs(pre, items) + '<div class="x-label">%s</div><h1>%s</h1><p class="p-lede">%s</p>' % (e(s['name']), e(s['h1']), e(s['lede'])) +
-        '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#%s" class="x-link">%s</a></div></div>' % (pre, 'sites' if s['slug'] == 'website-design' else 'included', 'See sites we’ve built' if s['slug'] == 'website-design' else 'What’s included') +
+        '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#%s" class="x-link">%s</a></div></div>' % (pre, 'sites' if s['slug'] == 'website-design' else 'included', 'See sites we’ve built' if s['slug'] == 'website-design' else 'What’s included') +
         '<div class="p-hero-media">%s</div></section>' % video(pre, s['clip']) +
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">%s</p><div class="p-body x-r">%s</div></div></section>' % (e(s['big']), ''.join('<p>%s</p>' % e(t) for t in s['why'])) +
         band(pre, MEDIA[s['slug']]['band'][0], MEDIA[s['slug']]['band'][1]) +
@@ -203,7 +203,7 @@ write(path + 'index.html', head(pre, 'Hospitality Marketing Services | Restauran
       'Content, social media, paid ads, SEO and AI search, websites and email for restaurants, hotels and bars. Everything you need to get more bookings, from one team.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text"><div>' + crumbs(pre, [('', 'Home'), (None, 'Services')]) +
       '<div class="x-label">Services</div><h1>Everything you need to get more bookings</h1><p class="p-lede">Seven services that decide whether people find you, choose you and book. Take one, or let one team run them all, so every channel works towards the same goal.</p>'
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a></div></div></section>' % pre +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a></div></div></section>' % pre +
       '<section class="p-sec" style="padding-top:2rem"><div class="p-cards">%s</div></section>' % cards +
       end_cta(pre, 'Not sure where to start?', 'The free audit looks at your social media, ads, search and website, and tells you which of the seven will make the biggest difference first.') + chrome_bottom(pre))
 
@@ -244,7 +244,7 @@ write(path + 'index.html', head(pre, 'About The Wonder Agency | Hospitality Mark
       '<section class="p-ahero"><div class="p-aw" aria-hidden="true">' + wall + '</div><div class="p-ahero-in">' + crumbs(pre, [('', 'Home'), (None, 'About')]) +
       '<div class="x-label">About The Wonder Agency</div><h1>The hospitality marketing specialists</h1>'
       '<p class="p-lede">We’re a London digital marketing agency that specialises in restaurants, hotels and bars. One team runs content, social media, ads, search, websites and email, with one goal: more bookings.</p>'
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#know" class="x-link">What we know</a></div></div></section>' % pre +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#know" class="x-link">What we know</a></div></div></section>' % pre +
       '<section class="p-stats">' + ''.join('<div class="x-r" style="--x-d:%.2fs"><b>%s</b><span>%s</span></div>' % (k * 0.08, n, e(l)) for k, (n, l) in enumerate(STATS)) + '</section>' +
       '<section class="p-sec"><div class="p-two"><p class="p-big x-r">Trusted by Michelin-starred restaurants, hotel groups and independents, from London to Paris.</p><div class="p-body x-r">'
       '<p>Founded by Charles Morris and Charlotte Giles, The Wonder Agency is part of The Wonder Group. Hospitality is where we’ve built our expertise, so we know what makes someone choose one restaurant over another, book a hotel for the weekend, or come back for a second visit.</p>'
@@ -257,28 +257,82 @@ write(path + 'index.html', head(pre, 'About The Wonder Agency | Hospitality Mark
       '<section class="p-sec"><h2 class="p-h2 x-r">Selected clients</h2><div class="p-logos">%s</div></section>' % logo_grid +
       end_cta(pre) + chrome_bottom(pre))
 
-# ---------- contact / free audit ----------
-pre = '../'; path = 'contact/'
-form = ('<div class="p-form"><form id="email-form" name="email-form">'
+# ---------- free audit ----------
+pre = '../'; path = 'free-audit/'
+form = ('<div class="p-form" id="request"><form id="email-form" name="email-form" data-kind="audit">'
         '<label for="name">Your name</label><input type="text" id="name" name="name" maxlength="256" autocomplete="name" required/>'
         '<label for="email">Your email</label><input type="email" id="email" name="email" maxlength="256" autocomplete="email" required/>'
-        '<label for="venue">Your venue</label><input type="text" id="venue" name="venue" maxlength="256" required/>'
+        '<label for="venue">Your venue or business</label><input type="text" id="venue" name="venue" maxlength="256" required/>'
         '<label for="link">Website or Instagram</label><input type="text" id="link" name="link" maxlength="256"/>'
-        '<label for="field">Anything we should know? (optional)</label><textarea id="field" name="field" maxlength="5000"></textarea>'
-        '<label class="p-check"><input type="checkbox" id="checkbox" name="checkbox"/> I’m happy for The Wonder Agency to contact me about my audit, as set out in our <a href="../privacy/">privacy policy</a>.</label>'
+        '<label for="field">Anything we should know? (optional)</label><textarea id="field" name="field" maxlength="5000" placeholder="What you’d like more of: bookings, covers, room nights, a quiet night filled…"></textarea>'
+        '<label class="p-check"><input type="checkbox" id="checkbox" name="checkbox"/> <span>I’m happy for The Wonder Agency to contact me about my audit, as set out in our <a href="../privacy/">privacy policy</a>.</span></label>'
         '<input type="submit" value="Send my audit request" data-wait="Sending…"/></form>'
         '<div class="w-form-done">Thank you. Your audit request is in and we’ll be in touch.</div><div class="w-form-fail">Sorry, something went wrong. Please email hello@thewonder.group instead.</div></div>')
 AUDIT = [('Social and content', 'What you post, how it looks, and whether anyone acts on it.'), ('Paid ads', 'Where the budget goes and what it brings back in bookings.'),
          ('Search and AI search', 'How you show up on Google, and whether AI assistants name you.'), ('Website and booking', 'How many people you lose between the menu and the booking button.')]
-ld = [ORG, crumb_ld([('', 'Home'), (path, 'Free audit')]), {"@type": "ContactPage", "url": SITE + path}]
+GET = [('A plain summary', 'What’s working, what isn’t and why, written for you rather than for marketers. No jargon and no 40-page deck.'),
+       ('What we’d fix first', 'The few changes most likely to bring in more bookings, in the order we’d do them.'),
+       ('A call, if you want one', 'We’ll talk it through and answer your questions. If you’d rather just read it, that’s fine too.')]
+HOW = [('You ask', 'Tell us your name, your venue and a link to your website or Instagram. Two minutes.'),
+       ('We look', 'We review your marketing from the outside, the way a guest finds you: social, ads, Google, AI search and your website.'),
+       ('We report', 'We send you a plain summary and what we’d fix first.'),
+       ('You decide', 'Use it yourself, ask us to do it, or do nothing at all. There’s no obligation.')]
+AFAQ = [('Is it really free?', 'Yes. There’s no charge and no catch. It’s how most of our clients first got to know us.'),
+        ('Will you try to sell me something?', 'We’ll tell you what we’d do, and if you’d like us to do it we’ll explain how. If not, you keep the audit and that’s the end of it.'),
+        ('What do you need from me?', 'Just your venue and a link to your website or Instagram. We look at everything from the outside, like a guest would, so you don’t need to give us any logins.'),
+        ('Can you look at our ad accounts and analytics too?', 'Yes, if you’d like a deeper look we can arrange read-only access afterwards. It isn’t needed for the audit.'),
+        ('Do you only audit hospitality businesses?', 'Restaurants, hotels, bars and food and drink brands are what we know best, but we’re happy to take a look at other businesses too.'),
+        ('We have several venues. Can you audit all of them?', 'Yes. Tell us about the group and we’ll look at each venue and how they work together.')]
+PROOF = [('£3.2m → £4.6m', 'Annual revenue for a restaurant over three years.', 'work/restaurant-revenue-growth/'),
+         ('+58%', 'Food and beverage revenue for a hotel in three months.', 'work/hotel-boost/'),
+         ('+95%', 'Set lunch bookings at a Michelin-starred restaurant.', 'work/michelin-star-set-menu/')]
+ld = [ORG, crumb_ld([('', 'Home'), (path, 'Free audit')]), faq_ld(AFAQ),
+      {"@type": "Offer", "name": "Free marketing audit", "price": "0", "priceCurrency": "GBP", "url": SITE + path, "seller": {"@id": SITE + "#org"},
+       "description": "A free review of a restaurant, hotel or bar’s social media, ads, search, AI search and website, with what we’d fix first."}]
 write(path + 'index.html', head(pre, 'Free Marketing Audit for Restaurants, Hotels & Bars | The Wonder Agency',
-      'Get a free audit of your restaurant, hotel or bar’s marketing: social media, ads, search, AI search and website. What’s working, what isn’t, and what we’d do first.', path, ld) + chrome_top(pre) +
+      'Get a free marketing audit for your restaurant, hotel or bar: social media, ads, Google, AI search and website. What’s working, what isn’t, and what we’d fix first. No charge, no obligation.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Free audit')]) +
-      '<div class="x-label">Free audit</div><h1>Get your free marketing audit</h1><p class="p-lede">Tell us about your venue. We’ll review your marketing from the outside, the way a guest sees it, and send you a plain account of what’s working, what isn’t, and what we’d do first. No charge and no obligation.</p></div></section>' +
+      '<div class="x-label">Free audit</div><h1>Get a free marketing audit for your venue</h1><p class="p-lede">Tell us about your venue. We’ll review your marketing from the outside, the way a guest finds you, and send you a plain account of what’s working, what isn’t, and what we’d fix first. No charge and no obligation.</p>'
+      '<div class="p-btns"><a href="#request" class="x-nav-cta">Request your audit <i>→</i></a><a href="#look" class="x-link">What we look at</a></div></div></section>' +
       '<section class="p-sec" style="padding-top:0"><div class="p-two">' + form +
-      '<div><h2 class="p-big" style="margin-bottom:1.6rem">What we look at</h2><ul class="p-direct">%s</ul>' % ''.join('<li><b>0%d</b>%s: <span style="color:#bdbdbd">%s</span></li>' % (k + 1, e(t), e(d)) for k, (t, d) in enumerate(AUDIT)) +
-      '<h2 class="p-big" style="margin:3rem 0 1.2rem">Or get in touch directly</h2><ul class="p-direct"><li><b>Email</b><a href="mailto:hello@thewonder.group">hello@thewonder.group</a></li><li><b>Phone</b><a href="tel:+447775022514">+44 777 502 2514</a></li></ul></div>'
-      '</div></section><div style="height:8rem"></div>' + chrome_bottom(pre, '<script src="%sjs/contact-form.js"></script>' % pre))
+      '<div id="look"><h2 class="p-big" style="margin-bottom:1.6rem">What we look at</h2><ul class="p-direct">%s</ul></div></div></section>' % ''.join('<li><b>0%d</b>%s: <span style="color:#bdbdbd">%s</span></li>' % (k + 1, e(t), e(d)) for k, (t, d) in enumerate(AUDIT)) +
+      '<section class="p-sec"><h2 class="p-h2 x-r">What you get</h2><div class="p-inc">%s</div></section>' % ''.join('<div class="x-r" style="--x-d:%.2fs"><span>0%d</span><h3>%s</h3><p>%s</p></div>' % (k * 0.08, k + 1, e(a), e(b)) for k, (a, b) in enumerate(GET)) +
+      '<section class="p-sec"><h2 class="p-h2 x-r">How it works</h2><div class="x-steps" style="margin-top:0">%s</div></section>' % ''.join('<div class="x-step x-r" style="--x-d:%.2fs"><span>Step %d</span><h3>%s</h3><p>%s</p></div>' % (k * 0.08, k + 1, e(a), e(b)) for k, (a, b) in enumerate(HOW)) +
+      '<section class="p-sec"><h2 class="p-h2 x-r">What it can lead to</h2><div class="p-res p-res--3">%s</div><p class="x-r" style="margin-top:2rem"><a class="x-link" href="%swork/">See all our case studies</a></p></section>' % (
+          ''.join('<a class="x-r p-res-link" style="--x-d:%.2fs" href="%s%s"><b>%s</b><p>%s</p></a>' % (k * 0.08, pre, u, e(a), e(b)) for k, (a, b, u) in enumerate(PROOF)), pre) +
+      '<section class="p-sec"><div class="p-two"><p class="p-big x-r">Who it’s for</p><div class="p-body x-r"><p>Restaurants, hotels, bars and pubs, restaurant groups, and food and drink brands, from independents to Michelin-starred dining rooms and hotel groups. One venue or twenty.</p>'
+      '<p>Hospitality is what we know best, but if you run another kind of business and want a fresh pair of eyes on your marketing, ask anyway.</p></div></div></section>' +
+      '<section class="p-sec"><h2 class="p-h2 x-r">Questions</h2>%s</section>' % faq_html(AFAQ) +
+      '<section class="p-end"><h2 class="x-r">Ready when you are</h2><p class="x-r">It takes two minutes to request, and it’s yours to keep whatever you decide.</p><div class="p-btns x-r"><a href="#request" class="x-nav-cta">Request your audit <i>→</i></a><a href="mailto:hello@thewonder.group" class="x-link">Email us</a></div></section>' +
+      chrome_bottom(pre, '<script src="%sjs/contact-form.js"></script>' % pre))
+
+# ---------- contact ----------
+pre = '../'; path = 'contact/'
+cform = ('<div class="p-form"><form id="email-form" name="email-form" data-kind="contact">'
+         '<label for="name">Your name</label><input type="text" id="name" name="name" maxlength="256" autocomplete="name" required/>'
+         '<label for="email">Your email</label><input type="email" id="email" name="email" maxlength="256" autocomplete="email" required/>'
+         '<label for="venue">Company (optional)</label><input type="text" id="venue" name="venue" maxlength="256" autocomplete="organization"/>'
+         '<label for="topic">What’s it about?</label><select id="topic" name="topic"><option>Working together</option><option>Press</option><option>Careers</option><option>Partnerships</option><option>Something else</option></select>'
+         '<label for="field">Your message</label><textarea id="field" name="field" maxlength="5000" required></textarea>'
+         '<label class="p-check"><input type="checkbox" id="checkbox" name="checkbox"/> <span>I’m happy for The Wonder Agency to reply to me, as set out in our <a href="../privacy/">privacy policy</a>.</span></label>'
+         '<input type="submit" value="Send message" data-wait="Sending…"/></form>'
+         '<div class="w-form-done">Thank you. Your message is in and we’ll get back to you.</div><div class="w-form-fail">Sorry, something went wrong. Please email hello@thewonder.group instead.</div></div>')
+ld = [ORG, crumb_ld([('', 'Home'), (path, 'Contact')]), {"@type": "ContactPage", "url": SITE + path, "about": {"@id": SITE + "#org"}}]
+write(path + 'index.html', head(pre, 'Contact The Wonder Agency | Hospitality Marketing Agency, London',
+      'Get in touch with The Wonder Agency, a London hospitality marketing agency. Email hello@thewonder.group, call +44 777 502 2514, or send us a message.', path, ld) + chrome_top(pre) +
+      '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Contact')]) +
+      '<div class="x-label">Contact</div><h1>Get in touch</h1><p class="p-lede">Questions, press, careers or a project in mind: send us a message or get in touch directly. If you’d like us to look at your marketing, <a href="%sfree-audit/" style="color:#5eadba">request a free audit</a> instead.</p></div></section>' % pre +
+      '<section class="p-sec" style="padding-top:0"><div class="p-two">' + cform +
+      '<div><h2 class="p-big" style="margin-bottom:1.2rem">Get in touch directly</h2><ul class="p-direct"><li><b>Email</b><a href="mailto:hello@thewonder.group">hello@thewonder.group</a></li><li><b>Phone</b><a href="tel:+447775022514">+44 777 502 2514</a></li>'
+      '<li><b>Instagram</b><a href="https://www.instagram.com/the.wonder.list/" target="_blank" rel="noopener">@the.wonder.list</a></li><li><b>Based in</b><span style="font-family:Marcellus,sans-serif;font-size:1.6rem">London, working across the UK and internationally</span></li></ul>'
+      '<div class="p-proof x-r" style="margin-top:3rem"><b style="font-size:clamp(2.2rem,4vw,3.4rem)">Free audit</b><p>Want to know what’s costing you bookings? We’ll review your marketing and tell you what we’d fix first. <a href="%sfree-audit/">Request your free audit</a></p></div>'
+      '</div></div></section><div style="height:8rem"></div>' % pre + chrome_bottom(pre, '<script src="%sjs/contact-form.js"></script>' % pre))
+# the form script: label general enquiries differently from audit requests
+_js = os.path.join(ROOT, 'js', 'contact-form.js'); _t = open(_js, encoding='utf-8').read()
+_a = "data.set('field', 'AUDIT REQUEST\\nVenue: ' + (data.get('venue') || '') + '\\nWebsite / Instagram: ' + (data.get('link') || '') + '\\n\\n' + (data.get('field') || ''));"
+if _a in _t:
+    _t = _t.replace(_a, "if (form.dataset.kind === 'contact') data.set('field', 'ENQUIRY: ' + (data.get('topic') || '') + '\\nCompany: ' + (data.get('venue') || '') + '\\n\\n' + (data.get('field') || ''));\n    else " + _a)
+    open(_js, 'w', encoding='utf-8').write(_t)
 
 SBYSLUG = {x['slug']: x for x in SECTORS}
 def media_el(pre, kind, src, cap):
@@ -302,7 +356,7 @@ for x in SECTORS:
     rel = ''.join('<a class="p-card x-r" href="%swho-we-work-with/%s/"><div class="p-card-media">%s</div><h3>%s</h3><p>%s</p><em>Find out more →</em></a>' % (pre, r, video(pre, SBYSLUG[r]['clip'], False), e(SBYSLUG[r]['name']), e(SBYSLUG[r]['card'])) for r in x['related'])
     write(path + 'index.html', head(pre, x['title'], x['desc'], path, ld) + chrome_top(pre) +
         '<section class="p-hero"><div>' + crumbs(pre, items) + '<div class="x-label">Who we work with</div><h1>%s</h1><p class="p-lede">%s</p>' % (e(x['h1']), e(x['lede'])) +
-        '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#how" class="x-link">How we help</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, hero_media) +
+        '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#how" class="x-link">How we help</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, hero_media) +
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">%s</p><div class="p-body x-r">%s</div></div></section>' % (e(x['big']), ''.join('<p>%s</p>' % e(t) for t in x['why'])) +
         band(pre, x['band'][0], x['band'][1]) +
         '<section class="p-sec" id="how"><h2 class="p-h2 x-r">How we help %s</h2>%s</section>' % (e(x['name'].lower()), service_cards(pre, x['help'])) +
@@ -320,7 +374,7 @@ write(path + 'index.html', head(pre, 'Who We Work With | Restaurants, Hotels, Ba
       [ORG, crumb_ld([('', 'Home'), (path, 'Who we work with')])]) + chrome_top(pre) +
       '<section class="p-hero p-hero--text"><div>' + crumbs(pre, [('', 'Home'), (None, 'Who we work with')]) +
       '<div class="x-label">Who we work with</div><h1>Specialists in hospitality</h1><p class="p-lede">Restaurants, hotels, bars and pubs, restaurant groups and food and drink brands. From Michelin-starred dining rooms to neighbourhood independents, in London, across the UK and internationally.</p>'
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a></div></div></section>' % pre +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a></div></div></section>' % pre +
       '<section class="p-sec" style="padding-top:2rem"><div class="p-cards">%s</div></section>' % cards + end_cta(pre) + chrome_bottom(pre))
 
 # ---------- London ----------
@@ -335,7 +389,7 @@ write(path + 'index.html', head(pre, 'Hospitality Marketing Agency London | Rest
       'London hospitality marketing agency for restaurants, hotels and bars: content, social media, ads, SEO and AI search, websites and email. Shooting across the city, working UK-wide and internationally.', path, ld) + chrome_top(pre) +
       '<section class="p-hero"><div>' + crumbs(pre, [('', 'Home'), ('who-we-work-with/', 'Who we work with'), (None, 'London')]) +
       '<div class="x-label">London</div><h1>Hospitality marketing agency in London</h1><p class="p-lede">We’re a London digital marketing agency for restaurants, hotels and bars. We shoot across the city, know how its guests choose, and work across the UK and internationally.</p>'
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#how" class="x-link">How we help</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, video(pre, 'w12')) +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#how" class="x-link">How we help</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, video(pre, 'w12')) +
       '<section class="p-sec"><div class="p-two"><p class="p-big x-r">London is the most competitive hospitality market in the country.</p><div class="p-body x-r">'
       '<p>New places open every week, guests have endless choice, and most of them decide on their phone: a reel, a Maps search for “best brunch in Soho”, a review, or a question to an AI assistant.</p>'
       '<p>Standing out takes content that looks like nowhere else, marketing aimed at the right neighbourhoods, and being the name that comes up when someone asks where to go. That’s what we do, from Soho and Mayfair to Marylebone, the City, St John’s Wood and Wimbledon.</p></div></div></section>' +
@@ -388,7 +442,7 @@ write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video,
       'Selected photography, video and websites for restaurants, hotels, bars and food and drink brands, plus seven case studies: £3.2m to £4.6m annual revenue, +58% hotel F&B revenue, +95% set lunch bookings and more.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Work')]) +
       '<div class="x-label">Work</div><h1>Our work</h1><p class="p-lede">What our work has done for our clients’ bookings and revenue, followed by a selection of what we shoot in restaurants, kitchens, bars and hotels, and the websites we build.</p>' +
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#selected" class="x-link">See the content</a></div></div></section>' % pre +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#selected" class="x-link">See the content</a></div></div></section>' % pre +
       '<section class="p-sec" id="results" style="padding-top:0"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % cases.cards(pre) +
       '<section class="p-sec" id="selected"><h2 class="p-h2 x-r">Selected work</h2>'
       '<div class="p-lib" id="p-lib">%s</div></section>' % cells +
@@ -429,7 +483,7 @@ write(path + 'index.html', head(pre, 'Wonder Score | Is Your Restaurant or Hotel
       '<section class="p-sec"><h2 class="p-h2 x-r">From score to recommendations</h2><div class="x-steps" style="margin-top:0">%s</div></section>' % ''.join('<div class="x-step x-r"><span>Step %d</span><h3>%s</h3><p>%s</p></div>' % (k + 1, e(t), e(d)) for k, (t, d) in enumerate(
           [('Scan', 'Run a free scan at wonderscore.ai.'), ('See where you stand', 'Your score, how often AI names you, and how you compare with competitors.'), ('Fix it', 'A clear list of what to change on your website and across the web.'), ('Track it', 'Watch the score move as the changes take effect, or let us do the work.')])) +
       '<section class="p-sec"><h2 class="p-h2 x-r">Questions</h2>%s</section>' % faq_html(WFAQ) +
-      end_cta(pre, 'Check your Wonder Score', 'Run a free scan and see whether AI recommends your venue. Or get a free audit and we’ll look at your whole marketing.').replace('href="%scontact/" class="x-nav-cta">Get a free audit' % pre, 'href="https://wonderscore.ai" target="_blank" rel="noopener" class="x-nav-cta">Check your score').replace('href="mailto:hello@thewonder.group" class="x-link">Email us', 'href="%scontact/" class="x-link">Get a free audit' % pre) +
+      end_cta(pre, 'Check your Wonder Score', 'Run a free scan and see whether AI recommends your venue. Or get a free audit and we’ll look at your whole marketing.').replace('href="%sfree-audit/" class="x-nav-cta">Get a free audit' % pre, 'href="https://wonderscore.ai" target="_blank" rel="noopener" class="x-nav-cta">Check your score').replace('href="mailto:hello@thewonder.group" class="x-link">Email us', 'href="%sfree-audit/" class="x-link">Get a free audit' % pre) +
       chrome_bottom(pre))
 
 # ---------- specialist pages (service x sector) ----------
@@ -458,7 +512,7 @@ for c in COMBOS:
     rel = ''.join('<a class="p-card x-r" href="%s"><div class="p-card-media">%s</div><h3>%s</h3><p>%s</p><em>Find out more →</em></a>' % (u, video(pre, m, False), e(t), e(d)) for u, t, d, m in links[:3])
     write(path + 'index.html', head(pre, c['title'], c['desc'], path, ld) + chrome_top(pre) +
         '<section class="p-hero"><div>' + crumbs(pre, trail[:-1] + [(None, c['short'])]) + '<div class="x-label">%s</div><h1>%s</h1><p class="p-lede">%s</p>' % (e(s['name'] if not path.startswith('who') else 'Hotels'), e(c['h1']), e(c['lede'])) +
-        '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#included" class="x-link">What’s included</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, video(pre, c['clip'])) +
+        '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#included" class="x-link">What’s included</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, video(pre, c['clip'])) +
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">%s</p><div class="p-body x-r">%s</div></div></section>' % (e(c['big']), ''.join('<p>%s</p>' % e(t) for t in c['why'])) +
         band(pre, MEDIA[s['slug']]['band'][0], MEDIA[s['slug']]['band'][1]) +
         '<section class="p-sec" id="included"><h2 class="p-h2 x-r">What’s included</h2><div class="p-inc">%s</div></section>' % inc +
@@ -475,7 +529,7 @@ write(path + 'index.html', head(pre, 'Hospitality Marketing Agency Pricing | Wha
       'How much does a hospitality marketing agency cost? What affects the price of social media, content, ads, SEO, websites and email for restaurants, hotels and bars, and what to ask any agency.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Pricing')]) +
       '<div class="x-label">Pricing</div><h1>What does a hospitality marketing agency cost?</h1><p class="p-lede">It depends on what you need, so we don’t sell fixed packages. Here’s what affects the cost, how agencies usually charge, and the questions worth asking before you sign with anyone, including us.</p>'
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit and quote <i>→</i></a></div></div></section>' % pre +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit and quote <i>→</i></a></div></div></section>' % pre +
       band(pre, 'w12', 'You pay for what you need, and nothing else.', 'After the free audit we send a clear quote for exactly what we’d recommend.') +
       '<section class="p-sec"><h2 class="p-h2 x-r">What affects the cost</h2><div class="p-inc">%s</div></section>' % ''.join('<div class="x-r" style="--x-d:%.2fs"><span>0%d</span><h3>%s</h3><p>%s</p></div>' % ((k % 3) * 0.08, k + 1, e(t), e(d)) for k, (t, d) in enumerate(PRICING['drivers'])) +
       '<section class="p-sec"><h2 class="p-h2 x-r">How agencies charge</h2><div class="p-inc">%s</div></section>' % ''.join('<div class="x-r" style="--x-d:%.2fs"><span>0%d</span><h3>%s</h3><p>%s</p></div>' % (k * 0.08, k + 1, e(t), e(d)) for k, (t, d) in enumerate(PRICING['models'])) +
@@ -492,7 +546,7 @@ write(path + 'index.html', head(pre, 'Marketing Agency vs In-House for Restauran
       'Should a restaurant, hotel or bar hire an in-house marketer or use an agency? An honest comparison of skills, content, cover, tools and cost, and when to do both.', path, ld) + chrome_top(pre) +
       '<section class="p-hero p-hero--text" style="min-height:0"><div>' + crumbs(pre, [('', 'Home'), (None, 'Agency vs in-house')]) +
       '<div class="x-label">Agency vs in-house</div><h1>Agency or in-house marketing?</h1><p class="p-lede">An honest comparison for restaurants, hotels and bars. Both can work. The right answer depends on what you need covered, and many venues end up doing both.</p>'
-      '<div class="p-btns"><a href="%scontact/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#compare" class="x-link">See the comparison</a></div></div></section>' % pre +
+      '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#compare" class="x-link">See the comparison</a></div></div></section>' % pre +
       '<section class="p-sec" id="compare" style="padding-top:2rem"><h2 class="p-h2 x-r">Side by side</h2><table class="p-cmp"><thead><tr><th></th><th scope="col">In-house marketer</th><th scope="col">Specialist agency</th></tr></thead><tbody>%s</tbody></table></section>' % rows +
       '<section class="p-sec"><div class="p-two"><p class="p-big x-r">The real choice isn’t a salary against a fee. It’s how much of the job gets done well.</p><div class="p-body x-r">'
       '<p>Hospitality marketing now covers photography, video, social media, paid ads, search, AI search, websites and email. That’s a lot to ask of one person, however good they are, and the gaps usually end up filled by freelancers, tools and the general manager’s evenings.</p>'
@@ -520,7 +574,7 @@ for k, a in enumerate(ARTICLES):
     t, p, kind = a['cta']
     cta = end_cta(pre, t, p)
     if kind == 'score':
-        cta = cta.replace('href="%scontact/" class="x-nav-cta">Get a free audit' % pre, 'href="%swonder-score/" class="x-nav-cta">Check your Wonder Score' % pre).replace('href="mailto:hello@thewonder.group" class="x-link">Email us', 'href="%scontact/" class="x-link">Get a free audit' % pre)
+        cta = cta.replace('href="%sfree-audit/" class="x-nav-cta">Get a free audit' % pre, 'href="%swonder-score/" class="x-nav-cta">Check your Wonder Score' % pre).replace('href="mailto:hello@thewonder.group" class="x-link">Email us', 'href="%scontact/" class="x-link">Get a free audit' % pre)
     more = [o for o in ARTICLES if o is not a]
     morehtml = '<section class="p-sec"><h2 class="p-h2 x-r">Read next</h2><div class="x-news" style="grid-template-columns:repeat(2,1fr)">%s</div></section>' % ''.join(
         '<article class="x-post x-r"><a class="x-post-link" href="%sinsights/%s/"><div class="x-post-img"><img src="%s%s" alt="" loading="lazy"/></div><div class="x-label">%s</div><h3>%s</h3><p>%s</p></a></article>' % (pre, o['slug'], pre, o['img'], e(o['tag']), e(o['title']), e(o['ex'])) for o in more)
@@ -590,7 +644,7 @@ write(path + 'index.html', head(pre, 'Privacy Policy | The Wonder Agency', 'How 
 # ---------- 404 (served by GitHub Pages for any missing address, so links are root-absolute) ----------
 nf = (head('/', 'Page not found | The Wonder Agency', 'This page could not be found.', '404/', [ORG]).replace('<meta name="description"', '<meta name="robots" content="noindex"/><meta name="description"') + chrome_top('/') +
       '<section class="p-hero p-hero--text"><div><div class="x-label">404</div><h1>This page has gone off the menu</h1><p class="p-lede">The page you were looking for has moved or no longer exists. Here are the places most people are heading.</p>'
-      '<div class="p-btns"><a href="/" class="x-nav-cta">Back to the homepage <i>→</i></a><a href="/contact/" class="x-link">Get a free audit</a></div></div></section>'
+      '<div class="p-btns"><a href="/" class="x-nav-cta">Back to the homepage <i>→</i></a><a href="/free-audit/" class="x-link">Get a free audit</a></div></div></section>'
       '<section class="p-sec" style="padding-top:0"><div class="p-spec"><a href="/services/">Our services<i>→</i></a><a href="/who-we-work-with/">Who we work with<i>→</i></a><a href="/work/">Our work<i>→</i></a><a href="/wonder-score/">AI search and Wonder Score<i>→</i></a><a href="/insights/">Insights<i>→</i></a><a href="/about/">About us<i>→</i></a></div></section>'
       '<div style="height:6rem"></div>' + chrome_bottom('/'))
 open(os.path.join(ROOT, '404.html'), 'w', encoding='utf-8').write(nf)
