@@ -251,7 +251,7 @@ write(path + 'index.html', head(pre, 'About The Wonder Agency | Hospitality Mark
       '<section class="p-sec"><h2 class="p-h2 x-r">Results for our clients</h2><div class="p-res">%s</div></section>' % ''.join('<div class="x-r" style="--x-d:%.2fs"><b>%s</b><p>%s</p></div>' % ((k % 2) * 0.08, e(n), e(d)) for k, (n, d) in enumerate(RESULTS)) +
       '<section class="p-sec"><h2 class="p-h2 x-r">What we believe</h2><div class="p-inc">%s</div></section>' % ''.join('<div class="x-r" style="--x-d:%.2fs"><span>0%d</span><h3>%s</h3><p>%s</p></div>' % (k * 0.08, k + 1, e(t), e(d)) for k, (t, d) in enumerate(BELIEFS)) +
       '<section class="p-sec"><h2 class="p-h2 x-r">One team, every channel</h2><div class="p-cards p-cards--4">%s</div></section>' % team +
-      '<section class="p-sec"><h2 class="p-h2 x-r">Trusted by</h2><div class="p-logos">%s</div></section>' % logo_grid +
+      '<section class="p-sec"><h2 class="p-h2 x-r">Selected clients</h2><div class="p-logos">%s</div></section>' % logo_grid +
       end_cta(pre) + chrome_bottom(pre))
 
 # ---------- contact / free audit ----------
@@ -349,6 +349,11 @@ RES = [('£3.2m → £4.6m', 'Restaurant, three years. Annual revenue, with Inst
        ('+18%', 'Three-restaurant group, Q4. Year-on-year revenue after a full digital overhaul: new sites, new photography and a new paid structure.')]
 logos = re.findall(r'<span class="x-logo"><img src="([^"]+)"', open(os.path.join(ROOT, 'index.html'), encoding='utf-8').read())
 seen = []; [seen.append(l) for l in logos if l not in seen]
+# spread the three Aqua logos across the grid and finish on Beeble
+_aq = [l for l in seen if '/logos/aqua-' in l]; _bee = [l for l in seen if l.endswith('/logos/beeble.webp')]
+seen = [l for l in seen if l not in _aq and l not in _bee]
+for _k, _l in zip((3, 17, 31), _aq): seen.insert(min(_k, len(seen)), _l)
+seen += _bee
 CUTS = media4.load_cuts(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media4', 'cuts.txt'))
 SELECT = ['w19', 'w68', 'ph-01', 'w24', 'w66', 'ph-02', 'w75', 'w20', 'ph-34', 'w58', 'w18', 'ph-36']
 BYID = {c['id']: c for c in CUTS}
@@ -385,7 +390,7 @@ write(path + 'index.html', head(pre, 'Our Work | Hospitality Photography, Video,
       '<div class="p-lib" id="p-lib">%s</div></section>' % cells +
       sites.section(pre, 'Websites', 'Sites we’ve designed and built for restaurants, bars and the people who design them.', sid='websites') +
       '<section class="p-sec" id="results"><h2 class="p-h2 x-r">Case studies</h2>%s</section>' % results_html(RES) +
-      '<section class="p-sec"><h2 class="p-h2 x-r">Trusted by</h2><div class="p-logos">%s</div></section>' % ''.join('<span class="p-logo"><img src="%s%s" alt="" loading="lazy"/></span>' % (pre, l) for l in seen) +
+      '<section class="p-sec"><h2 class="p-h2 x-r">Selected clients</h2><div class="p-logos">%s</div></section>' % ''.join('<span class="p-logo"><img src="%s%s" alt="" loading="lazy"/></span>' % (pre, l) for l in seen) +
       end_cta(pre, 'Want content like this?') + viewer + chrome_bottom(pre, '<script src="%sjs/library.js"></script>' % pre))
 
 # ---------- Wonder Score ----------

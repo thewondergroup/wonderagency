@@ -340,7 +340,7 @@ for k in range(max(len(old), len(new) * 2)):
     if k % 2 == 0 and k // 2 < len(new): logos.append(new[k // 2])
 row = lambda ls: ''.join('<span class="x-logo"><img src="%s" alt="" decoding="async"/></span>' % src for src in ls)
 ra, rb = row(logos[0::2]), row(logos[1::2])
-marquee = ('<section class="x-logos-wrap" aria-label="Selected clients"><div class="x-logos-head x-r"><div class="x-label">Trusted by</div>'
+marquee = ('<section class="x-logos-wrap" aria-label="Selected clients"><div class="x-logos-head x-r"><div class="x-label">Selected clients</div>'
            '<p>Restaurants, hotels, bars and food and drink brands, from London to Paris.</p><a href="work/" class="x-link">See our work</a></div>'
            '<div class="x-logos"><div class="x-logos-track">' + ra + ra + '</div><div class="x-logos-track x-logos-track--rev">' + rb + rb + '</div></div></section>')
 insert_before('<div class="about-section-second">', marquee)
