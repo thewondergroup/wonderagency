@@ -368,7 +368,7 @@ h = h[:ss] + sv + h[se:]
 
 # ---- results: full-screen video case studies ----
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import cases as _cases
-_BG = {'revenue': ('v', 'fish-b'), 'hotel': ('v', 'grill-c'), 'overhaul': ('i', 'case-overhaul-bg'), 'michelin': ('i', 'case-michelin'), 'brunch': ('i', 'case-brunch'), 'square': ('d', 'x-cases-books')}
+_BG = {'revenue': ('v', 'fish-b'), 'hotel': ('v', 'grill-c'), 'overhaul': ('i', 'case-overhaul-bg'), 'michelin': ('i', 'case-michelin'), 'brunch': ('i', 'case-brunch'), 'longboard': ('i', 'case-longboard'), 'square': ('d', 'x-cases-books')}
 def _bg(k, c):
     kind, src = _BG[c['key']]; on = ' class="is-on"' if k == 0 else ''
     if kind == 'd': return '<div class="%s%s" aria-hidden="true"><span>Savoury</span><span>Sweet</span><span>Collector’s edition</span></div>' % (src, ' is-on' if k == 0 else '')
