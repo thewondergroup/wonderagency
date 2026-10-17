@@ -28,12 +28,14 @@ for d, _, fs in os.walk(R):
     for f in fs:
         if not f.endswith('.html'): continue
         p = os.path.join(d, f); t = open(p, encoding='utf-8').read(); o = t
+        if os.sep + 'news' + os.sep in p + os.sep or d.rstrip(os.sep).endswith(os.sep + 'news'): continue   # client news names clients on purpose
         t = re.sub(r'<video\b[^>]*>', fix_video, t)
         t = re.sub(r'<figure\b.*?</figure>', fix_fig, t, flags=re.S)
         for a, b in ALT.items(): t = t.replace('alt="%s"' % a, 'alt="%s"' % b)
         if t != o: open(p, 'w', encoding='utf-8').write(t)
         # check: visible text and labels only (ignore file paths, scripts and structured data)
         s = re.sub(r'<script.*?</script>', '', t, flags=re.S)
+        s = re.sub(r'<!--names-ok-->.*?<!--/names-ok-->', '', s, flags=re.S)
         s = re.sub(r'(src|href|poster|data-src|data-mm-poster|data-mm-src|data-reels|srcset)="[^"]*"', '', s)
         for m in NP.finditer(s): left.append((p, s[max(0, m.start() - 60):m.end() + 30]))
 if left:

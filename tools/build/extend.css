@@ -727,3 +727,11 @@ video{-webkit-touch-callout:none;pointer-events:none}
 html,body{overflow-x:clip}
 
 @media (max-width:767px){#About h2.heading-large:last-of-type{font-size:18.4vw!important}}
+
+/* news strip (homepage + insights) */
+.p-newsstrip{padding-top:110px}
+.p-newsstrip .p-ns-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:3.4rem}
+.p-ns-h{margin:.8rem 0 0;font-family:Italiana,serif;font-weight:400;font-size:clamp(1.9rem,3.4vw,3.2rem);line-height:1.1;color:#fff}
+.p-newsstrip .x-link{white-space:nowrap;margin-bottom:.5rem}
+@media (max-width:767px){.p-newsstrip{padding-top:80px}.p-newsstrip .p-ns-head{flex-direction:column;align-items:flex-start;gap:1.2rem}}
+.x-post-img img[src*="/news/"]{object-position:50% 22%}

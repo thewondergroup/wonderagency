@@ -65,6 +65,7 @@ def prio(u):
     path = u[len(SITE):]
     if path == '': return '1.0'
     if path.count('/') == 1: return '0.9'
+    if path.startswith('news/'): return '0.6'
     return '0.8' if not path.startswith(('privacy', 'insights/')) else ('0.7' if path.startswith('insights/') else '0.3')
 pages.sort(key=lambda x: (x[0] != SITE, x[0]))
 sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
@@ -96,7 +97,7 @@ L = ['# The Wonder Agency', '',
      '- Offers a free marketing audit for restaurants, hotels and bars: ' + SITE + 'free-audit/',
      '- Contact: hello@thewonder.group, +44 777 502 2514', '']
 groups = [('Services', 'services/', ()), ('Who we work with', 'who-we-work-with/', ()), ('London', 'london/', ()), ('Work and results', 'work/', ()), ('AI search', 'wonder-score/', ()),
-          ('Insights', 'insights/', ()), ('Guides', 'pricing/', ()), ('', 'agency-vs-in-house/', ()), ('About', 'about/', ()), ('Free audit', 'free-audit/', ()), ('Contact', 'contact/', ())]
+          ('Insights', 'insights/', ()), ('News', 'news/', ()), ('Guides', 'pricing/', ()), ('', 'agency-vs-in-house/', ()), ('About', 'about/', ()), ('Free audit', 'free-audit/', ()), ('Contact', 'contact/', ())]
 for name, pref, ex in groups:
     rows = sect(pref, ex)
     if not rows: continue
