@@ -22,6 +22,7 @@ python3 -I $S/build3/pages.py $S/v3
 cp $S/build3/mega.js js/mega.js; cp $S/build3/library.js js/library.js
 python3 -I $S/build3/prune.py $S/v3
 python3 -I $S/build3/names.py $S/v3
+python3 -I $S/build3/titles.py $S/v3
 python3 -I $S/build3/seo.py $S/v3
 python3 -I $S/build3/redirects.py $S/v3
 mkdir -p images/email && cp $S/build3/assets/email/* images/email/
