@@ -358,3 +358,7 @@ img,video{display:block;max-width:100%}
 a.p-res-link{display:block;color:inherit;text-decoration:none;transition:opacity .3s}
 a.p-res-link:hover{opacity:.8}
 .p-res--3 b{white-space:normal}
+/* review fixes, 17 Oct */
+.p-h2{overflow-wrap:break-word}
+@media (max-width:420px){.p-h2{font-size:clamp(1.9rem,9.6vw,2.4rem)}}
+@media (max-width:767px){.p-main{overflow-x:clip}}

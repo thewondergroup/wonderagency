@@ -63,12 +63,12 @@ ARTICLES = [
   cta=('Want a second opinion on your Instagram?', 'Our free audit reviews your social media alongside your ads, search and website.', 'audit')),
 
  dict(slug='hotel-food-and-beverage-revenue', tag='Case study', img='images/x/connaught-team.webp', clip='fish-b', mins=4,
-  title='How a restaurant-first strategy grew a hotel group’s F&B revenue by 58%',
+  title='How a restaurant-first strategy grew a hotel’s F&B revenue by 58%',
   seo='How a Restaurant-First Strategy Grew Hotel F&B Revenue by 58% | The Wonder Agency',
-  desc='How we grew a hotel group’s year-on-year food and beverage revenue by 58% in three months, with room bookings up 26%, by marketing its restaurants to locals first.',
+  desc='How we grew a hotel’s year-on-year food and beverage revenue by 58% in three months, with room bookings up 26%, by marketing its restaurants to locals first.',
   ex='The thinking behind a 58% rise in food and beverage revenue in three months, and what it did for room bookings.',
   body=[
-   ('p', 'A hotel group came to us wanting more from its restaurants and bars. Three months later, food and beverage revenue was up 58% year on year, and room bookings were up 26% over the same period. The client has asked us not to name them, but we can share the thinking behind it.'),
+   ('p', 'A hotel came to us wanting more from its restaurant and bar. Three months later, food and beverage revenue was up 58% year on year, and room bookings were up 26% over the same period. The client has asked us not to name them, but we can share the thinking behind it.'),
    ('h', 'The problem: marketing to people already in the building'),
    ('p', 'Most hotel restaurants are marketed as a feature of the hotel. They appear on the hotel website, under the hotel’s Instagram, in a line in the booking confirmation. That reaches guests, who will probably eat in once anyway. It does very little to reach the far larger audience nearby: locals, people who work in the area, and people looking for somewhere to celebrate.'),
    ('q', 'The opportunity in hotel F&B is rarely the guests. It’s everyone else.'),

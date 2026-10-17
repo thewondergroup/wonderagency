@@ -222,7 +222,7 @@ KNOW = [('Covers, not clicks', 'We measure success the way you do: bookings, cov
         ('Groups and multi-site', 'Several venues and brands, each with its own voice and audience, run from one plan without them blurring together.'),
         ('Shooting around service', 'We shoot in working kitchens and full dining rooms, before or around service, without getting in your team’s way.')]
 RESULTS = [('£3.2m → £4.6m', 'Annual revenue for a restaurant over three years, with Instagram from 3,000 to 20,000+ followers.'),
-           ('+58%', 'Year-on-year food and beverage revenue for a hotel group in three months, with room bookings up 26%.'),
+           ('+58%', 'Year-on-year food and beverage revenue for a hotel in three months, with room bookings up 26%.'),
            ('+95%', 'Mid-week set lunch bookings at a Michelin-starred restaurant within three months.'),
            ('+18%', 'Q4 revenue for a three-restaurant group after a full digital overhaul.'),
            ('220–250', 'Brunch covers every Saturday, six weeks after launching a new brunch in a historic City venue with no weekend trade.'),
@@ -460,11 +460,11 @@ for c in cases.CASES:
 # ---------- Wonder Score ----------
 pre = '../'; path = 'wonder-score/'
 WFAQ = [('Is Wonder Score free?', 'Yes, you can run a free scan at wonderscore.ai.'),
-        ('Is it only for hospitality?', 'No. Wonderscore works for any kind of business. We built it to track AI visibility for our hospitality clients, and it works just as well elsewhere.'),
+        ('Is it only for hospitality?', 'No. Wonder Score works for any kind of business. We built it to track AI visibility for our hospitality clients, and it works just as well elsewhere.'),
         ('How is it different from an SEO tool?', 'SEO tools measure where you rank on Google. Wonder Score measures whether AI assistants actually name you when people ask for a recommendation, which is a different question with a different answer.'),
         ('Can you improve our score for us?', 'Yes. That’s our SEO and AI search service: we fix what the scan finds and track the score month by month.')]
 ld = [ORG, crumb_ld([('', 'Home'), (path, 'Wonder Score')]), faq_ld(WFAQ),
-      {"@type": "SoftwareApplication", "name": "Wonderscore", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://wonderscore.ai", "publisher": {"@id": SITE + "#org"}}]
+      {"@type": "SoftwareApplication", "name": "Wonder Score", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://wonderscore.ai", "publisher": {"@id": SITE + "#org"}}]
 PARTS = [('60%', 'Mention rate', 'How often AI assistants name you when asked the questions your guests ask. Questions that don’t mention you by name count double, because that’s where new guests come from.'),
          ('30%', 'Website health', 'Whether your website gives AI clear, readable, up-to-date information about who you are, where you are and what you offer.'),
          ('10%', 'Market position', 'How you compare with the competitors guests are choosing between.')]
@@ -514,7 +514,7 @@ for c in COMBOS:
         '<section class="p-hero"><div>' + crumbs(pre, trail[:-1] + [(None, c['short'])]) + '<div class="x-label">%s</div><h1>%s</h1><p class="p-lede">%s</p>' % (e(s['name'] if not path.startswith('who') else 'Hotels'), e(c['h1']), e(c['lede'])) +
         '<div class="p-btns"><a href="%sfree-audit/" class="x-nav-cta">Get a free audit <i>→</i></a><a href="#included" class="x-link">What’s included</a></div></div><div class="p-hero-media">%s</div></section>' % (pre, video(pre, c['clip'])) +
         '<section class="p-sec"><div class="p-two"><p class="p-big x-r">%s</p><div class="p-body x-r">%s</div></div></section>' % (e(c['big']), ''.join('<p>%s</p>' % e(t) for t in c['why'])) +
-        band(pre, MEDIA[s['slug']]['band'][0], MEDIA[s['slug']]['band'][1]) +
+        band(pre, MEDIA[s['slug']]['band'][0], c.get('band_line') or MEDIA[s['slug']]['band'][1]) +
         '<section class="p-sec" id="included"><h2 class="p-h2 x-r">What’s included</h2><div class="p-inc">%s</div></section>' % inc +
         (sites.section(pre, 'Restaurant websites we’ve built', only=('restaurants',)) if c['service'] == 'website-design' else gallery(pre, (x['gallery'] if x and path.startswith('who') else MEDIA[s['slug']]['gallery']), 'In pictures')) +
         proof +

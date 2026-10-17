@@ -391,7 +391,7 @@ remove_el('<div class="works-container">')
 # ---- latest news / articles ----
 POSTS = [('AI search', 'Why AI search will change how restaurants get discovered', 'Customers are increasingly asking AI where to eat. Here is how to make sure your restaurant is part of the answer.', 'clip-fish-c'),
          ('Social', 'The five Instagram mistakes holding restaurants back', 'We look at a lot of hospitality accounts. These are the patterns we see most often, and how to fix them.', 'clip-azzurra-weekend'),
-         ('Case study', 'How a restaurant-first strategy grew a hotel group’s F&amp;B revenue by 58%', 'The thinking behind a 58% rise in food and beverage revenue in three months, and what it did for room bookings.', 'connaught-team')]
+         ('Case study', 'How a restaurant-first strategy grew a hotel’s F&amp;B revenue by 58%', 'The thinking behind a 58% rise in food and beverage revenue in three months, and what it did for room bookings.', 'connaught-team')]
 news = ('<section id="News" class="x-section" aria-label="News and articles">' + heading([('Latest', True), ('thinking', False)]) + '<div class="x-wrap"><div class="x-news">' +
         ''.join('<article class="x-post x-r" style="--x-d:%.2fs"><div class="x-post-img"><img src="images/x/%s.webp" alt="" loading="lazy"/></div><div class="x-label">%s</div><h3>%s</h3><p>%s</p><span class="x-post-soon">Article coming soon</span></article>' % (k*0.1, img, tag, title, ex) for k, (tag, title, ex, img) in enumerate(POSTS)) +
         '</div></div></section>')
@@ -428,7 +428,7 @@ for name, slug in SLUGS:
     old = '<h3>%s</h3>' % e(name)
     i = h.index('<article class="x-sv-ch'); assert h.count(old) >= 1, name
     j = h.index(old, i); k = h.index('</article>', j)
-    h = h[:k] + '<a class="x-link x-sv-more" href="services/%s/">More about %s</a>' % (slug, e(name.lower())) + h[k:]
+    h = h[:k] + '<a class="x-link x-sv-more" href="services/%s/">More about %s</a>' % (slug, e(name if name.startswith(('SEO', 'AI')) else name.lower())) + h[k:]
 rep('<a href="#Audit" class="hover-cursor">How it works</a>', '<a href="about/" class="hover-cursor">About</a>')
 rep('<a href="#Questions" style="--i:6">Questions</a></nav>', '<a href="#Questions" style="--i:6">Questions</a><a href="services/" style="--i:7">All services</a><a href="about/" style="--i:8">About</a></nav>')
 old_ul = '<ul><li>Content Creation</li><li>Social Media</li><li>Targeted Ads</li><li>AI Search &amp; SEO</li><li>Web Design</li><li>Email Marketing</li></ul>'
@@ -437,5 +437,8 @@ rep('<li><a href="https://wonderscore.ai" target="_blank" rel="noopener">Wonder 
 
 # audit buttons go to the free audit page rather than the form at the bottom
 h = h.replace('href="#Contact" data-x-audit', 'href="free-audit/"')
+# tidy-ups from the October review: a stray ordinal left over from the old Webflow slide, and a zero-width joiner
+h = re.sub(r'<div [^>]*class="heading-large text-style-all-caps primary-font">st</div>', '', h, count=1)
+h = h.replace('\u200d', '')
 open(out, 'w', encoding='utf-8').write(h)
 print('ok', len(h))

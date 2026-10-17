@@ -722,3 +722,8 @@ video{-webkit-touch-callout:none;pointer-events:none}
 .x-case2-stat{white-space:normal}
 .x-case2-stat{font-size:clamp(3rem,7.4vw,8rem);white-space:nowrap}
 @media (max-width:767px){.x-case2-stat{white-space:normal;font-size:clamp(2.8rem,14vw,4.4rem)}}
+/* review fixes, 17 Oct: WONDERS stays inside the screen on small laptops; nothing can push the page sideways */
+#About h2.heading-large:last-of-type{font-size:19vw!important}
+html,body{overflow-x:clip}
+
+@media (max-width:767px){#About h2.heading-large:last-of-type{font-size:18.4vw!important}}
