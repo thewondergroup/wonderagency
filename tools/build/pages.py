@@ -123,7 +123,7 @@ def footer_html(pre):
             '<div><h3>Services</h3><ul>%s</ul></div><div><h3>Who we work with</h3><ul>%s<li><a href="%slondon/">London</a></li></ul></div>'
             '<div><h3>Company</h3><ul><li><a href="%sabout/">About</a></li><li><a href="%swork/">Work</a></li><li><a href="%swonder-score/">AI Search</a></li><li><a href="%sinsights/">Insights</a></li><li><a href="%spricing/">Pricing</a></li>'
             '<li><a href="%sfree-audit/">Free audit</a></li><li><a href="%scontact/">Contact</a></li><li><a href="https://www.instagram.com/the.wonder.list/" target="_blank" rel="noopener">Instagram</a></li></ul></div></div>'
-            '<div class="x-footer-base"><span>© 2026 The Wonder Agency · Part of <a href="https://www.thewonder.group/" target="_blank" rel="noopener">The Wonder Group</a> · <a href="%sprivacy/">Privacy policy</a></span><span>Made to be booked out</span></div></footer>') % (svc, sec, pre, pre, pre, pre, pre, pre, pre, pre, pre)
+            '<div class="x-footer-base"><span>© 2026 The Wonder Agency · Part of <a class="x-wg" href="https://www.thewonder.group/" target="_blank" rel="noopener">The Wonder Group</a> · <a href="%sprivacy/">Privacy policy</a></span><span>Made to be booked out</span></div></footer>') % (svc, sec, pre, pre, pre, pre, pre, pre, pre, pre, pre)
 
 def chrome_bottom(pre, extra_js=''):
     return ('</main>' + footer_html(pre) +

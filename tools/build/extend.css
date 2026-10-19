@@ -736,3 +736,4 @@ html,body{overflow-x:clip}
 @media (max-width:767px){.p-newsstrip{padding-top:80px}.p-newsstrip .p-ns-head{flex-direction:column;align-items:flex-start;gap:1.2rem}}
 .x-post-img img[src*="/news/"]{object-position:50% 22%}
 .x-footer-base a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}.x-footer-base a:hover{color:#fff;border-color:var(--x-gold)}
+.x-footer-base a.x-wg{font-family:Juliussansone,sans-serif;text-transform:uppercase;letter-spacing:.18em;font-size:.72rem;color:#fff;border-bottom-color:transparent}.x-footer-base a.x-wg:hover{color:var(--x-gold)}
