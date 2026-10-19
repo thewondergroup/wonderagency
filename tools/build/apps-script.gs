@@ -41,7 +41,7 @@ function doPost(e) {
     // 2. the alert to the team
     var alert = {
       to: NOTIFY,
-      subject: (f.kind === 'audit' ? 'Free audit request from ' : 'Website enquiry from ') + (f.name || f.email || 'someone'),
+      subject: (f.kind === 'audit' ? '\uD83D\uDD14 FREE AUDIT REQUEST: ' : '\u2709\uFE0F NEW ENQUIRY: ') + (f.venue || f.name || f.email || 'someone') + (f.venue && f.name ? ' \u2014 ' + f.name : ''),
       body: alertText(f),
       htmlBody: alertHtml(f),
       name: 'The Wonder Agency website'
@@ -127,8 +127,9 @@ function alertHtml(f) {
     : [['Name', f.name], ['Email', f.email], ['Company', f.venue], ['Topic', f.topic], ['Message', f.notes]];
   rows.push(['Privacy policy', f.consent], ['Sent from', f.page]);
   return shell(f.kind === 'audit' ? 'New free audit request' : 'New website enquiry',
-    '<tr><td style="background:#0b0b0b;padding:40px 44px;border-radius:18px">' +
-    '<div style="font:500 11px/1.4 Manrope,Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#5eadba">' + (f.kind === 'audit' ? 'New free audit request' : 'New website enquiry') + '</div>' +
+    '<tr><td style="background:#255a63;padding:18px 44px;border-radius:18px 18px 0 0;font:500 13px/1.4 Manrope,Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#ffffff">' + (f.kind === 'audit' ? '\uD83D\uDD14 New free audit request \u2014 action needed' : '\u2709\uFE0F New website enquiry \u2014 action needed') + '</td></tr>' +
+    '<tr><td style="background:#0b0b0b;padding:34px 44px 40px;border-radius:0 0 18px 18px">' +
+    '<div style="font:500 11px/1.4 Manrope,Helvetica,Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:#5eadba">' + (f.kind === 'audit' ? 'Someone wants their marketing audited' : 'Someone has sent a message') + ' \u00b7 ' + Utilities.formatDate(new Date(), 'Europe/London', 'EEE d MMM, HH:mm') + '</div>' +
     '<h1 style="margin:14px 0 24px;font:400 30px/1.15 Marcellus,Georgia,serif;text-transform:uppercase;color:#ffffff">' + esc(f.name || f.email || 'Someone') + (f.venue ? '<br><span style="color:#5eadba">' + esc(f.venue) + '</span>' : '') + '</h1>' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' +
     rows.map(function (r) { return '<tr><td style="padding:12px 0;border-top:1px solid #262626;font:500 11px/1.5 Manrope,Helvetica,Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#8c8c8c;width:150px;vertical-align:top">' + r[0] + '</td><td style="padding:12px 0;border-top:1px solid #262626;font:400 15px/1.6 Manrope,Helvetica,Arial,sans-serif;color:#ffffff;white-space:pre-wrap">' + linkify(esc(r[1] || '–')) + '</td></tr>'; }).join('') +
